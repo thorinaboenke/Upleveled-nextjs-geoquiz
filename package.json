@@ -1,19 +1,22 @@
 {
   "name": "geoquiz",
   "version": "0.1.0",
+  "engines": {
+    "node": "14.9.0"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p ${PORT:-\"3000\"}",
     "migrate": "dotenv ley",
-    "heroku-postbuild": "yarn migrate up && yarn build"
+    "heroku-postbuild": "yarn migrate up && yarn build",
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
     "argon2": "^0.27.0",
-    "axios": "^0.20.0",
     "camelcase-keys": "^6.2.2",
     "cookie": "^0.4.1",
     "csrf": "^3.1.0",
@@ -53,5 +56,10 @@
   },
   "cacheDirectories": [
     ".next/cache"
-  ]
+  ],
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/cypress"
+    ]
+  }
 }
