@@ -11,7 +11,7 @@ import Link from 'next/link';
 export default function Home(props) {
   const [displayQuestion, setDisplayQuestion] = useState(0);
   const [score, setScore] = useState(0);
-  const [isRestarted, setIsRestarted] = useState(true);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isQuizRunning, setIsQuizRunning] = useState(false);
   const [questions, setQuestions] = useState([]);
@@ -52,7 +52,6 @@ export default function Home(props) {
     };
     fetchCountries();
   }, [
-    isRestarted,
     region,
     numberOfPossibleAnswers,
     categoryQuestion,
@@ -80,7 +79,6 @@ export default function Home(props) {
     setQuestions(questionSet);
     setDisplayQuestion(0);
     setScore(0);
-    setIsRestarted(!isRestarted);
   };
 
   const handleQuizStart = (e) => {
@@ -316,10 +314,10 @@ export default function Home(props) {
                     </div>
                   </div>
 
-                  <button onClick={(e) => handleQuizStart(e)}>
+                  <button onClick={(e) => handleQuizStart(e)} className="start">
                     Start Quiz
                   </button>
-                  <div>
+                  <div styles={{ alignText: 'center' }}>
                     <Link href="/signup">
                       <a>Create a free account </a>
                     </Link>
@@ -329,9 +327,22 @@ export default function Home(props) {
               )}
               {isQuizRunning ? (
                 <div className="quizSection">
+                  {isQuizRunning === true &&
+                    displayQuestion !== questions.length && (
+                      <button
+                        className="cancel"
+                        onClick={() => {
+                          setIsQuizRunning(false);
+                          setScore(0);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    )}
                   {questions.map((q, index) => {
                     return (
-                      displayQuestion === index && (
+                      displayQuestion === index &&
+                      isQuizRunning === true && (
                         <div key={q.question}>
                           <div className="count score-count">
                             Score: {score}
@@ -386,9 +397,11 @@ export default function Home(props) {
                   })}
                 </div>
               ) : null}
-              {displayQuestion === questions.length ? (
-                <div>
+              {displayQuestion === questions.length && isQuizRunning ? (
+                <>
+                  <div className="count score-count">Score: {score}</div>
                   <button
+                    className=""
                     onClick={() => {
                       handlePlayAgainClick();
                     }}
@@ -398,11 +411,12 @@ export default function Home(props) {
                   <button
                     onClick={() => {
                       setIsQuizRunning(false);
+                      setDisplayQuestion(0);
                     }}
                   >
                     Menu
                   </button>
-                </div>
+                </>
               ) : null}
             </>
           )}

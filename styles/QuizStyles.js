@@ -74,8 +74,20 @@ export const quizStyles = css`
 
   .outer-wrapper {
     max-width: 800px;
+    min-height: 80vh;
     margin-left: auto;
     margin-right: auto;
+    padding-bottom: 1em;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+  }
+  .outer-wrapper>button, .start {
+   min-width: 50%;
+
+
   }
   .options {
     display: flex;
@@ -113,31 +125,56 @@ export const quizStyles = css`
     flex-direction: column;
     align-items: center;
   }
+  .cancel{
+    margin:0;
+    padding:0.5em;
+    border-radius: 15px;;
+    margin-right:5px;
+    margin-top:5px;
+    margin-left: auto;
 
+  }
   .count {
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid #181e1e;
     width: 300px;
     max-width: 50vw;
     padding: 0.5em;
   }
   .quizSection img {
-    width: 400px;
+    width: 300px;
     max-width: 100%;
     max-height: 100%;
+
   }
   .question-flag-container{
-margin-top: 2em;
-margin-bottom:2em;
+    margin-top: 2em;
+    margin-bottom:2em;
     display: flex;
-    justify-content:center;
+    justify-content: center;
     padding: 0.5em;
     box-shadow: 0 0 3pt 2pt #181e1e;
+    height: 200px;
+    width: 300px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .question-container{
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom:1em;
+    display: flex;
+    justify-content: center;
+    border-bottom: 3px solid #7ea3b5;
+    padding: 0.5em;
+    @media (min-width: 600px) {
+      font-size: 3em;
+    }
   }
 
   .answer-container,
   .flag-container {
     display: flex;
-     margin-top: 2em;
+    margin-top: 2em;
     margin-bottom: 2em;
     flex-wrap: wrap;
     justify-content: center;
@@ -147,13 +184,13 @@ margin-bottom:2em;
     border-radius: 0;
     border-radius: 15px;
     min-height: 60px;
+    min-width: 140px;
     width: 40%;
     margin: 0.5em;
 
   }
   .flag-container button {
     height: 200px;
-
     max-width: 40%;
     background: none;
     border: none;
