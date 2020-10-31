@@ -4,7 +4,7 @@ import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
 import Layout from '../components/Layout';
 import { css } from '@emotion/core';
-import { loginStyles } from '../styles/loginStyles';
+import { loginStyles } from '../styles/loginstyles';
 import Link from 'next/link';
 import Head from 'next/head';
 

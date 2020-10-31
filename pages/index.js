@@ -3,7 +3,7 @@ import { css } from '@emotion/core';
 import Head from 'next/head';
 import { createQuestionArray } from '../assets/functions';
 import Layout from '../components/Layout';
-import { quizStyles } from '../styles/QuizStyles.js';
+import { quizStyles } from '../styles/quizstyles.js';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
 import Link from 'next/link';
