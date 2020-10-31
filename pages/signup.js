@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { css } from '@emotion/core';
-import { loginStyles } from '../styles/loginStyles';
+import { loginStyles } from '../styles/loginstyles';
 
 export default function Signup(props) {
   const [username, setUsername] = useState('');
