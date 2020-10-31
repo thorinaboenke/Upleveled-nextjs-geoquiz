@@ -444,7 +444,7 @@ export default function Home(props) {
                       handlePlayAgainClick();
                     }}
                   >
-                    Play again?
+                    Play again
                   </button>
                 </>
               ) : null}

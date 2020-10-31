@@ -1,5 +1,4 @@
 import { css, Global, keyframes } from '@emotion/core';
-import styled from '@emotion/styled';
 
 export const globalStyles = (
   <Global

@@ -1,5 +1,4 @@
-import { css, keyframes } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 
 export const loginStyles = css`
   .container {
