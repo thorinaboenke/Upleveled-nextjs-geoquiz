@@ -116,7 +116,10 @@ export const quizStyles = css`
   .section .heading {
     padding: 0.5em;
     border-bottom: 3px solid #181e1e;
+    position: relative;
+
   }
+
   a {
     color: #519bbf;
   }
@@ -159,16 +162,44 @@ export const quizStyles = css`
     margin-right:auto;
   }
   .question-container{
+    position:relative;
     font-size: 2em;
     margin-top: 1em;
     margin-bottom:1em;
     display: flex;
     justify-content: center;
     border-bottom: 3px solid #7ea3b5;
+    transition: all 15000ms linear;
     padding: 0.5em;
     @media (min-width: 600px) {
       font-size: 3em;
     }
+  }
+  @keyframes countdown {
+  from {width: 0%;}
+  to {width: 100%;}
+}
+  .question-container::before {
+    content: ' ';
+    transition: all 15000ms linear;
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0%;
+    height: 0.2em;
+    background-color: #B62121;
+    animation-name: countdown;
+    animation-duration:10s;
+    animation-timing-function: linear;
+
+
+
+  }
+
+}
+  .question-container::before{
+    width: 100%
   }
 
   .answer-container,
@@ -192,7 +223,7 @@ export const quizStyles = css`
   .flag-container button {
     height: 200px;
     max-width: 40%;
-    background: none;
+    background: #F1F3F3;
     border: none;
     padding: none;
     border-radius: 0;

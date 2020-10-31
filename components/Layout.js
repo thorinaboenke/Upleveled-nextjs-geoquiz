@@ -11,18 +11,18 @@ const footerStyles = css`
     justify-content: center;
     align-items: center;
     background-color: #181e1e;
-    @media (max-width: 420px) {
-      flex-direction: column;
-    }
 
     a {
       padding: 1em;
       color: #7ea3b5;
       border: none;
-      font-size: 12px;
+
       margin-left: 0.5em;
       margin-right: 0.5em;
       text-align: center;
+      @media (max-width: 420px) {
+        font-size: 8px;
+      }
     }
     a:hover {
       color: #519bbf;

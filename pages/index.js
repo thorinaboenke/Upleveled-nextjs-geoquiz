@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/core';
 import Head from 'next/head';
 import { createQuestionArray } from '../assets/functions';
@@ -27,6 +27,34 @@ export default function Home(props) {
 
   const [categoryQuestion, setCategoryQuestion] = useState(cat.name);
   const [categoryAnswer, setCategoryAnswer] = useState(cat.flag);
+  const [countdown, setCountdown] = useState(10);
+  const [totalTime, setTotalTime] = useState(0);
+  const duration = 3000;
+
+  useEffect(() => {
+    while (isQuizRunning && displayQuestion < questions.length) {
+      const interval = setInterval(() => {
+        if (countdown < 1) {
+          const newQ = displayQuestion + 1;
+          setDisplayQuestion(newQ);
+          const newTotal = totalTime + 10;
+          setTotalTime(newTotal);
+          setCountdown(10);
+        } else {
+          setCountdown((countdown) => countdown - 1);
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [
+    setCountdown,
+    displayQuestion,
+    isQuizRunning,
+    questions.length,
+    countdown,
+    totalTime,
+  ]);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -39,15 +67,6 @@ export default function Home(props) {
         (country) => country.capital !== '' && country.flag !== '',
       );
       setCountries(filteredCountries);
-      // const questionSet = createQuestionArray(
-      //   numberOfQuestions,
-      //   numberOfPossibleAnswers,
-      //   allCountries.filter((country) => country.capital !== ''),
-      //   categoryQuestion,
-      //   categoryAnswer,
-      //   region,
-      // );
-      // setQuestions(questionSet);
       setIsLoading(false);
     };
     fetchCountries();
@@ -60,6 +79,9 @@ export default function Home(props) {
   ]);
 
   const handleAnswerClick = (correct) => {
+    const newTotal = totalTime + (10 - countdown);
+    setTotalTime(newTotal);
+    setCountdown(10);
     const newQ = displayQuestion + 1;
     setDisplayQuestion(newQ);
     if (correct) {
@@ -67,7 +89,8 @@ export default function Home(props) {
       setScore(newScore);
     }
   };
-  const handlePlayAgainClick = () => {
+
+  function makeNewQuestionSet() {
     const questionSet = createQuestionArray(
       numberOfQuestions,
       numberOfPossibleAnswers,
@@ -76,29 +99,32 @@ export default function Home(props) {
       categoryAnswer,
       region,
     );
-    setQuestions(questionSet);
+    return questionSet;
+  }
+
+  function resetGame() {
+    setTotalTime(0);
     setDisplayQuestion(0);
     setScore(0);
+    setCountdown(10);
+  }
+
+  const handlePlayAgainClick = () => {
+    setQuestions(makeNewQuestionSet());
+    resetGame();
   };
 
   const handleQuizStart = (e) => {
-    const questionSet = createQuestionArray(
-      numberOfQuestions,
-      numberOfPossibleAnswers,
-      countries.filter((country) => country.capital !== ''),
-      categoryQuestion,
-      categoryAnswer,
-      region,
-    );
-    setQuestions(questionSet);
+    resetGame();
+    setQuestions(makeNewQuestionSet());
     setIsQuizRunning(true);
   };
+
+  const current = useRef(displayQuestion);
+  console.log(current);
+
   console.log('I rendered');
-  console.log(region);
-  console.log(categoryQuestion);
-  console.log(categoryAnswer);
-  console.log(numberOfPossibleAnswers);
-  console.log(questions);
+
   return (
     <div css={quizStyles}>
       <Layout loggedIn={props.loggedIn}>
@@ -334,6 +360,7 @@ export default function Home(props) {
                         onClick={() => {
                           setIsQuizRunning(false);
                           setScore(0);
+                          setDisplayQuestion(0);
                         }}
                       >
                         Cancel
@@ -344,6 +371,7 @@ export default function Home(props) {
                       displayQuestion === index &&
                       isQuizRunning === true && (
                         <div key={q.question}>
+                          <div>{countdown}</div>
                           <div className="count score-count">
                             Score: {score}
                           </div>
@@ -399,15 +427,9 @@ export default function Home(props) {
               ) : null}
               {displayQuestion === questions.length && isQuizRunning ? (
                 <>
+                  <div className="count score-count">Time: {totalTime}</div>
                   <div className="count score-count">Score: {score}</div>
-                  <button
-                    className=""
-                    onClick={() => {
-                      handlePlayAgainClick();
-                    }}
-                  >
-                    Play again?
-                  </button>
+
                   <button
                     onClick={() => {
                       setIsQuizRunning(false);
@@ -415,6 +437,14 @@ export default function Home(props) {
                     }}
                   >
                     Menu
+                  </button>
+                  <button
+                    className=""
+                    onClick={() => {
+                      handlePlayAgainClick();
+                    }}
+                  >
+                    Play again?
                   </button>
                 </>
               ) : null}
