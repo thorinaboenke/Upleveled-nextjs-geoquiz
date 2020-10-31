@@ -1,7 +1,13 @@
-import '../styles/globals.css'
+import { Fragment } from 'react';
+import { globalStyles } from '../styles/GlobalStyles';
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <Fragment>
+      {globalStyles}
+      <Component {...pageProps} />
+    </Fragment>
+  );
 }
 
-export default MyApp
+export default MyApp;

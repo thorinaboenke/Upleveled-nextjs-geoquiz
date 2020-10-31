@@ -39,7 +39,7 @@ input + div {
   border: 2px solid #0694a8;
   color: #0694a8;
   padding: 0.5em;
-  border-radius: 5px;
+  border-radius: 10px;
   min-width: 80px;
   text-align: center;
   margin: 1em;
@@ -51,7 +51,7 @@ input + div {
   border: 2px solid grey;
   color: grey;
   padding: 0.5em;
-  border-radius: 5px;
+  border-radius: 10px;
   min-width: 80px;
   text-align: center;
   margin: 1em;
@@ -63,7 +63,7 @@ input + div {
   border: 2px solid #0694a8;
   color: white;
   padding: 0.5em;
-  border-radius: 5px;
+  border-radius: 10px;
   min-width: 80px;
   text-align: center;
   margin: 1em;
@@ -90,7 +90,7 @@ input + div {
 .option-container-regions input:checked + img {
   border: 2px solid #0694a8;
   padding: 3px;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 .option-container-qa {
@@ -220,7 +220,7 @@ input + div {
   border: 3px solid #0694a8;
   color: #0694a8;
   font-size: 1.2em;
-  border-radius: 5px;
+  border-radius: 10px;
   margin: 1em;
   padding: 0.5em;
   width: 30vw;
@@ -237,7 +237,4 @@ input + div {
     max-width: 90vw;
     margin: 0.5em;
   }
-}
-
-.flag-container > button {
 }
