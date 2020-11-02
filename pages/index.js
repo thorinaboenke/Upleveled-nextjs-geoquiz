@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { css } from '@emotion/core';
 import Head from 'next/head';
-import { createQuestionArray } from '../assets/functions';
+import { createQuestionArray, updateScoresRequest } from '../assets/functions';
 import Layout from '../components/Layout';
 import { quizStyles } from '../styles/quizstyles.js';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
 import Link from 'next/link';
+import Results from '../components/Results';
+import { getUserBySessionToken } from '../util/database';
 
 export default function Home(props) {
   const [displayQuestion, setDisplayQuestion] = useState(0);
   const [score, setScore] = useState(0);
-
+  const [countdown, setCountdown] = useState(10);
+  const [totalTime, setTotalTime] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isQuizRunning, setIsQuizRunning] = useState(false);
   const [questions, setQuestions] = useState([]);
@@ -19,17 +22,14 @@ export default function Home(props) {
   // maybe sum this in one state for QuizSettings?
   // const [quizSettings, setQuizSettings] = useState({regions:[], numberOfQuestions:5, numberOfPossibleAnswers:4, categoryQuestion: cat.name, categoryAnswer:cat.capital})
   const cat = { flag: 'flag', name: 'name', capital: 'capital' };
-  const difficulties = { normal: 4, pro: 6 };
-
   const [region, setRegion] = useState('World');
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [numberOfPossibleAnswers, setNumberOfPossibleAnswers] = useState(4);
-
   const [categoryQuestion, setCategoryQuestion] = useState(cat.name);
   const [categoryAnswer, setCategoryAnswer] = useState(cat.flag);
-  const [countdown, setCountdown] = useState(10);
-  const [totalTime, setTotalTime] = useState(0);
-  const duration = 3000;
+  const [answers, setAnswers] = useState([]);
+
+  console.log(props.loggedIn, props.user, displayQuestion);
 
   useEffect(() => {
     while (isQuizRunning && displayQuestion < questions.length) {
@@ -37,6 +37,7 @@ export default function Home(props) {
         if (countdown < 1) {
           const newQ = displayQuestion + 1;
           setDisplayQuestion(newQ);
+          setAnswers([...answers, '-']);
           const newTotal = totalTime + 10;
           setTotalTime(newTotal);
           setCountdown(10);
@@ -54,6 +55,7 @@ export default function Home(props) {
     questions.length,
     countdown,
     totalTime,
+    answers,
   ]);
 
   useEffect(() => {
@@ -78,12 +80,27 @@ export default function Home(props) {
     numberOfQuestions,
   ]);
 
-  const handleAnswerClick = (correct) => {
+  useEffect(() => {
+    if (displayQuestion === questions.length && props.loggedIn) {
+      updateScoresRequest(
+        props.user?.userId,
+        questions.length,
+        score,
+        categoryAnswer,
+        region,
+      );
+    }
+  });
+
+  const handleAnswerClick = (correct, answerArray, answer) => {
     const newTotal = totalTime + (10 - countdown);
     setTotalTime(newTotal);
     setCountdown(10);
     const newQ = displayQuestion + 1;
     setDisplayQuestion(newQ);
+    const newAnswerArray = [...answerArray, answer];
+    setAnswers(newAnswerArray);
+
     if (correct) {
       const newScore = score + 1;
       setScore(newScore);
@@ -102,28 +119,19 @@ export default function Home(props) {
     return questionSet;
   }
 
-  function resetGame() {
+  const resetGame = () => {
     setTotalTime(0);
     setDisplayQuestion(0);
     setScore(0);
     setCountdown(10);
-  }
-
-  const handlePlayAgainClick = () => {
-    setQuestions(makeNewQuestionSet());
-    resetGame();
+    setAnswers([]);
   };
 
-  const handleQuizStart = (e) => {
-    resetGame();
+  const startQuiz = () => {
     setQuestions(makeNewQuestionSet());
+    resetGame();
     setIsQuizRunning(true);
   };
-
-  const current = useRef(displayQuestion);
-  console.log(current);
-
-  console.log('I rendered');
 
   return (
     <div css={quizStyles}>
@@ -340,7 +348,7 @@ export default function Home(props) {
                     </div>
                   </div>
 
-                  <button onClick={(e) => handleQuizStart(e)} className="start">
+                  <button onClick={(e) => startQuiz(e)} className="start">
                     Start Quiz
                   </button>
                   <div styles={{ alignText: 'center' }}>
@@ -403,7 +411,11 @@ export default function Home(props) {
                               return (
                                 <button
                                   onClick={() =>
-                                    handleAnswerClick(option.isCorrect)
+                                    handleAnswerClick(
+                                      option.isCorrect,
+                                      answers,
+                                      option.answer,
+                                    )
                                   }
                                 >
                                   {categoryAnswer === cat.flag ? (
@@ -429,6 +441,7 @@ export default function Home(props) {
                 <>
                   <div className="count score-count">Time: {totalTime}</div>
                   <div className="count score-count">Score: {score}</div>
+                  <Results questions={questions} answers={answers} />
 
                   <button
                     onClick={() => {
@@ -441,7 +454,7 @@ export default function Home(props) {
                   <button
                     className=""
                     onClick={() => {
-                      handlePlayAgainClick();
+                      startQuiz();
                     }}
                   >
                     Play again
@@ -459,5 +472,7 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   const { session: token } = nextCookies(context);
   const loggedIn = await isSessionTokenValid(token);
-  return { props: { loggedIn } };
+  const user = (await getUserBySessionToken(token)) || null;
+  console.log(user);
+  return { props: { loggedIn: loggedIn, user: user } };
 }

@@ -3,12 +3,15 @@ import nextCookies from 'next-cookies';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React from 'react';
+import CircularProgress from '../components/CircularProgress';
 import Layout from '../components/Layout';
 import { isSessionTokenValid } from '../util/auth';
-import { getUserBySessionToken } from '../util/database';
+import { getTopTen, getUserBySessionToken } from '../util/database';
 
 export default function Stats(props) {
   const router = useRouter();
+
+  console.log('top 10', props.topTen);
   return (
     <Layout loggedIn={props.loggedIn}>
       <Head>
@@ -17,7 +20,15 @@ export default function Stats(props) {
       </Head>
       <div>I am displaying your username:</div>
       <div>{props?.user?.username}</div>
-      <div>More Statistics:</div>
+      <div>Top 10:</div>
+      {props.topTen.map((top) => {
+        return (
+          <>
+            <div key={top.username}>{top.totalCorrectQuestions}</div>
+            <div key={top.username}>{top.username}</div>
+          </>
+        );
+      })}
       <button
         onClick={async (e) => {
           const response = await fetch('/api/signup', {
@@ -33,6 +44,13 @@ export default function Stats(props) {
       >
         Delete my account
       </button>
+      <CircularProgress
+        progress={70}
+        size={200}
+        strokeWidth={10}
+        circleOneStroke={'blue'}
+        circleTwoStroke={'red'}
+      />
     </Layout>
   );
 }
@@ -44,12 +62,15 @@ export async function getServerSideProps(context) {
   // if yes: get user via the token and pass user as prop
   const { session: token } = nextCookies(context);
 
+  const topTen = await getTopTen();
+
   if (await isSessionTokenValid(token)) {
     const user = await getUserBySessionToken(token);
     return {
       props: {
         user: user,
         loggedIn: true,
+        topTen: topTen,
       },
     };
   }

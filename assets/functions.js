@@ -90,3 +90,33 @@ export function createQuestionArray(
   }
   return questionArray;
 }
+
+export async function updateScoresRequest(
+  userId,
+  answeredQuestions,
+  correctQuestions,
+  categoryAnswer,
+  region,
+) {
+  const response = await fetch('/api/scores', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId,
+      answeredQuestions: answeredQuestions,
+      correctQuestions: correctQuestions,
+      categoryAnswer,
+      region,
+    }),
+  });
+  const { success } = await response.json();
+
+  let errorMessage;
+  if (!success) {
+    errorMessage = 'Updating Scores failed';
+  } else {
+    errorMessage = '';
+  }
+}

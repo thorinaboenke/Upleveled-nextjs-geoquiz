@@ -22,13 +22,13 @@ export default async function handler(request, response) {
   //2) check if the secret is configured, if not send back a 500 status
   if (typeof secret === 'undefined') {
     console.error('CSRF_TOKEN_SECRET environment variable not configured');
-    return response.status(500).send({ success: false });
+    return response.status(500).send({ answer: 1, success: false });
   }
   //3)check the submitted token agains the secret
   const verified = tokens.verify(secret, token);
   // if not verified, send back 401 status (unauthorized)
   if (!verified) {
-    return response.status(401).send({ success: false });
+    return response.status(401).send({ answer: 2, success: false });
   }
 
   // check if there is already a user in the database with that username
@@ -38,14 +38,14 @@ export default async function handler(request, response) {
   if (usernameAlreadyTaken) {
     // TODO: Send back a full error message here
     // HTTP status code: 409 Conflict
-    return response.status(409).send({ success: false });
+    return response.status(409).send({ answer: 3, success: false });
   }
   // create a hashed version of the password with argon2 and register user in database
   try {
     const passwordHash = await argon2.hash(password);
     await registerUser(username, passwordHash);
   } catch (err) {
-    return response.status(501).send({ success: false });
+    return response.status(501).send({ answer: 4, success: false });
   }
 
   response.send({ success: true });
