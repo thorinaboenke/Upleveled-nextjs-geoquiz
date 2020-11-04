@@ -90,7 +90,15 @@ export default function Home(props) {
         region,
       );
     }
-  });
+  }, [
+    displayQuestion,
+    questions.length,
+    props.loggedIn,
+    props.user?.userId,
+    score,
+    categoryAnswer,
+    region,
+  ]);
 
   const handleAnswerClick = (correct, answerArray, answer) => {
     const newTotal = totalTime + (10 - countdown);
@@ -328,7 +336,7 @@ export default function Home(props) {
                           onChange={(e) =>
                             setNumberOfPossibleAnswers(e.currentTarget.value)
                           }
-                          checked={numberOfPossibleAnswers === 4}
+                          checked={numberOfPossibleAnswers == 4}
                         />
                         <div>Normal</div>
                       </label>
@@ -341,7 +349,7 @@ export default function Home(props) {
                           onChange={(e) =>
                             setNumberOfPossibleAnswers(e.currentTarget.value)
                           }
-                          checked={numberOfPossibleAnswers === 6}
+                          checked={numberOfPossibleAnswers == 6}
                         />
                         <div>Pro</div>
                       </label>
@@ -441,7 +449,12 @@ export default function Home(props) {
                 <>
                   <div className="count score-count">Time: {totalTime}</div>
                   <div className="count score-count">Score: {score}</div>
-                  <Results questions={questions} answers={answers} />
+                  <Results
+                    questions={questions}
+                    answers={answers}
+                    categoryAnswer={categoryAnswer}
+                    categoryQuestion={categoryQuestion}
+                  />
 
                   <button
                     onClick={() => {

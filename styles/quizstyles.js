@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+import { colors } from '../assets/colors';
 
 export const quizStyles = css`
   button {
@@ -8,13 +9,13 @@ export const quizStyles = css`
     text-align: center;
     padding: 0.5em;
     color: white;
-    background-color: #7ea3b5;
-    border: 3px solid #7ea3b5;
+    background-color: ${colors.primary};
+    border: 3px solid ${colors.primary};
     margin: 2em;
   }
   button:hover {
-    background-color: #519bbf;
-    border: 3px solid #519bbf;
+    background-color: ${colors.primaryLight};
+    border: 3px solid ${colors.primaryLight};
   }
 
   input {
@@ -34,13 +35,13 @@ export const quizStyles = css`
   }
 
   input:hover + img {
-    box-shadow: 0 0 3pt 2pt #7ea3b5;
+    box-shadow: 0 0 3pt 2pt ${colors.primary};
   }
   input:focus + img {
     box-shadow: 0 0 3pt 2pt;
   }
   input:checked + img {
-    box-shadow: 0 0 3pt 2pt #181e1e;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
   }
 
   input + div {
@@ -48,22 +49,22 @@ export const quizStyles = css`
     border-radius: 20px;
     text-align: center;
     padding: 0.5em;
-    color: #181e1e;
-    border: 3px solid #181e1e;
+    color: ${colors.black};
+    border: 3px solid ${colors.black};
     margin-right: 1em;
     margin-left: 1em;
   }
   input:hover + div {
-    box-shadow: 0 0 3pt 2pt #7ea3b5;
+    box-shadow: 0 0 3pt 2pt ${colors.primary};
   }
 
   input:focus + div {
-    box-shadow: 0 0 3pt 2pt #7ea3b5;
+    box-shadow: 0 0 3pt 2pt ${colors.primary};
   }
   input:checked + div {
     color: white;
-    background-color: #181e1e;
-    border: 3px solid #181e1e;
+    background-color: ${colors.black};
+    border: 3px solid ${colors.black};
     box-shadow: none;
   }
   input:disabled + div {
@@ -115,7 +116,7 @@ export const quizStyles = css`
   }
   .section .heading {
     padding: 0.5em;
-    border-bottom: 3px solid #181e1e;
+    border-bottom: 3px solid ${colors.black};
     position: relative;
 
   }
@@ -138,7 +139,7 @@ export const quizStyles = css`
 
   }
   .count {
-    border-bottom: 2px solid #181e1e;
+    border-bottom: 2px solid ${colors.black};
     width: 300px;
     max-width: 50vw;
     padding: 0.5em;
@@ -155,7 +156,7 @@ export const quizStyles = css`
     display: flex;
     justify-content: center;
     padding: 0.5em;
-    box-shadow: 0 0 3pt 2pt #181e1e;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
     height: 200px;
     width: 300px;
     margin-left:auto;
@@ -168,7 +169,7 @@ export const quizStyles = css`
     margin-bottom:1em;
     display: flex;
     justify-content: center;
-    border-bottom: 3px solid #7ea3b5;
+    border-bottom: 3px solid ${colors.primary};
     transition: all 15000ms linear;
     padding: 0.5em;
     @media (min-width: 600px) {
@@ -223,15 +224,15 @@ export const quizStyles = css`
   .flag-container button {
     height: 200px;
     max-width: 40%;
-    background: #F1F3F3;
+    background: ${colors.lightgray};
     border: none;
     padding: none;
     border-radius: 0;
     margin: 0.5em;
-    box-shadow: 0 0 3pt 2pt #181e1e;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
   }
   .flag-container button:hover {
-    box-shadow: 0 0 3pt 2pt #7ea3b5;
+    box-shadow: 0 0 3pt 2pt ${colors.primary};
   }
 
   @media (max-width: 420px) {

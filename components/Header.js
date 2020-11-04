@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import { css, keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
+import { colors } from '../assets/colors';
 
 function Header(props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
@@ -38,12 +39,12 @@ const headerStyles = css`
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    background-color: #181e1e;
+    background-color: ${colors.black};
 
 
     a {
     padding: 1em;
-    color: #7ea3b5;
+    color: ${colors.primary};
     font-weight:bold;
     font-size: 20px;
     margin-left: 2em;
@@ -57,7 +58,7 @@ const headerStyles = css`
 
   }
   a:hover {
-    background: #7ea3b5;
+    background: ${colors.primary};
     color: white;
 
   }

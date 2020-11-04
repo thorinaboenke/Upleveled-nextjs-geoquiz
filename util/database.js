@@ -2,7 +2,6 @@ import postgres from 'postgres';
 import dotenv from 'dotenv';
 import camelcaseKeys from 'camelcase-keys';
 import extractHerokuDatabaseEnvVars from './extractHerokuDatabaseEnvVars';
-import { constants } from 'buffer';
 
 extractHerokuDatabaseEnvVars();
 
@@ -99,7 +98,7 @@ export async function deleteExpiredSessions() {
 
 export async function getUserBySessionToken(token) {
   const users = await sql`SELECT
- users.user_id, users.username
+ users.user_id, users.username, users.total_answered_questions, users.total_correct_questions
   FROM
   users,
   sessions
@@ -107,8 +106,70 @@ export async function getUserBySessionToken(token) {
   sessions.token = ${token} AND
   sessions.user_id = users.user_id
   ;`;
-  console.log(users.map((u) => camelcaseKeys(u))[0]);
+
   return users.map((u) => camelcaseKeys(u))[0];
+}
+
+export async function getScoresBySessionToken(token) {
+  const cat = await sql`
+SELECT
+category_scores.answered_questions as cat_answered,
+category_scores.correct_questions as cat_correct,
+category_name as category
+FROM
+users
+INNER JOIN category_scores ON users.user_id = category_scores.user_id
+INNER JOIN categories ON categories.category_id = category_scores.category_id
+WHERE users.user_id = (SELECT
+ users.user_id
+  FROM
+  users,
+  sessions
+  WHERE
+  sessions.token = ${token} AND
+  sessions.user_id = users.user_id);`;
+
+  const reg = await sql`
+SELECT
+region_scores.answered_questions as cat_answered,
+region_scores.correct_questions as cat_correct,
+region_name as region
+FROM
+users
+INNER JOIN region_scores ON users.user_id = region_scores.user_id
+INNER JOIN regions ON regions.region_id = region_scores.region_id
+WHERE users.user_id = (SELECT
+ users.user_id
+  FROM
+  users,
+  sessions
+  WHERE
+  sessions.token = ${token} AND
+  sessions.user_id = users.user_id);`;
+
+  const categoryScores = cat.map((u) => camelcaseKeys(u));
+
+  const reducedCategoryScores = categoryScores.reduce((acc, curr) => {
+    acc[curr.category] = {
+      correct: curr.catCorrect,
+      answered: curr.catAnswered,
+    };
+    return acc;
+  }, {});
+
+  const regionScores = reg.map((u) => camelcaseKeys(u));
+  console.log('regionScores', regionScores);
+  const reducedRegionScores = regionScores.reduce((acc, curr) => {
+    acc[curr.region.toLowerCase()] = {
+      correct: curr.catCorrect,
+      answered: curr.catAnswered,
+    };
+    return acc;
+  }, {});
+
+  const scores = { ...reducedRegionScores, ...reducedCategoryScores };
+  console.log(scores);
+  return scores;
 }
 
 export async function deleteUserByUsername(username) {
@@ -125,13 +186,21 @@ export async function updateScoresByUserId(
   categoryAnswer,
   region,
 ) {
-  // update the total score and total questions in the user table
-  console.log('test', answeredQuestions);
-  const scores = await sql`
+  // update the total score, total questions, last_game_played and streak_days in the user table
+  if (userId) {
+    const scores = await sql`
   UPDATE users
   SET total_correct_questions = total_correct_questions + ${correctQuestions},
-  total_answered_questions = total_answered_questions + ${answeredQuestions}
+  total_answered_questions = total_answered_questions + ${answeredQuestions},
+  streak_days = CASE
+  WHEN DATE_PART('day', NOW() - last_game_played) = 1 THEN streak_days + 1
+  WHEN DATE_PART('day', NOW() - last_game_played) > 1 THEN 0
+  ELSE streak_days
+  END,
+  last_game_played = NOW()
   WHERE user_id = ${userId};`;
+  }
+
   // update the correct_questions and answered_questions in region_scores based on user_id and region_id
   const regionScores = await sql`
   UPDATE region_scores
@@ -148,7 +217,7 @@ WHERE user_id = ${userId} AND category_id = (SELECT category_id FROM categories 
 
 export async function getTopTen() {
   const users = await sql`
-    SELECT * FROM users ORDER BY total_correct_questions LIMIT 10;
+    SELECT username,total_correct_questions FROM users ORDER BY total_correct_questions DESC LIMIT 10;
   `;
 
   return users.map((u) => camelcaseKeys(u));

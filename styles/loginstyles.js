@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+import { colors } from '../assets/colors';
 
 export const loginStyles = css`
   .container {
@@ -28,12 +29,12 @@ export const loginStyles = css`
     border: none;
     height: 30px;
     border-radius: 15px;
-    border: 1px solid #181e1e;
+    border: 1px solid ${colors.black};
   }
   input:focus,
   button:focus {
     outline: 0;
-    box-shadow: 0 0 3pt 2pt #7ea3b5;
+    box-shadow: 0 0 3pt 2pt ${colors.primary};
     border-radius: 15px;
   }
 
@@ -42,7 +43,7 @@ export const loginStyles = css`
     margin-top: 0.5em;
     margin-bottom: 0.5em;
     display: block;
-    color: #181e1e;
+    color: ${colors.black};
   }
   form {
     background-color: white;
@@ -62,13 +63,13 @@ export const loginStyles = css`
     font-size: 15px;
     width: 150px;
     height: 30px;
-    border: 2px solid #181e1e;
+    border: 2px solid ${colors.black};
     border-radius: 15px;
   }
   button:hover {
     color: white;
-    background-color:#181e1e;
-    border: 2px solid #181e1e;
+    background-color:${colors.black};
+    border: 2px solid ${colors.black};
   }
   .instructions {
     margin-top: 0.5em;

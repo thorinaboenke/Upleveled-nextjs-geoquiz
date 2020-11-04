@@ -2,6 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import Header from './Header';
 import { css, keyframes } from '@emotion/core';
+import { colors } from '../assets/colors';
 
 const footerStyles = css`
   footer {
@@ -10,7 +11,7 @@ const footerStyles = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #181e1e;
+    background-color: ${colors.black};
 
     a {
       padding: 1em;
@@ -25,7 +26,7 @@ const footerStyles = css`
       }
     }
     a:hover {
-      color: #519bbf;
+      color: ${colors.primaryLight};
     }
 
     .icon {
