@@ -59,23 +59,25 @@ const statStyles = css`
 `;
 export default function Stats(props) {
   const router = useRouter();
-
-  console.log('top 10', props.topTen);
+  const { user, scores, loggedIn, topTen } = props;
   return (
-    <Layout loggedIn={props.loggedIn}>
+    <Layout loggedIn={loggedIn}>
       <Head>
         <title>GeoQuiz - Statistics</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div css={statStyles}>
         <div className="outer-wrapper">
-          <div>Username:{props?.user?.username}</div>
+          <div>Username:{user?.username}</div>
           <CircularProgress
-            progress={Math.round(
-              (props.user.totalCorrectQuestions /
-                props.user.totalAnsweredQuestions) *
-                100,
-            )}
+            progress={
+              user.totalAnsweredQuestions === 0
+                ? 0
+                : Math.round(
+                    (user.totalCorrectQuestions / user.totalAnsweredQuestions) *
+                      100,
+                  )
+            }
             size={150}
             strokeWidth={10}
             circleOneStroke={colors.black}
@@ -85,7 +87,13 @@ export default function Stats(props) {
 
           <div className="progress-container">
             <CircularProgress
-              progress={70}
+              progress={
+                scores.africa.answered === 0
+                  ? 0
+                  : Math.round(
+                      (scores.africa.correct / scores.africa.answered) * 100,
+                    )
+              }
               size={90}
               strokeWidth={8}
               circleOneStroke={colors.black}
@@ -93,7 +101,13 @@ export default function Stats(props) {
               imgUrl="africa.png"
             />
             <CircularProgress
-              progress={30}
+              progress={
+                scores.asia.answered === 0
+                  ? 0
+                  : Math.round(
+                      (scores.asia.correct / scores.asia.answered) * 100,
+                    )
+              }
               size={90}
               strokeWidth={8}
               circleOneStroke={colors.black}
@@ -101,7 +115,13 @@ export default function Stats(props) {
               imgUrl="asia.png"
             />
             <CircularProgress
-              progress={30}
+              progress={
+                scores.europe.answered === 0
+                  ? 0
+                  : Math.round(
+                      (scores.europe.correct / scores.europe.answered) * 100,
+                    )
+              }
               size={90}
               strokeWidth={8}
               circleOneStroke={colors.black}
@@ -109,7 +129,13 @@ export default function Stats(props) {
               imgUrl="europe.png"
             />
             <CircularProgress
-              progress={30}
+              progress={
+                scores.oceania.answered === 0
+                  ? 0
+                  : Math.round(
+                      (scores.oceania.correct / scores.oceania.answered) * 100,
+                    )
+              }
               size={90}
               strokeWidth={8}
               circleOneStroke={colors.black}
@@ -117,7 +143,14 @@ export default function Stats(props) {
               imgUrl="australia.png"
             />
             <CircularProgress
-              progress={30}
+              progress={
+                scores.americas.answered === 0
+                  ? 0
+                  : Math.round(
+                      (scores.americas.correct / scores.americas.answered) *
+                        100,
+                    )
+              }
               size={90}
               strokeWidth={8}
               circleOneStroke={colors.black}
@@ -150,7 +183,7 @@ export default function Stats(props) {
           </div>
           <div className="top10-container">
             <div>Top 10</div>
-            {props.topTen.map((top) => {
+            {topTen.map((top) => {
               return (
                 <div key={top.username} className="top10-entry">
                   <div>{top.username}</div>
@@ -166,7 +199,7 @@ export default function Stats(props) {
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ username: props.user.username }),
+                body: JSON.stringify({ username: user.username }),
               });
               const { success } = await response.json();
               if (success) router.push('/deleted');
@@ -194,6 +227,7 @@ export async function getServerSideProps(context) {
     const scores = await getScoresBySessionToken(token);
     return {
       props: {
+        scores: scores,
         user: user,
         loggedIn: true,
         topTen: topTen,

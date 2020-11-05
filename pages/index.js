@@ -26,10 +26,10 @@ export default function Home(props) {
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [numberOfPossibleAnswers, setNumberOfPossibleAnswers] = useState(4);
   const [categoryQuestion, setCategoryQuestion] = useState(cat.name);
-  const [categoryAnswer, setCategoryAnswer] = useState(cat.flag);
+  const [categoryAnswer, setCategoryAnswer] = useState(cat.capital);
   const [answers, setAnswers] = useState([]);
-
-  console.log(props.loggedIn, props.user, displayQuestion);
+  const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
+  const [showOnlyCorrectAnswer, setShowOnlyCorrectAnswer] = useState(false);
 
   useEffect(() => {
     while (isQuizRunning && displayQuestion < questions.length) {
@@ -103,16 +103,25 @@ export default function Home(props) {
   const handleAnswerClick = (correct, answerArray, answer) => {
     const newTotal = totalTime + (10 - countdown);
     setTotalTime(newTotal);
-    setCountdown(10);
-    const newQ = displayQuestion + 1;
-    setDisplayQuestion(newQ);
     const newAnswerArray = [...answerArray, answer];
     setAnswers(newAnswerArray);
-
+    //here one second delay for visual feedback to occur
     if (correct) {
       const newScore = score + 1;
       setScore(newScore);
+      setShowOnlyCorrectAnswer(true);
     }
+    if (!correct) {
+      setShowCorrectAnswer(true);
+    }
+    function delayedReset() {
+      setShowCorrectAnswer(false);
+      setShowOnlyCorrectAnswer(false);
+      setCountdown(10);
+      const newQ = displayQuestion + 1;
+      setDisplayQuestion(newQ);
+    }
+    setTimeout(delayedReset, 1000);
   };
 
   function makeNewQuestionSet() {
@@ -254,7 +263,9 @@ export default function Home(props) {
                             setCategoryQuestion(e.currentTarget.value)
                           }
                           checked={cat.capital === categoryQuestion}
-                          disabled={cat.capital === categoryAnswer}
+                          disabled={
+                            cat.capital === categoryAnswer || !props.loggedIn
+                          }
                         />
                         <div>capital</div>
                       </label>
@@ -268,7 +279,9 @@ export default function Home(props) {
                             setCategoryQuestion(e.currentTarget.value)
                           }
                           checked={cat.flag === categoryQuestion}
-                          disabled={cat.flag === categoryAnswer}
+                          disabled={
+                            cat.flag === categoryAnswer || !props.loggedIn
+                          }
                         />
                         <div>flag</div>
                       </label>
@@ -287,7 +300,9 @@ export default function Home(props) {
                             setCategoryAnswer(e.currentTarget.value)
                           }
                           checked={cat.name === categoryAnswer}
-                          disabled={cat.name === categoryQuestion}
+                          disabled={
+                            cat.name === categoryQuestion || !props.loggedIn
+                          }
                         />
                         <div>name</div>
                       </label>
@@ -315,7 +330,9 @@ export default function Home(props) {
                             setCategoryAnswer(e.currentTarget.value)
                           }
                           checked={cat.flag === categoryAnswer}
-                          disabled={cat.flag === categoryQuestion}
+                          disabled={
+                            cat.flag === categoryQuestion || !props.loggedIn
+                          }
                         />
                         <div>flag</div>
                       </label>
@@ -326,7 +343,7 @@ export default function Home(props) {
                     <div className="heading">
                       <div>Difficulty</div>
                     </div>
-                    <div>
+                    <div className="difficulty-option-container">
                       <label>
                         <input
                           type="radio"
@@ -350,6 +367,7 @@ export default function Home(props) {
                             setNumberOfPossibleAnswers(e.currentTarget.value)
                           }
                           checked={numberOfPossibleAnswers == 6}
+                          disabled={!props.loggedIn}
                         />
                         <div>Pro</div>
                       </label>
@@ -359,11 +377,11 @@ export default function Home(props) {
                   <button onClick={(e) => startQuiz(e)} className="start">
                     Start Quiz
                   </button>
-                  <div styles={{ alignText: 'center' }}>
+                  <div className="instructions">
                     <Link href="/signup">
                       <a>Create a free account </a>
                     </Link>
-                    to play more categories and see your statistics
+                    to play all categories and see your statistics
                   </div>
                 </div>
               )}
@@ -418,12 +436,24 @@ export default function Home(props) {
                             {q.answerOptions.map((option) => {
                               return (
                                 <button
+                                  disabled={
+                                    showCorrectAnswer || showOnlyCorrectAnswer
+                                  }
                                   onClick={() =>
                                     handleAnswerClick(
                                       option.isCorrect,
                                       answers,
                                       option.answer,
                                     )
+                                  }
+                                  className={
+                                    (showOnlyCorrectAnswer ||
+                                      showCorrectAnswer) &&
+                                    option.isCorrect
+                                      ? 'true'
+                                      : showCorrectAnswer && !option.isCorrect
+                                      ? 'false'
+                                      : 'normal'
                                   }
                                 >
                                   {categoryAnswer === cat.flag ? (

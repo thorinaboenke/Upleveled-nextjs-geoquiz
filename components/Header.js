@@ -40,9 +40,11 @@ const headerStyles = css`
     justify-content: flex-start;
     align-items: center;
     background-color: ${colors.black};
+    border: 2px solid ${colors.black};
 
 
     a {
+      height: 100%;
     padding: 1em;
     color: ${colors.primary};
     font-weight:bold;
@@ -53,12 +55,14 @@ const headerStyles = css`
     @media (max-width: 420px) {
     margin-left: 0.2em;
     margin-right: 0.2em;
+    font-size: 16px;
     }
 
 
   }
   a:hover {
     background: ${colors.primary};
+
     color: white;
 
   }

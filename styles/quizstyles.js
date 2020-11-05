@@ -86,9 +86,15 @@ export const quizStyles = css`
 
   }
   .outer-wrapper>button, .start {
-   min-width: 50%;
+   min-width: 30%;
+   @media (max-width: 450px) {
+    min-width: 50%;
+    }
 
 
+  }
+  .instructions {
+    text-align:center;
   }
   .options {
     display: flex;
@@ -121,6 +127,9 @@ export const quizStyles = css`
 
   }
 
+  .difficulty-option-container{
+    display: flex;
+  }
   a {
     color: #519bbf;
   }
@@ -128,7 +137,16 @@ export const quizStyles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: fadein 500ms;
   }
+  @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
   .cancel{
     margin:0;
     padding:0.5em;
@@ -172,6 +190,7 @@ export const quizStyles = css`
     border-bottom: 3px solid ${colors.primary};
     transition: all 15000ms linear;
     padding: 0.5em;
+    animation: fadein 1s;
     @media (min-width: 600px) {
       font-size: 3em;
     }
@@ -211,6 +230,7 @@ export const quizStyles = css`
     flex-wrap: wrap;
     justify-content: center;
     align-items: flex-end;
+    animation: fadein 1s;
   }
   .answer-container button {
     border-radius: 0;
@@ -221,6 +241,27 @@ export const quizStyles = css`
     margin: 0.5em;
 
   }
+  .answer-container .true {
+    box-shadow: 0 0 3pt 2pt ${colors.correct};
+/* background-color:${colors.correct};
+border-color: ${colors.correct} */
+  }
+  .answer-container .false {
+    box-shadow: 0 0 3pt 2pt ${colors.incorrect};
+    /* background-color:${colors.incorrect};
+    border-color: ${colors.incorrect} */
+
+  }
+
+
+
+
+
+
+
+
+
+
   .flag-container button {
     height: 200px;
     max-width: 40%;
@@ -234,6 +275,8 @@ export const quizStyles = css`
   .flag-container button:hover {
     box-shadow: 0 0 3pt 2pt ${colors.primary};
   }
+
+
 
   @media (max-width: 420px) {
     .flag-container button {
