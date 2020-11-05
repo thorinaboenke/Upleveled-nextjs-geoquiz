@@ -21,7 +21,10 @@ const progressStyles = css`
   }
   .svg-circle {
     fill: none;
+    stroke-dashoffset: ;
+    transition: stroke-dashoffset 850ms ease-in-out;
   }
+
   .progress {
     font-weight: bold;
     font-size: 2em;

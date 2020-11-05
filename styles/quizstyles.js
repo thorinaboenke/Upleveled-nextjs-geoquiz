@@ -199,28 +199,9 @@ export const quizStyles = css`
   from {width: 0%;}
   to {width: 100%;}
 }
-  .question-container::before {
-    content: ' ';
-    transition: all 15000ms linear;
-    display: block;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0%;
-    height: 0.2em;
-    background-color: #B62121;
-    animation-name: countdown;
-    animation-duration:10s;
-    animation-timing-function: linear;
 
-
-
-  }
 
 }
-  .question-container::before{
-    width: 100%
-  }
 
   .answer-container,
   .flag-container {
@@ -243,23 +224,40 @@ export const quizStyles = css`
   }
   .answer-container .true {
     box-shadow: 0 0 3pt 2pt ${colors.correct};
-/* background-color:${colors.correct};
-border-color: ${colors.correct} */
+
   }
-  .answer-container .false {
+  .answer-container .false  {
     box-shadow: 0 0 3pt 2pt ${colors.incorrect};
     /* background-color:${colors.incorrect};
     border-color: ${colors.incorrect} */
+    animation: swiggle 200ms;
+
+  }
+  .flag-container .true {
+    background-color: ${colors.correct};
+}
+.flag-container .true:hover {
+  box-shadow: 0 0 3pt 2pt ${colors.black};
+}
+  .flag-container .false {
+    background-color: ${colors.incorrect};
+    animation: swiggle 200ms;
+  }
+  .flag-container .false:hover {
+    box-shadow: 0 0 3pt 2pt ${colors.black};
 
   }
 
 
-
-
-
-
-
-
+  @keyframes swiggle
+  {
+  0% {transform: translate(0,0)}
+  15% {transform: translate(0.5rem, 0)}
+  35% {transform: translate(-0.5rem,0)}
+  55% {transform: translate(0.5rem, 0)}
+  80% {transform: translate(-0.5rem, 0)}
+  100% {transform: translate(0,0)}
+}
 
 
   .flag-container button {

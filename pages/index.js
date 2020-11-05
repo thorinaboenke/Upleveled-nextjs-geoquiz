@@ -9,6 +9,8 @@ import { isSessionTokenValid } from '../util/auth';
 import Link from 'next/link';
 import Results from '../components/Results';
 import { getUserBySessionToken } from '../util/database';
+import AnswerButton from '../components/Answer';
+import Bar from '../components/Bar';
 
 export default function Home(props) {
   const [displayQuestion, setDisplayQuestion] = useState(0);
@@ -32,7 +34,12 @@ export default function Home(props) {
   const [showOnlyCorrectAnswer, setShowOnlyCorrectAnswer] = useState(false);
 
   useEffect(() => {
-    while (isQuizRunning && displayQuestion < questions.length) {
+    if (
+      !showCorrectAnswer &&
+      !showOnlyCorrectAnswer &&
+      isQuizRunning &&
+      displayQuestion < questions.length
+    ) {
       const interval = setInterval(() => {
         if (countdown < 1) {
           const newQ = displayQuestion + 1;
@@ -56,6 +63,8 @@ export default function Home(props) {
     countdown,
     totalTime,
     answers,
+    showCorrectAnswer,
+    showOnlyCorrectAnswer,
   ]);
 
   useEffect(() => {
@@ -121,7 +130,7 @@ export default function Home(props) {
       const newQ = displayQuestion + 1;
       setDisplayQuestion(newQ);
     }
-    setTimeout(delayedReset, 1000);
+    setTimeout(delayedReset, 1500);
   };
 
   function makeNewQuestionSet() {
@@ -412,6 +421,7 @@ export default function Home(props) {
                           <div className="count question-count">
                             Question {index + 1}/ {questions.length}{' '}
                           </div>
+
                           <div
                             className={
                               categoryQuestion === 'flag'
@@ -426,6 +436,7 @@ export default function Home(props) {
                               <div>{q.question}</div>
                             )}
                           </div>
+                          <Bar width={(10 - countdown) * 10} />
                           <div
                             className={
                               categoryAnswer === 'flag'
@@ -435,37 +446,14 @@ export default function Home(props) {
                           >
                             {q.answerOptions.map((option) => {
                               return (
-                                <button
-                                  disabled={
-                                    showCorrectAnswer || showOnlyCorrectAnswer
-                                  }
-                                  onClick={() =>
-                                    handleAnswerClick(
-                                      option.isCorrect,
-                                      answers,
-                                      option.answer,
-                                    )
-                                  }
-                                  className={
-                                    (showOnlyCorrectAnswer ||
-                                      showCorrectAnswer) &&
-                                    option.isCorrect
-                                      ? 'true'
-                                      : showCorrectAnswer && !option.isCorrect
-                                      ? 'false'
-                                      : 'normal'
-                                  }
-                                >
-                                  {categoryAnswer === cat.flag ? (
-                                    <img
-                                      className="flag"
-                                      alt=""
-                                      src={option.answer}
-                                    />
-                                  ) : (
-                                    <div>{option.answer}</div>
-                                  )}
-                                </button>
+                                <AnswerButton
+                                  categoryAnswer={categoryAnswer}
+                                  showCorrectAnswer={showCorrectAnswer}
+                                  showOnlyCorrectAnswer={showOnlyCorrectAnswer}
+                                  handleAnswerClick={handleAnswerClick}
+                                  option={option}
+                                  answers={answers}
+                                />
                               );
                             })}
                           </div>
