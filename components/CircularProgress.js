@@ -21,10 +21,7 @@ const progressStyles = css`
   }
   .svg-circle {
     fill: none;
-    stroke-dashoffset: ;
-    transition: stroke-dashoffset 850ms ease-in-out;
   }
-
   .progress {
     font-weight: bold;
     font-size: 2em;
@@ -64,6 +61,7 @@ function CircularProgress({
     circleRef.current.style =
       'transition: stroke-dashoffset 850ms ease-in-out;';
   }, [setOffset, circumference, progress, offset]);
+
   return (
     <div css={progressStyles}>
       <div className="card">

@@ -17,6 +17,12 @@ export const quizStyles = css`
     background-color: ${colors.primaryLight};
     border: 3px solid ${colors.primaryLight};
   }
+  @media (hover: none) {
+  button:hover {
+    background-color: ${colors.primary} !important;
+    border: 3px solid ${colors.primary} !important
+  }
+}
 
   input {
     opacity: 0;

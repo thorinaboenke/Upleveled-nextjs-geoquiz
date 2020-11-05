@@ -56,6 +56,10 @@ const statStyles = css`
     border-bottom: 1px solid ${colors.black};
     padding: 0.3em;
   }
+
+  .not-fulfilled {
+    color: lightgrey;
+  }
 `;
 export default function Stats(props) {
   const router = useRouter();
@@ -114,6 +118,7 @@ export default function Stats(props) {
               circleTwoStroke={colors.primary}
               imgUrl="asia.png"
             />
+
             <CircularProgress
               progress={
                 scores.europe.answered === 0
@@ -159,27 +164,147 @@ export default function Stats(props) {
             />
           </div>
           <div className="achievements-container">
-            <div>3 Day Streak</div>
-            <div>7 Day Streak</div>
-            <div>30 Day Streak</div>
-            <div>100 Day Streak</div>
-            <div>10 points for names</div>
-            <div>10 points for flags</div>
-            <div>10 points for capitals</div>
-            <div>100 points for names</div>
-            <div>100 points for flags</div>
-            <div>100 points for capitals</div>
-            <div>10 points for Europe</div>
-            <div>10 points for America</div>
-            <div>10 points for Africa</div>
-            <div>10 points for Oceania</div>
-            <div>10 points for Asia</div>
-            <div>100 points for Europe</div>
-            <div>100 points for America</div>
-            <div>100 points for Africa</div>
-            <div>100 points for Oceania</div>
-            <div>100 points for Asia</div>
-            <div>1000 points</div>
+            <div
+              className={user.streakDays > 2 ? 'fullfilled' : 'not-fulfilled'}
+            >
+              3 Day Streak
+            </div>
+            <div
+              className={user.streakDays > 6 ? 'fullfilled' : 'not-fulfilled'}
+            >
+              7 Day Streak
+            </div>
+            <div
+              className={user.streakDays > 29 ? 'fullfilled' : 'not-fulfilled'}
+            >
+              30 Day Streak
+            </div>
+            <div
+              className={user.streakDays > 99 ? 'fullfilled' : 'not-fulfilled'}
+            >
+              100 Day Streak
+            </div>
+            <div
+              className={
+                scores.name.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for names
+            </div>
+            <div
+              className={
+                scores.flag.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for flags
+            </div>
+            <div
+              className={
+                scores.capital.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for capitals
+            </div>
+            <div
+              className={
+                scores.name.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for names
+            </div>
+            <div
+              className={
+                scores.flag.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for flags
+            </div>
+            <div
+              className={
+                scores.capital.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for capitals
+            </div>
+            <div
+              className={
+                scores.europe.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for Europe
+            </div>
+            <div
+              className={
+                scores.americas.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for America
+            </div>
+            <div
+              className={
+                scores.africa.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for Africa
+            </div>
+            <div
+              className={
+                scores.oceania.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for Oceania
+            </div>
+            <div
+              className={
+                scores.asia.correct > 9 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              10 points for Asia
+            </div>
+            <div
+              className={
+                scores.europe.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for Europe
+            </div>
+            <div
+              className={
+                scores.americas.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for America
+            </div>
+            <div
+              className={
+                scores.africa.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for Africa
+            </div>
+            <div
+              className={
+                scores.oceania.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for Oceania
+            </div>
+            <div
+              className={
+                scores.asia.correct > 99 ? 'fullfilled' : 'not-fulfilled'
+              }
+            >
+              100 points for Asia
+            </div>
+            <div
+              className={
+                user.totalCorrectQuestions > 999
+                  ? 'fullfilled'
+                  : 'not-fulfilled'
+              }
+            >
+              1000 points
+            </div>
           </div>
           <div className="top10-container">
             <div>Top 10</div>
