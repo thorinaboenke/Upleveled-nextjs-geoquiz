@@ -1,22 +1,33 @@
 import Link from 'next/link';
 import React from 'react';
-import { css, keyframes } from '@emotion/core';
-import styled from '@emotion/styled';
+import { css } from '@emotion/core';
 import { colors } from '../assets/colors';
+import { useRouter } from 'next/router';
 
 function Header(props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
+  const router = useRouter();
 
   return (
     <div css={headerStyles}>
       <header>
         <Link href="/">
-          <a>Home</a>
+          <a
+            onClick={() => {
+              router.pathname === '/' && window.location.reload();
+            }}
+          >
+            Home
+          </a>
         </Link>
         <Link href="/stats">
           <a>Stats</a>
         </Link>
-        {!loggedInPassed ? null : props.loggedIn ? (
+        <Link href="/profile">
+          <a>Profile</a>
+        </Link>
+        {!loggedInPassed ||
+        router.pathname === '/login' ? null : props.loggedIn ? (
           <Link href="/logout">
             <a className="log">Log out</a>
           </Link>

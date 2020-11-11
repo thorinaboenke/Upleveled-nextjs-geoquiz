@@ -26,13 +26,40 @@ const statStyles = css`
     justify-content: flex-start;
     align-items: center;
   }
+  .inner-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .inner-wrapper div:last-child {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .welcome {
+    text-align: center;
+    font-size: 3em;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 1em;
+  }
+  .score {
+    font-weight: bold;
+    font-size: 2em;
+    background-color: white;
+    opacity: 0.5;
+    color: black;
+  }
+
   .progress-container {
     display: flex;
     flex-wrap: wrap;
 
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-end;
     align-self: center;
+    flex-grow: 1;
     /* justify-content: flex-start;
     align-items: center;
     position: relative;
@@ -52,18 +79,38 @@ const statStyles = css`
   .top10-entry {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     min-width: 50%;
     border-bottom: 1px solid ${colors.black};
     padding: 0.3em;
+  }
+  .top10-entry img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
   }
 
   .not-fulfilled {
     color: lightgrey;
   }
+  .achievement {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 0.3em;
+    font-size: 1.5em;
+  }
+  .achievement img {
+    height: 1.5em;
+    margin-right: 0.3em;
+  }
+  img.desaturate {
+    filter: grayscale(100%);
+  }
 `;
 export default function Stats(props) {
   const router = useRouter();
-  const { user, scores, loggedIn, topTen } = props;
+  const { user, scores, loggedIn, topTen, streaks, achievements } = props;
   return (
     <Layout loggedIn={loggedIn}>
       <Head>
@@ -72,25 +119,31 @@ export default function Stats(props) {
       </Head>
       <div css={statStyles}>
         <div className="outer-wrapper">
-          <div>Username:{user?.username}</div>
-          <CircularProgress
-            progress={
-              user.totalAnsweredQuestions === 0
-                ? 0
-                : Math.round(
-                    (user.totalCorrectQuestions / user.totalAnsweredQuestions) *
-                      100,
-                  )
-            }
-            size={150}
-            strokeWidth={10}
-            circleOneStroke={colors.black}
-            circleTwoStroke={colors.primary}
-            imgUrl="earth-globe.png"
-          />
+          <div className="inner-wrapper">
+            <div className="welcome">Welcome explorer {user?.username}</div>
+
+            <CircularProgress
+              aria-label="percentage answered correctly all questions"
+              progress={
+                user.totalAnsweredQuestions === 0
+                  ? 0
+                  : Math.round(
+                      (user.totalCorrectQuestions /
+                        user.totalAnsweredQuestions) *
+                        100,
+                    )
+              }
+              size={150}
+              strokeWidth={10}
+              circleOneStroke={colors.black}
+              circleTwoStroke={colors.primary}
+              imgUrl="/earth-globe.png"
+            />
+          </div>
 
           <div className="progress-container">
             <CircularProgress
+              aria-label="percentage answered correctly africa"
               progress={
                 scores.africa.answered === 0
                   ? 0
@@ -102,9 +155,10 @@ export default function Stats(props) {
               strokeWidth={8}
               circleOneStroke={colors.black}
               circleTwoStroke={colors.primary}
-              imgUrl="africa.png"
+              imgUrl="/africa.png"
             />
             <CircularProgress
+              aria-label="percentage answered correctly asia"
               progress={
                 scores.asia.answered === 0
                   ? 0
@@ -116,10 +170,11 @@ export default function Stats(props) {
               strokeWidth={8}
               circleOneStroke={colors.black}
               circleTwoStroke={colors.primary}
-              imgUrl="asia.png"
+              imgUrl="/asia.png"
             />
 
             <CircularProgress
+              aria-label="percentage answered correctly europe"
               progress={
                 scores.europe.answered === 0
                   ? 0
@@ -131,9 +186,10 @@ export default function Stats(props) {
               strokeWidth={8}
               circleOneStroke={colors.black}
               circleTwoStroke={colors.primary}
-              imgUrl="europe.png"
+              imgUrl="/europe.png"
             />
             <CircularProgress
+              aria-label="percentage answered correctly oceania"
               progress={
                 scores.oceania.answered === 0
                   ? 0
@@ -145,7 +201,7 @@ export default function Stats(props) {
               strokeWidth={8}
               circleOneStroke={colors.black}
               circleTwoStroke={colors.primary}
-              imgUrl="australia.png"
+              imgUrl="/australia.png"
             />
             <CircularProgress
               progress={
@@ -160,178 +216,71 @@ export default function Stats(props) {
               strokeWidth={8}
               circleOneStroke={colors.black}
               circleTwoStroke={colors.primary}
-              imgUrl="america.png"
+              imgUrl="/america.png"
             />
           </div>
-          <div className="achievements-container">
-            <div
-              className={user.streakDays > 2 ? 'fullfilled' : 'not-fulfilled'}
-            >
-              3 Day Streak
-            </div>
-            <div
-              className={user.streakDays > 6 ? 'fullfilled' : 'not-fulfilled'}
-            >
-              7 Day Streak
-            </div>
-            <div
-              className={user.streakDays > 29 ? 'fullfilled' : 'not-fulfilled'}
-            >
-              30 Day Streak
-            </div>
-            <div
-              className={user.streakDays > 99 ? 'fullfilled' : 'not-fulfilled'}
-            >
-              100 Day Streak
-            </div>
-            <div
-              className={
-                scores.name.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for names
-            </div>
-            <div
-              className={
-                scores.flag.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for flags
-            </div>
-            <div
-              className={
-                scores.capital.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for capitals
-            </div>
-            <div
-              className={
-                scores.name.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for names
-            </div>
-            <div
-              className={
-                scores.flag.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for flags
-            </div>
-            <div
-              className={
-                scores.capital.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for capitals
-            </div>
-            <div
-              className={
-                scores.europe.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for Europe
-            </div>
-            <div
-              className={
-                scores.americas.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for America
-            </div>
-            <div
-              className={
-                scores.africa.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for Africa
-            </div>
-            <div
-              className={
-                scores.oceania.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for Oceania
-            </div>
-            <div
-              className={
-                scores.asia.correct > 9 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              10 points for Asia
-            </div>
-            <div
-              className={
-                scores.europe.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for Europe
-            </div>
-            <div
-              className={
-                scores.americas.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for America
-            </div>
-            <div
-              className={
-                scores.africa.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for Africa
-            </div>
-            <div
-              className={
-                scores.oceania.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for Oceania
-            </div>
-            <div
-              className={
-                scores.asia.correct > 99 ? 'fullfilled' : 'not-fulfilled'
-              }
-            >
-              100 points for Asia
-            </div>
-            <div
-              className={
-                user.totalCorrectQuestions > 999
-                  ? 'fullfilled'
-                  : 'not-fulfilled'
-              }
-            >
-              1000 points
-            </div>
+          <div className="score">
+            {user?.totalCorrectQuestions}/{user?.totalAnsweredQuestions} correct
+            answers
           </div>
-          <div className="top10-container">
-            <div>Top 10</div>
-            {topTen.map((top) => {
+          <div className="streak-container">
+            {streaks.map((streak) => {
               return (
-                <div key={top.username} className="top10-entry">
-                  <div>{top.username}</div>
-                  <div>{top.totalCorrectQuestions}</div>
+                <div
+                  key={streak.text}
+                  className={streak.achieved ? 'fulfilled' : 'not-fulfilled'}
+                >
+                  {streak.text}
                 </div>
               );
             })}
           </div>
-          <button
-            onClick={async (e) => {
-              const response = await fetch('/api/signup', {
-                method: 'DELETE',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username: user.username }),
-              });
-              const { success } = await response.json();
-              if (success) router.push('/deleted');
-            }}
-          >
-            Delete my account
-          </button>
+          <div className="achievements-container">
+            {achievements.map((achievement) => {
+              return (
+                <div className="achievement">
+                  <img
+                    src="/compass.svg"
+                    alt="badge"
+                    className={!achievement.achieved ? 'desaturate ' : ''}
+                  />
+
+                  <div
+                    key={achievement.text}
+                    className={
+                      achievement.achieved ? 'fulfilled' : 'not-fulfilled'
+                    }
+                  >
+                    {achievement.text}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div className="top10-container">
+          <div>Top 10</div>
+          {topTen.map((top) => {
+            return (
+              <div key={top.username} className="top10-entry">
+                {top.avatarUrl ? (
+                  <img src={top.avatarUrl} alt="avatar" />
+                ) : (
+                  <img
+                    src={
+                      'https://avatars.dicebear.com/api/gridy/:' +
+                      top.username +
+                      '.svg'
+                    }
+                    alt="avatar"
+                  />
+                )}
+
+                <div>{top.username}</div>
+                <div>{top.totalCorrectQuestions}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </Layout>
@@ -350,12 +299,56 @@ export async function getServerSideProps(context) {
   if (await isSessionTokenValid(token)) {
     const user = await getUserBySessionToken(token);
     const scores = await getScoresBySessionToken(token);
+
+    function checkStreaks(input) {
+      const daysArray = [3, 7, 10, 30];
+      const streakArray = [];
+      for (let i = 0; i < daysArray.length; i++) {
+        const newStreak = {};
+        newStreak.text = `${daysArray[i]} day streak`;
+        if (input.streakDays >= daysArray[i]) {
+          newStreak.achieved = true;
+        } else {
+          newStreak.achieved = false;
+        }
+        streakArray.push(newStreak);
+      }
+      return streakArray;
+    }
+
+    function checkAchievements(input) {
+      const categoryArray = Object.keys(input);
+      const pointsArray = [10, 100];
+      const achievements = [];
+      for (let j = 0; j < pointsArray.length; j++) {
+        for (let i = 0; i < categoryArray.length; i++) {
+          const newAchievement = {};
+          newAchievement.text = `${categoryArray[
+            i
+          ][0].toUpperCase()}${categoryArray[i].slice(1)}: ${
+            pointsArray[j]
+          } correct answers`;
+          if (input[categoryArray[i]].correct >= pointsArray[j]) {
+            newAchievement.achieved = true;
+          } else {
+            newAchievement.achieved = false;
+          }
+          achievements.push(newAchievement);
+        }
+      }
+      return achievements;
+    }
+    const achievements = checkAchievements(scores);
+    const streaks = checkStreaks(user);
+
     return {
       props: {
         scores: scores,
         user: user,
         loggedIn: true,
         topTen: topTen,
+        streaks: streaks,
+        achievements: achievements,
       },
     };
   }

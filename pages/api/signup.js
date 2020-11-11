@@ -17,6 +17,30 @@ export default async function handler(request, response) {
   // extract the username password and token from the request body (sent on submit by the signup form)
   const { username, password, token } = request.body;
 
+  const passwordEmpty = !password;
+  const usernameEmpty = !username;
+
+  if (usernameEmpty) {
+    return response.status(400).send({
+      success: false,
+      errors: [
+        {
+          message: 'username cannot be empty',
+        },
+      ],
+    });
+  }
+  if (passwordEmpty) {
+    return response.status(400).send({
+      success: false,
+      errors: [
+        {
+          message: 'password cannot be empty',
+        },
+      ],
+    });
+  }
+
   //1) get the secret from the .env file
   const secret = process.env.CSRF_TOKEN_SECRET;
   //2) check if the secret is configured, if not send back a 500 status
@@ -28,7 +52,14 @@ export default async function handler(request, response) {
   const verified = tokens.verify(secret, token);
   // if not verified, send back 401 status (unauthorized)
   if (!verified) {
-    return response.status(401).send({ answer: 2, success: false });
+    return response.status(401).send({
+      success: false,
+      errors: [
+        {
+          message: 'invalid token',
+        },
+      ],
+    });
   }
 
   // check if there is already a user in the database with that username
@@ -36,9 +67,16 @@ export default async function handler(request, response) {
     typeof (await getUserByUsername(username)) !== 'undefined';
 
   if (usernameAlreadyTaken) {
-    // TODO: Send back a full error message here
     // HTTP status code: 409 Conflict
-    return response.status(409).send({ answer: 3, success: false });
+    return response.status(409).send({
+      success: false,
+      errors: [
+        {
+          message: 'Username already taken',
+          field: 'user',
+        },
+      ],
+    });
   }
   // create a hashed version of the password with argon2 and register user in database
   try {

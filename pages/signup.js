@@ -29,15 +29,25 @@ export default function Signup(props) {
                 }),
               });
 
-              const { success } = await response.json();
+              const { success, errors } = await response.json();
               if (success) {
-                console.log('sucessfully registered');
-                // redirect to homepage if sucessfully registered
+                console.log('successfully registered');
+                // redirect to homepage if successfully registered
+                const log = await fetch('/api/login', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({ username, password }),
+                });
                 router.push('/');
               } else {
                 // If the response status is 409 (conflict), i.e. user already exists show an error message
                 if (response.status === 409) {
                   setErrorMessage('User already exists');
+                }
+                if (response.status === 400) {
+                  setErrorMessage(errors[0].message);
                 } else {
                   setErrorMessage('Something went wrong');
                 }
@@ -55,7 +65,7 @@ export default function Signup(props) {
                 onChange={(e) => setUsername(e.currentTarget.value)}
               />
             </label>
-            {errorMessage && <div>{errorMessage}</div>}
+
             <label htmlFor="password">
               {' '}
               Password
@@ -66,6 +76,7 @@ export default function Signup(props) {
                 onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </label>
+            {errorMessage && <div className="error">{errorMessage}</div>}
             <button type="submit">SIGN UP</button>
             <div className="instructions">
               {' '}

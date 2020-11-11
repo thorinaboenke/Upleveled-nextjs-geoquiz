@@ -30,6 +30,7 @@
     "postgres": "^1.0.2",
     "react": "17.0.0",
     "react-dom": "17.0.0",
+    "react-image-crop": "^8.6.6",
     "react-router-dom": "^5.2.0"
   },
   "devDependencies": {

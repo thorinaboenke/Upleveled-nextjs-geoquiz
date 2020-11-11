@@ -81,13 +81,7 @@ export default function Home(props) {
       setIsLoading(false);
     };
     fetchCountries();
-  }, [
-    region,
-    numberOfPossibleAnswers,
-    categoryQuestion,
-    categoryAnswer,
-    numberOfQuestions,
-  ]);
+  }, []);
 
   useEffect(() => {
     if (displayQuestion === questions.length && props.loggedIn) {
@@ -168,7 +162,7 @@ export default function Home(props) {
         </Head>
         <div className="outer-wrapper">
           {isLoading ? (
-            <div>Loading...</div>
+            <div></div>
           ) : (
             <>
               {' '}
@@ -262,59 +256,66 @@ export default function Home(props) {
                         />
                         <div>name</div>
                       </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="question"
-                          id="capital1"
-                          value={cat.capital}
-                          onChange={(e) =>
-                            setCategoryQuestion(e.currentTarget.value)
-                          }
-                          checked={cat.capital === categoryQuestion}
-                          disabled={
-                            cat.capital === categoryAnswer || !props.loggedIn
-                          }
-                        />
-                        <div>capital</div>
-                      </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="question"
-                          id="flag1"
-                          value={cat.flag}
-                          onChange={(e) =>
-                            setCategoryQuestion(e.currentTarget.value)
-                          }
-                          checked={cat.flag === categoryQuestion}
-                          disabled={
-                            cat.flag === categoryAnswer || !props.loggedIn
-                          }
-                        />
-                        <div>flag</div>
-                      </label>
+                      {props.loggedIn && (
+                        <>
+                          <label>
+                            <input
+                              type="radio"
+                              name="question"
+                              id="capital1"
+                              value={cat.capital}
+                              onChange={(e) =>
+                                setCategoryQuestion(e.currentTarget.value)
+                              }
+                              checked={cat.capital === categoryQuestion}
+                              disabled={
+                                cat.capital === categoryAnswer ||
+                                !props.loggedIn
+                              }
+                            />
+                            <div>capital</div>
+                          </label>
+                          <label>
+                            <input
+                              type="radio"
+                              name="question"
+                              id="flag1"
+                              value={cat.flag}
+                              onChange={(e) =>
+                                setCategoryQuestion(e.currentTarget.value)
+                              }
+                              checked={cat.flag === categoryQuestion}
+                              disabled={
+                                cat.flag === categoryAnswer || !props.loggedIn
+                              }
+                            />
+                            <div>flag</div>
+                          </label>
+                        </>
+                      )}
                     </div>
                     <div className="answer">
                       <div className="heading">
                         <div>Answer</div>
                       </div>
-                      <label>
-                        <input
-                          type="radio"
-                          name="Answer"
-                          id="name2"
-                          value={cat.name}
-                          onChange={(e) =>
-                            setCategoryAnswer(e.currentTarget.value)
-                          }
-                          checked={cat.name === categoryAnswer}
-                          disabled={
-                            cat.name === categoryQuestion || !props.loggedIn
-                          }
-                        />
-                        <div>name</div>
-                      </label>
+                      {props.loggedIn && (
+                        <label>
+                          <input
+                            type="radio"
+                            name="Answer"
+                            id="name2"
+                            value={cat.name}
+                            onChange={(e) =>
+                              setCategoryAnswer(e.currentTarget.value)
+                            }
+                            checked={cat.name === categoryAnswer}
+                            disabled={
+                              cat.name === categoryQuestion || !props.loggedIn
+                            }
+                          />
+                          <div>name</div>
+                        </label>
+                      )}
                       <label>
                         <input
                           type="radio"
@@ -329,22 +330,24 @@ export default function Home(props) {
                         />
                         <div>capital</div>
                       </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="Answer"
-                          id="flag"
-                          value={cat.flag}
-                          onChange={(e) =>
-                            setCategoryAnswer(e.currentTarget.value)
-                          }
-                          checked={cat.flag === categoryAnswer}
-                          disabled={
-                            cat.flag === categoryQuestion || !props.loggedIn
-                          }
-                        />
-                        <div>flag</div>
-                      </label>
+                      {props.loggedIn && (
+                        <label>
+                          <input
+                            type="radio"
+                            name="Answer"
+                            id="flag"
+                            value={cat.flag}
+                            onChange={(e) =>
+                              setCategoryAnswer(e.currentTarget.value)
+                            }
+                            checked={cat.flag === categoryAnswer}
+                            disabled={
+                              cat.flag === categoryQuestion || !props.loggedIn
+                            }
+                          />
+                          <div>flag</div>
+                        </label>
+                      )}
                     </div>
                   </div>
 
@@ -366,32 +369,36 @@ export default function Home(props) {
                         />
                         <div>Normal</div>
                       </label>
-                      <label>
-                        <input
-                          type="radio"
-                          name="difficulty"
-                          id="pro"
-                          value={6}
-                          onChange={(e) =>
-                            setNumberOfPossibleAnswers(e.currentTarget.value)
-                          }
-                          checked={numberOfPossibleAnswers == 6}
-                          disabled={!props.loggedIn}
-                        />
-                        <div>Pro</div>
-                      </label>
+                      {props.loggedIn && (
+                        <label>
+                          <input
+                            type="radio"
+                            name="difficulty"
+                            id="pro"
+                            value={6}
+                            onChange={(e) =>
+                              setNumberOfPossibleAnswers(e.currentTarget.value)
+                            }
+                            checked={numberOfPossibleAnswers == 6}
+                            disabled={!props.loggedIn}
+                          />
+                          <div>Pro</div>
+                        </label>
+                      )}
                     </div>
                   </div>
 
                   <button onClick={(e) => startQuiz(e)} className="start">
                     Start Quiz
                   </button>
-                  <div className="instructions">
-                    <Link href="/signup">
-                      <a>Create a free account </a>
-                    </Link>
-                    to play all categories and see your statistics
-                  </div>
+                  {!props.loggedIn && (
+                    <div className="instructions">
+                      <Link href="/signup">
+                        <a>Create a free account </a>
+                      </Link>
+                      to play more categories and see your statistics
+                    </div>
+                  )}
                 </div>
               )}
               {isQuizRunning ? (
@@ -414,7 +421,7 @@ export default function Home(props) {
                       displayQuestion === index &&
                       isQuizRunning === true && (
                         <div key={q.question}>
-                          <div>{countdown}</div>
+                          <div className="count time-count">{countdown}</div>
                           <div className="count score-count">
                             Score: {score}
                           </div>
@@ -465,7 +472,7 @@ export default function Home(props) {
               ) : null}
               {displayQuestion === questions.length && isQuizRunning ? (
                 <>
-                  <div className="count score-count">Time: {totalTime}</div>
+                  <div className="count time-count">Time: {totalTime}s</div>
                   <div className="count score-count">Score: {score}</div>
                   <Results
                     questions={questions}

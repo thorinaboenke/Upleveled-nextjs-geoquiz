@@ -11,12 +11,13 @@ export const quizStyles = css`
     color: white;
     background-color: ${colors.primary};
     border: 3px solid ${colors.primary};
-    margin: 2em;
+    margin: 1em;
   }
   button:hover {
     background-color: ${colors.primaryLight};
     border: 3px solid ${colors.primaryLight};
   }
+
   @media (hover: none) {
   button:hover {
     background-color: ${colors.primary} !important;
@@ -59,6 +60,7 @@ export const quizStyles = css`
     border: 3px solid ${colors.black};
     margin-right: 1em;
     margin-left: 1em;
+    position: relative;
   }
   input:hover + div {
     box-shadow: 0 0 3pt 2pt ${colors.primary};
@@ -78,6 +80,8 @@ export const quizStyles = css`
     border: 3px solid gray;
     box-shadow: none;
   }
+
+
 
   .outer-wrapper {
     max-width: 800px;
@@ -160,13 +164,15 @@ export const quizStyles = css`
     margin-right:5px;
     margin-top:5px;
     margin-left: auto;
+    margin-bottom: auto;
 
   }
   .count {
     border-bottom: 2px solid ${colors.black};
     width: 300px;
-    max-width: 50vw;
+    max-width: 40vw;
     padding: 0.5em;
+    margin-left: 1em;
   }
   .quizSection img {
     width: 300px;

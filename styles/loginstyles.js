@@ -79,6 +79,10 @@ export const loginStyles = css`
     color: #519BBF;
     display: block;
   }
+  .error {
+    color: ${colors.incorrect};
+    font-size: 12px;
+  }
 
   @media screen and (max-width: 400px) {
     input,

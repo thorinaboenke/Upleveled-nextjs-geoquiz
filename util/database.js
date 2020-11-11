@@ -4,8 +4,8 @@ import camelcaseKeys from 'camelcase-keys';
 import extractHerokuDatabaseEnvVars from './extractHerokuDatabaseEnvVars';
 
 extractHerokuDatabaseEnvVars();
-
 dotenv.config();
+
 const sql =
   process.env.NODE_ENV === 'production'
     ? // Heroku needs SSL connections but
@@ -32,10 +32,10 @@ export async function registerUser(username, passwordHash) {
     RETURNING *;
   `;
   // get the existing category ids
-  const categoryObject = await sql`
+  const categoryIds = await sql`
   SELECT category_id FROM categories;
   `;
-  const categoryArray = categoryObject.map((entry) => entry.category_id);
+  const categoryArray = categoryIds.map((entry) => entry.category_id);
   // insert a row with 0 values for each category for the new user
   for (const id of categoryArray) {
     await sql`
@@ -49,11 +49,11 @@ export async function registerUser(username, passwordHash) {
     );`;
   }
   // get the existing region ids
-  const regionObject = await sql`
+  const regionIds = await sql`
   SELECT region_id FROM regions;
   `;
   // insert a row with 0 values for each region for the new user
-  const regionArray = regionObject.map((entry) => entry.region_id);
+  const regionArray = regionIds.map((entry) => entry.region_id);
   for (const id of regionArray) {
     await sql`
     INSERT INTO region_scores
@@ -83,7 +83,7 @@ export async function insertSession(token, userId) {
 
 export async function getSessionByToken(token) {
   const sessions = await sql`
-  SELECT FROM sessions where token = ${token};
+  SELECT FROM sessions WHERE token = ${token};
   `;
   return sessions.map((u) => camelcaseKeys(u))[0];
 }
@@ -98,7 +98,7 @@ export async function deleteExpiredSessions() {
 
 export async function getUserBySessionToken(token) {
   const users = await sql`SELECT
- users.user_id, users.username, users.total_answered_questions, users.total_correct_questions
+ users.user_id, users.username, users.total_answered_questions, users.total_correct_questions, users.streak_days, users.avatar_url
   FROM
   users,
   sessions
@@ -217,8 +217,15 @@ WHERE user_id = ${userId} AND category_id = (SELECT category_id FROM categories 
 
 export async function getTopTen() {
   const users = await sql`
-    SELECT username,total_correct_questions FROM users ORDER BY total_correct_questions DESC LIMIT 10;
+    SELECT username,total_correct_questions, avatar_url FROM users ORDER BY total_correct_questions DESC LIMIT 10;
   `;
 
   return users.map((u) => camelcaseKeys(u));
+}
+
+export async function insertAvatarUrlByUserId(userId, url) {
+  const avatarUrl = await sql`
+  UPDATE users
+  SET avatar_url =  ${url}
+WHERE user_id = ${userId} ;`;
 }

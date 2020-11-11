@@ -19,7 +19,7 @@ export default async function handler(request, response) {
 
   // verify with argon if the entered password matches the password hash in the database
   const passwordVerified = await argon2.verify(user.passwordHash, password);
-  // if password can't be verified, deny acess
+  // if password can't be verified, deny access
   if (!passwordVerified) {
     // TOTO return proper message from the server here
     return response.status(401).send({ success: false });

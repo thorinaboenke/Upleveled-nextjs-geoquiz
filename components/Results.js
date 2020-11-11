@@ -10,6 +10,8 @@ const statStyles = css`
     display: flex;
     flex-direction: column;
     align-self: stretch;
+    margin-top: 3em;
+    margin-bottom: 3em;
   }
   .col-names {
     font-weight: bold;
