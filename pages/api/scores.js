@@ -7,6 +7,7 @@ export default async function handler(request, response) {
     correctQuestions,
     categoryAnswer,
     region,
+    token
   } = request.body;
   try {
     const scores = await updateScoresByUserId(
@@ -15,6 +16,7 @@ export default async function handler(request, response) {
       correctQuestions,
       categoryAnswer,
       region,
+      token
     );
   } catch (err) {
     console.error('scores could not be updated');

@@ -3,7 +3,29 @@ import React from 'react';
 import Layout from '../components/Layout';
 import nextCookies from 'next-cookies';
 import cookie from 'cookie';
+import { css } from '@emotion/core';
 import { deleteSessionByToken } from '../util/database';
+
+const deletedStyles = css`
+  .outer-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+  }
+  .outer-wrapper div {
+    font-size: 2em;
+    text-align: center;
+    margin: 1em;
+    margin-top: 20vh;
+  }
+  img {
+    margin: 2em;
+    height: 200px;
+  }
+`;
 
 export default function Deleted(props) {
   return (
@@ -12,7 +34,12 @@ export default function Deleted(props) {
         <title>GeoQuiz - Goodbye</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div>Your account was successfully deleted</div>
+      <div css={deletedStyles}>
+        <div className="outer-wrapper">
+          <div>Your account was successfully deleted.</div>
+          <img src="/world-map.png" alt="world-map" />
+        </div>
+      </div>
     </Layout>
   );
 }

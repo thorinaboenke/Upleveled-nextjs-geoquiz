@@ -72,10 +72,25 @@ const statStyles = css`
     align-self: stretch;
     margin-left: 30%;
     margin-right: 30%;
+    @media (max-width: 550px) {
+      margin-left: 10%;
+      margin-right: 10%;
+    }
   }
   .top10-container + div {
     align-self: center;
   }
+  .heading {
+    font-size: 24px;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.5em;
+    background-color: ${colors.primary};
+    color: white;
+    width: 100vw;
+    text-align: center;
+  }
+
   .top10-entry {
     display: flex;
     justify-content: space-between;
@@ -83,6 +98,15 @@ const statStyles = css`
     min-width: 50%;
     border-bottom: 1px solid ${colors.black};
     padding: 0.3em;
+    font-size: 18px;
+  }
+
+  .top10-entry div:nth-child(2) {
+    margin-right: auto;
+    margin-left: 2em;
+  }
+  .top10-entry div:nth-child(3) {
+    font-weight: bold;
   }
   .top10-entry img {
     height: 50px;
@@ -121,25 +145,27 @@ export default function Stats(props) {
         <div className="outer-wrapper">
           <div className="inner-wrapper">
             <div className="welcome">Welcome explorer {user?.username}</div>
-
-            <CircularProgress
-              aria-label="percentage answered correctly all questions"
-              progress={
-                user.totalAnsweredQuestions === 0
-                  ? 0
-                  : Math.round(
-                      (user.totalCorrectQuestions /
-                        user.totalAnsweredQuestions) *
-                        100,
-                    )
-              }
-              size={150}
-              strokeWidth={10}
-              circleOneStroke={colors.black}
-              circleTwoStroke={colors.primary}
-              imgUrl="/earth-globe.png"
-            />
           </div>
+          <div className="heading">Score</div>
+          <div className="score">
+            {user?.totalCorrectQuestions} correct answers
+          </div>
+          <CircularProgress
+            aria-label="percentage answered correctly all questions"
+            progress={
+              user.totalAnsweredQuestions === 0
+                ? 0
+                : Math.round(
+                    (user.totalCorrectQuestions / user.totalAnsweredQuestions) *
+                      100,
+                  )
+            }
+            size={150}
+            strokeWidth={10}
+            circleOneStroke={colors.black}
+            circleTwoStroke={colors.primary}
+            imgUrl="/earth-globe.png"
+          />
 
           <div className="progress-container">
             <CircularProgress
@@ -219,10 +245,8 @@ export default function Stats(props) {
               imgUrl="/america.png"
             />
           </div>
-          <div className="score">
-            {user?.totalCorrectQuestions}/{user?.totalAnsweredQuestions} correct
-            answers
-          </div>
+
+          <div className="heading">Streaks</div>
           <div className="streak-container">
             {streaks.map((streak) => {
               return (
@@ -235,6 +259,7 @@ export default function Stats(props) {
               );
             })}
           </div>
+          <div className="heading">Achievements</div>
           <div className="achievements-container">
             {achievements.map((achievement) => {
               return (
@@ -258,8 +283,8 @@ export default function Stats(props) {
             })}
           </div>
         </div>
+        <div className="heading">Top 10</div>
         <div className="top10-container">
-          <div>Top 10</div>
           {topTen.map((top) => {
             return (
               <div key={top.username} className="top10-entry">

@@ -172,11 +172,12 @@ WHERE users.user_id = (SELECT
   return scores;
 }
 
-export async function deleteUserByUsername(username) {
+export async function deleteUserByUsername(username, token) {
   const users = await sql`
-  DELETE FROM users where username = ${username};`;
-  // Returning *;`;
-  // return users.map((u) => camelcaseKeys(u))[0];
+  DELETE FROM users where username = ${username} AND user_id = (SELECT user_id FROM sessions WHERE
+  sessions.token = ${token} )
+  Returning *;`;
+  return users.map((u) => camelcaseKeys(u))[0];
 }
 
 export async function updateScoresByUserId(
@@ -185,6 +186,7 @@ export async function updateScoresByUserId(
   correctQuestions,
   categoryAnswer,
   region,
+  token,
 ) {
   // update the total score, total questions, last_game_played and streak_days in the user table
   if (userId) {
@@ -198,7 +200,8 @@ export async function updateScoresByUserId(
   ELSE streak_days
   END,
   last_game_played = NOW()
-  WHERE user_id = ${userId};`;
+  WHERE user_id = (SELECT user_id FROM sessions WHERE
+  sessions.token = ${token} );`;
   }
 
   // update the correct_questions and answered_questions in region_scores based on user_id and region_id
@@ -206,13 +209,15 @@ export async function updateScoresByUserId(
   UPDATE region_scores
   SET correct_questions = correct_questions + ${correctQuestions},
   answered_questions = answered_questions + ${answeredQuestions}
-  WHERE user_id = ${userId} AND region_id = (SELECT region_id FROM regions WHERE region_name = ${region});`;
+  WHERE user_id = (SELECT user_id FROM sessions WHERE
+  sessions.token = ${token}) AND region_id = (SELECT region_id FROM regions WHERE region_name = ${region});`;
 
   const categoryScores = await sql`
 UPDATE category_scores
 SET correct_questions = correct_questions + ${correctQuestions},
 answered_questions = answered_questions + ${answeredQuestions}
-WHERE user_id = ${userId} AND category_id = (SELECT category_id FROM categories WHERE category_name = ${categoryAnswer});`;
+WHERE user_id = (SELECT user_id FROM sessions WHERE
+  sessions.token = ${token} ) AND category_id = (SELECT category_id FROM categories WHERE category_name = ${categoryAnswer});`;
 }
 
 export async function getTopTen() {

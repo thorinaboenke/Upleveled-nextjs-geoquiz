@@ -235,6 +235,21 @@ function Profile(props) {
             Save cropped image
           </button>
         </div>
+        <button
+          onClick={async (e) => {
+            const response = await fetch('/api/signup', {
+              method: 'DELETE',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ username: user.username, token: token }),
+            });
+            const { success } = await response.json();
+            if (success) router.push('/deleted');
+          }}
+        >
+          Delete my account
+        </button>
       </div>
     </Layout>
   );

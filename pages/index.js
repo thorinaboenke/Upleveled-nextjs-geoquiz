@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { css } from '@emotion/core';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { createQuestionArray, updateScoresRequest } from '../assets/functions';
 import Layout from '../components/Layout';
@@ -91,6 +90,7 @@ export default function Home(props) {
         score,
         categoryAnswer,
         region,
+        props.token,
       );
     }
   }, [
@@ -101,6 +101,7 @@ export default function Home(props) {
     score,
     categoryAnswer,
     region,
+    props.token,
   ]);
 
   const handleAnswerClick = (correct, answerArray, answer) => {
@@ -508,9 +509,12 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  const { session: token } = nextCookies(context);
+  let { session: token } = nextCookies(context) || null;
   const loggedIn = await isSessionTokenValid(token);
   const user = (await getUserBySessionToken(token)) || null;
   console.log(user);
-  return { props: { loggedIn: loggedIn, user: user } };
+  if (typeof token === 'undefined') {
+    token = null;
+  }
+  return { props: { loggedIn: loggedIn, user: user, token: token } };
 }

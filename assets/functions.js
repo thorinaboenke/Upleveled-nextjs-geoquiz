@@ -97,6 +97,7 @@ export async function updateScoresRequest(
   correctQuestions,
   categoryAnswer,
   region,
+  token,
 ) {
   const response = await fetch('/api/scores', {
     method: 'POST',
@@ -109,6 +110,7 @@ export async function updateScoresRequest(
       correctQuestions: correctQuestions,
       categoryAnswer,
       region,
+      token,
     }),
   });
   const { success } = await response.json();

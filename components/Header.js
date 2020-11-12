@@ -63,10 +63,15 @@ const headerStyles = css`
     margin-left: 2em;
     margin-right: 2em;
     text-align: center;
-    @media (max-width: 420px) {
+    @media (max-width: 550px) {
     margin-left: 0.2em;
     margin-right: 0.2em;
     font-size: 16px;
+    }
+    @media (max-width: 360px) {
+    margin-left: 0.1em;
+    margin-right: 0.1em;
+    font-size: 14px;
     }
 
 

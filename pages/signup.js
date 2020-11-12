@@ -62,6 +62,7 @@ export default function Signup(props) {
                 value={username}
                 id="username"
                 type="text"
+                maxlength="22"
                 onChange={(e) => setUsername(e.currentTarget.value)}
               />
             </label>
@@ -73,6 +74,7 @@ export default function Signup(props) {
                 value={password}
                 id="password"
                 type="text"
+                maxlength="22"
                 onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </label>

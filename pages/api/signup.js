@@ -10,9 +10,10 @@ const tokens = new Tokens();
 
 export default async function handler(request, response) {
   if (request.method === 'DELETE') {
-    const { username } = request.body;
-    const user = await deleteUserByUsername(username);
-    return response.status(200).send({ success: true });
+    const { username, token } = request.body;
+    const user = await deleteUserByUsername(username, token);
+    if (user) {
+    return response.status(200).send({ success: true });}
   }
   // extract the username password and token from the request body (sent on submit by the signup form)
   const { username, password, token } = request.body;
