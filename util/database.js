@@ -223,9 +223,10 @@ export async function getTopTen() {
   return users.map((u) => camelcaseKeys(u));
 }
 
-export async function insertAvatarUrlByUserId(userId, url) {
+export async function insertAvatarUrlByUserId(userId, url, token) {
   const avatarUrl = await sql`
   UPDATE users
   SET avatar_url =  ${url}
-WHERE user_id = ${userId} ;`;
+WHERE user_id = (SELECT user_id FROM sessions WHERE
+  sessions.token = ${token} ) ;`;
 }
