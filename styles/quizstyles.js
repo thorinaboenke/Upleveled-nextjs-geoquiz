@@ -88,6 +88,7 @@ export const quizStyles = css`
     min-height: 80vh;
     margin-left: auto;
     margin-right: auto;
+    margin-top:50px;
     padding-bottom: 1em;
     display:flex;
     flex-direction: column;
