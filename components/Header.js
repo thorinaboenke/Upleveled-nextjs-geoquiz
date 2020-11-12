@@ -54,20 +54,17 @@ function Header(props) {
                   <a className="log">Log out</a>
                 </Link>
               </li>
-              <li>
-                <Link href="/profile">
-                  <img
-                    src={
-                      user?.avatarUrl
-                        ? user?.avatarUrl
-                        : 'https://avatars.dicebear.com/api/gridy/:' +
-                          user?.username +
-                          '.svg'
-                    }
-                    alt="avatar"
-                  />
-                </Link>
-              </li>
+
+              <img
+                src={
+                  user?.avatarUrl
+                    ? user?.avatarUrl
+                    : 'https://avatars.dicebear.com/api/gridy/:' +
+                      user?.username +
+                      '.svg'
+                }
+                alt="avatar"
+              />
             </>
           ) : (
             <li>
@@ -87,7 +84,7 @@ export default Header;
 const headerStyles = css`
   img {
     margin-right: 2em;
-    margin-left: 2em;
+    margin-left: auto;
     margin-top: 0.6em;
     float: right;
   }
