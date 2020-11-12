@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 function Header(props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
   const router = useRouter();
+  const user = props.user;
 
   return (
     <div css={headerStyles}>
@@ -28,9 +29,23 @@ function Header(props) {
         </Link>
         {!loggedInPassed ||
         router.pathname === '/login' ? null : props.loggedIn ? (
-          <Link href="/logout">
-            <a className="log">Log out</a>
-          </Link>
+          <>
+            <Link href="/logout">
+              <a className="log">Log out</a>
+            </Link>
+            <Link href="/profile">
+              <img
+                src={
+                  user?.avatarUrl
+                    ? user?.avatarUrl
+                    : 'https://avatars.dicebear.com/api/gridy/:' +
+                      user?.username +
+                      '.svg'
+                }
+                alt="avatar"
+              />
+            </Link>
+          </>
         ) : (
           <Link href="/login">
             <a className="log">Log in</a>
@@ -90,5 +105,13 @@ const headerStyles = css`
   @media screen and (max-width: 400px) {
 
 
+  }
+ img{
+    height: 40px;
+    margin-right: 2em;
+    border-radius: 50%;
+  }
+  img:hover{
+    cursor: pointer;
   }
 `;

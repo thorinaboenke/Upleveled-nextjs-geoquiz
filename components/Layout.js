@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import React from 'react';
 import Header from './Header';
-import { css, keyframes } from '@emotion/core';
+import { css } from '@emotion/core';
 import { colors } from '../assets/colors';
 
 const footerStyles = css`
@@ -38,7 +38,7 @@ const footerStyles = css`
 function Layout(props) {
   return (
     <div id="content">
-      <Header loggedIn={props.loggedIn} />
+      <Header loggedIn={props.loggedIn} user={props.user} />
       <main>{props.children}</main>
       <div css={footerStyles}>
         <footer>

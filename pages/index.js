@@ -156,7 +156,7 @@ export default function Home(props) {
 
   return (
     <div css={quizStyles}>
-      <Layout loggedIn={props.loggedIn}>
+      <Layout loggedIn={props.loggedIn} user={props.user}>
         <Head>
           <title>GeoQuiz</title>
           <link rel="icon" href="/favicon.ico" />

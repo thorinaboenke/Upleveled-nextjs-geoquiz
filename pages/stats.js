@@ -42,7 +42,12 @@ const statStyles = css`
     font-size: 3em;
     margin-right: auto;
     margin-left: auto;
-    padding: 1em;
+    margin-bottom: -1em;
+    padding: 2em;
+    background-image: url('/map.jpg');
+    background-size: cover;
+    width: 100vw;
+    color: white;
   }
   .score {
     font-weight: bold;
@@ -136,7 +141,7 @@ export default function Stats(props) {
   const router = useRouter();
   const { user, scores, loggedIn, topTen, streaks, achievements } = props;
   return (
-    <Layout loggedIn={loggedIn}>
+    <Layout loggedIn={loggedIn} user={user}>
       <Head>
         <title>GeoQuiz - Statistics</title>
         <link rel="icon" href="/favicon.ico" />
@@ -148,7 +153,8 @@ export default function Stats(props) {
           </div>
           <div className="heading">Score</div>
           <div className="score">
-            {user?.totalCorrectQuestions} correct answers
+            {user?.totalCorrectQuestions} / {user?.totalAnsweredQuestions}{' '}
+            correct answers
           </div>
           <CircularProgress
             aria-label="percentage answered correctly all questions"
@@ -166,7 +172,7 @@ export default function Stats(props) {
             circleTwoStroke={colors.primary}
             imgUrl="/earth-globe.png"
           />
-
+          <div className="heading">Accuracy per region</div>
           <div className="progress-container">
             <CircularProgress
               aria-label="percentage answered correctly africa"

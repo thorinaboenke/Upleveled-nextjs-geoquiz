@@ -130,6 +130,7 @@ function Profile(props) {
           const { success } = await response.json();
           if (success) {
             setMessage('Profile Picture updated');
+            user.avatarUrl = cloudinaryResponse.secure_url;
           } else {
             setErrorMessage('Profile Picture could not be updated');
           }
@@ -185,7 +186,7 @@ function Profile(props) {
   }, [completedCrop]);
 
   return (
-    <Layout loggedIn={loggedIn}>
+    <Layout loggedIn={loggedIn} user={user}>
       <Head>
         <title>GeoQuiz - Profile</title>
         <link rel="icon" href="/favicon.ico" />
