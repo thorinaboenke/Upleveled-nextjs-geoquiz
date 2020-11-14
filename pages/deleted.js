@@ -9,6 +9,7 @@ import { deleteSessionByToken } from '../util/database';
 const deletedStyles = css`
   .outer-wrapper {
     height: 100%;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;

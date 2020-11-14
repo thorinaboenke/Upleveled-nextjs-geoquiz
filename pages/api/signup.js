@@ -13,7 +13,8 @@ export default async function handler(request, response) {
     const { username, token } = request.body;
     const user = await deleteUserByUsername(username, token);
     if (user) {
-    return response.status(200).send({ success: true });}
+      return response.status(200).send({ success: true });
+    }
   }
   // extract the username password and token from the request body (sent on submit by the signup form)
   const { username, password, token } = request.body;
@@ -47,9 +48,9 @@ export default async function handler(request, response) {
   //2) check if the secret is configured, if not send back a 500 status
   if (typeof secret === 'undefined') {
     console.error('CSRF_TOKEN_SECRET environment variable not configured');
-    return response.status(500).send({ answer: 1, success: false });
+    return response.status(500).send({ success: false });
   }
-  //3)check the submitted token agains the secret
+  //3)check the submitted token against the secret
   const verified = tokens.verify(secret, token);
   // if not verified, send back 401 status (unauthorized)
   if (!verified) {

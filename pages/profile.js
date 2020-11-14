@@ -19,6 +19,7 @@ const profileStyles = css`
     min-height: 80vh;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 80px;
     padding-bottom: 1em;
     display: flex;
     flex-direction: column;
@@ -59,33 +60,9 @@ function getResizedCanvas(canvas, newWidth, newHeight) {
   return tmpCanvas;
 }
 
-function generateDownload(previewCanvas, crop) {
-  if (!crop || !previewCanvas) {
-    return;
-  }
-
-  const canvas = getResizedCanvas(previewCanvas, crop.width, crop.height);
-
-  canvas.toBlob(
-    (blob) => {
-      const previewUrl = window.URL.createObjectURL(blob);
-
-      const anchor = document.createElement('a');
-      anchor.download = 'cropPreview.png';
-      anchor.href = URL.createObjectURL(blob);
-      anchor.click();
-
-      window.URL.revokeObjectURL(previewUrl);
-    },
-    'image/png',
-    1,
-  );
-}
-
 function Profile(props) {
   const { user, loggedIn, token } = props;
   const router = useRouter();
-  const baseUrl = 'https://api.cloudinary.com/v1_1/snapdragon';
   const url = 'https://api.cloudinary.com/v1_1/snapdragon/image/upload';
   const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(props.user.avatarUrl);
@@ -98,24 +75,49 @@ function Profile(props) {
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
+  const fileUploadHandler2 = async (canvas) => {
+    var dataURL = canvas.toDataURL();
+
+    postPicture(dataURL, user.userId, token);
+
+    async function postPicture(data2, userId, token2) {
+      const response = await fetch('/api/avatar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: data2,
+          userId: userId,
+          token: token2,
+        }),
+      });
+
+      const { success, newUrl } = await response.json();
+      if (success) {
+        setMessage('Profile Picture updated');
+        setImageUrl(newUrl);
+      } else {
+        setErrorMessage('Profile Picture could not be updated');
+      }
+    }
+  };
+
   const fileUploadHandler = async (canvas) => {
     canvas.toBlob((blob) => {
       const data = new FormData();
       data.append('file', blob);
       data.append('upload_preset', 'geoquiz');
 
-      async function postPicture(dest, payload) {
+      async function postPicture(dest, picture) {
         const res = await fetch(dest, {
           method: 'POST',
-          body: payload,
+          body: picture,
         });
         const cloudinaryResponse = await res.json();
         setImageUrl(cloudinaryResponse.secure_url);
 
         if (cloudinaryResponse.secure_url) {
-          console.log('updating avatar url');
-          console.log('imageurl', imageUrl);
-          console.log('file', cloudinaryResponse.secure_url);
           const response = await fetch('/api/profile', {
             method: 'POST',
             headers: {
@@ -136,7 +138,6 @@ function Profile(props) {
           }
         }
       }
-
       postPicture(url, data);
     });
   };
@@ -186,7 +187,7 @@ function Profile(props) {
   }, [completedCrop]);
 
   return (
-    <Layout loggedIn={loggedIn} user={user}>
+    <Layout loggedIn={loggedIn} user={user} avatar={imageUrl}>
       <Head>
         <title>GeoQuiz - Profile</title>
         <link rel="icon" href="/favicon.ico" />
@@ -195,6 +196,7 @@ function Profile(props) {
         <div className="outer-wrapper">
           <div>{user.username}</div>
           <div>Upload profile image</div>
+
           <div>
             <input type="file" accept="image/*" onChange={onSelectFile} />
           </div>
@@ -209,7 +211,6 @@ function Profile(props) {
           <div>
             <canvas
               ref={previewCanvasRef}
-              // Rounding is important so the canvas width and height matches/is a multiple for sharpness.
               style={{
                 width: Math.round(completedCrop?.width ?? 0),
                 height: Math.round(completedCrop?.height ?? 0),
@@ -220,37 +221,35 @@ function Profile(props) {
           <button
             type="button"
             disabled={!completedCrop?.width || !completedCrop?.height}
-            onClick={() =>
-              generateDownload(previewCanvasRef.current, completedCrop)
-            }
+            onClick={() => fileUploadHandler2(previewCanvasRef.current)}
           >
-            Download cropped image
+            Save image
           </button>
+          {errorMessage && <div>{errorMessage}</div>}
+          {message && <div>{message}</div>}
           <button
-            type="button"
-            disabled={!completedCrop?.width || !completedCrop?.height}
-            onClick={() =>
-              fileUploadHandler(previewCanvasRef.current, completedCrop)
-            }
+            onClick={async (e) => {
+              if (
+                window.confirm('Are you sure you want to delete your account?')
+              ) {
+                const response = await fetch('/api/signup', {
+                  method: 'DELETE',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    username: user.username,
+                    token: token,
+                  }),
+                });
+                const { success } = await response.json();
+                if (success) router.push('/deleted');
+              }
+            }}
           >
-            Save cropped image
+            Delete my account
           </button>
         </div>
-        <button
-          onClick={async (e) => {
-            const response = await fetch('/api/signup', {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ username: user.username, token: token }),
-            });
-            const { success } = await response.json();
-            if (success) router.push('/deleted');
-          }}
-        >
-          Delete my account
-        </button>
       </div>
     </Layout>
   );

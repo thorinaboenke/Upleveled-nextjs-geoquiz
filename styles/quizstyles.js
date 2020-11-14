@@ -4,6 +4,7 @@ import { colors } from '../assets/colors';
 export const quizStyles = css`
   button {
     cursor: pointer;
+    font-family: monospace;
     font-size: 16px;
     border-radius: 20px;
     text-align: center;

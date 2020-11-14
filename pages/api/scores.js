@@ -7,7 +7,7 @@ export default async function handler(request, response) {
     correctQuestions,
     categoryAnswer,
     region,
-    token
+    token,
   } = request.body;
   try {
     const scores = await updateScoresByUserId(
@@ -16,12 +16,12 @@ export default async function handler(request, response) {
       correctQuestions,
       categoryAnswer,
       region,
-      token
+      token,
     );
   } catch (err) {
     console.error('scores could not be updated');
     return response.status(500).send({ success: false });
   }
 
-  response.send({ success: true });
+  response.status(200).send({ success: true });
 }

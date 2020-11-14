@@ -425,3 +425,38 @@ export async function getServerSideProps(context) {
 //       display: none;
 //     }
 //   }
+
+{
+  /* <button
+            type="button"
+            disabled={!completedCrop?.width || !completedCrop?.height}
+            onClick={() =>
+              generateDownload(previewCanvasRef.current, completedCrop)
+            }
+          >
+            Download cropped image
+          </button> */
+}
+
+// function generateDownload(previewCanvas, crop) {
+//   if (!crop || !previewCanvas) {
+//     return;
+//   }
+
+//   const canvas = getResizedCanvas(previewCanvas, crop.width, crop.height);
+
+//   canvas.toBlob(
+//     (blob) => {
+//       const previewUrl = window.URL.createObjectURL(blob);
+
+//       const anchor = document.createElement('a');
+//       anchor.download = 'cropPreview.png';
+//       anchor.href = URL.createObjectURL(blob);
+//       anchor.click();
+
+//       window.URL.revokeObjectURL(previewUrl);
+//     },
+//     'image/png',
+//     1,
+//   );
+// }

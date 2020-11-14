@@ -21,6 +21,7 @@ const statStyles = css`
     margin-left: auto;
     margin-right: auto;
     padding-bottom: 1em;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -42,12 +43,42 @@ const statStyles = css`
     font-size: 3em;
     margin-right: auto;
     margin-left: auto;
-    margin-bottom: -1em;
-    padding: 2em;
+    margin-bottom: -1.5em;
+    padding: 4em;
     background-image: url('/map.jpg');
     background-size: cover;
     width: 100vw;
     color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  /* .welcome p {
+    font-family: monospace;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+    animation: typing 4s steps(15, end) forwards, blink 1s infinite;
+  } */
+
+  @keyframes typing {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+  @keyframes blink {
+    0% {
+      border-right: 2px solid transparent;
+    }
+    50% {
+      border-right: 2px solid white;
+    }
+    100% {
+      border-right: 2px solid transparent;
+    }
   }
   .score {
     font-weight: bold;
@@ -77,6 +108,7 @@ const statStyles = css`
     align-self: stretch;
     margin-left: 30%;
     margin-right: 30%;
+    margin-bottom: 2em;
     @media (max-width: 550px) {
       margin-left: 10%;
       margin-right: 10%;
@@ -87,10 +119,16 @@ const statStyles = css`
   }
   .heading {
     font-size: 24px;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
+    margin-top: 2em;
+    margin-bottom: 2em;
     padding: 0.5em;
     background-color: ${colors.primary};
+    background-image: linear-gradient(
+      to right,
+      ${colors.primary},
+      ${colors.primaryLight},
+      ${colors.primary}
+    );
     color: white;
     width: 100vw;
     text-align: center;
@@ -149,7 +187,9 @@ export default function Stats(props) {
       <div css={statStyles}>
         <div className="outer-wrapper">
           <div className="inner-wrapper">
-            <div className="welcome">Welcome explorer {user?.username}</div>
+            <div className="welcome">
+              <p>Welcome explorer {user?.username}</p>
+            </div>
           </div>
           <div className="heading">Score</div>
           <div className="score">

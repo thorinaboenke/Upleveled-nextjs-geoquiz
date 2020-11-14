@@ -38,7 +38,11 @@ const footerStyles = css`
 function Layout(props) {
   return (
     <div id="content">
-      <Header loggedIn={props.loggedIn} user={props.user} />
+      <Header
+        loggedIn={props.loggedIn}
+        user={props.user}
+        avatar={props.avatar}
+      />
       <main>{props.children}</main>
       <div css={footerStyles}>
         <footer>

@@ -8,6 +8,7 @@ function Header(props) {
   const loggedInPassed = typeof props.loggedIn !== 'undefined';
   const router = useRouter();
   const user = props.user;
+  const avatar = props.avatar;
 
   return (
     <div css={headerStyles}>
@@ -57,7 +58,9 @@ function Header(props) {
 
               <img
                 src={
-                  user?.avatarUrl
+                  avatar
+                    ? avatar
+                    : user?.avatarUrl
                     ? user?.avatarUrl
                     : 'https://avatars.dicebear.com/api/gridy/:' +
                       user?.username +
@@ -83,13 +86,23 @@ export default Header;
 
 const headerStyles = css`
   img {
+    position: absolute;
+    right: 0;
     margin-right: 2em;
     margin-left: auto;
     margin-top: 0.6em;
     float: right;
+    border-radius: 50%;
+    height: 40px;
   }
   img:hover {
     cursor: pointer;
+  }
+
+  @media (max-width: 48em) {
+    img {
+      display: none;
+    }
   }
   .header {
     background-color: ${colors.black};
@@ -119,14 +132,6 @@ const headerStyles = css`
   .header li a:hover {
     background: ${colors.primary};
     color: white;
-  }
-
-  .header .logo {
-    display: block;
-    float: left;
-    font-size: 2em;
-    padding: 10px 20px;
-    text-decoration: none;
   }
 
   .header .menu {
@@ -195,17 +200,16 @@ const headerStyles = css`
     top: 0;
   }
 
-  img {
-    border-radius: 50%;
-    height: 40px;
-  }
-
   @media (min-width: 48em) {
     .header li {
       float: left;
     }
     .header li a {
       padding: 20px 30px;
+    }
+    .header li .log {
+      position: absolute;
+      right: 80px;
     }
     .header .menu {
       clear: none;

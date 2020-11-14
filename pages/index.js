@@ -10,6 +10,7 @@ import Results from '../components/Results';
 import { getUserBySessionToken } from '../util/database';
 import AnswerButton from '../components/Answer';
 import Bar from '../components/Bar';
+import Confetti from 'react-dom-confetti';
 
 export default function Home(props) {
   const [displayQuestion, setDisplayQuestion] = useState(0);
@@ -31,6 +32,21 @@ export default function Home(props) {
   const [answers, setAnswers] = useState([]);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [showOnlyCorrectAnswer, setShowOnlyCorrectAnswer] = useState(false);
+  const [allCorrect, setAllCorrect] = useState(false);
+
+  const config = {
+    angle: 90,
+    spread: 90,
+    startVelocity: 33,
+    elementCount: 120,
+    dragFriction: 0.15,
+    duration: 4000,
+    stagger: 3,
+    width: '12px',
+    height: '12px',
+    perspective: '560px',
+    colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a'],
+  };
 
   useEffect(() => {
     if (
@@ -93,6 +109,8 @@ export default function Home(props) {
         props.token,
       );
     }
+    if (displayQuestion === questions.length && score === questions.length)
+      setAllCorrect(true);
   }, [
     displayQuestion,
     questions.length,
@@ -141,6 +159,7 @@ export default function Home(props) {
   }
 
   const resetGame = () => {
+    setAllCorrect(false);
     setTotalTime(0);
     setDisplayQuestion(0);
     setScore(0);
@@ -475,6 +494,7 @@ export default function Home(props) {
                 <>
                   <div className="count time-count">Time: {totalTime}s</div>
                   <div className="count score-count">Score: {score}</div>
+                  <Confetti active={allCorrect} config={config} />
                   <Results
                     questions={questions}
                     answers={answers}
