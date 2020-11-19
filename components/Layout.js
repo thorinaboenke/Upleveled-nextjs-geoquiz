@@ -47,16 +47,25 @@ function Layout(props) {
       <div css={footerStyles}>
         <footer>
           {' '}
-          <Link href="/">
+          <Link href="/about">
             <a>About</a>
           </Link>
-          <Link href="/stats">
+          <Link href="/contact">
             <a>Contact</a>
           </Link>
-          <a href="https://github.com/thorinaboenke/geoquiz">
+          <Link href="/impressum">
+            <a>Impressum</a>
+          </Link>
+          <a
+            href="https://github.com/thorinaboenke/geoquiz"
+            alt="Thorina Boenke GitHub"
+          >
             <img className="icon" src="/github.svg" alt="github" />
           </a>
-          <a href="https://twitter.com/ThorinaBoenke">
+          <a
+            href="https://twitter.com/ThorinaBoenke"
+            alt="Thorina Boenke Twitter"
+          >
             <img className="icon" src="/twitter.svg" alt="twitter" />
           </a>
         </footer>

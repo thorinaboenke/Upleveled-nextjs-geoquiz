@@ -45,7 +45,7 @@ const statStyles = css`
     margin-left: auto;
     margin-bottom: -1.5em;
     padding: 4em;
-    background-image: url('/map.jpg');
+    background-image: url('/maps.jpg');
     background-size: cover;
     width: 100vw;
     color: white;

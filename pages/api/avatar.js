@@ -1,9 +1,9 @@
 import { insertAvatarUrlByUserId } from '../../util/database';
 const url = 'https://api.cloudinary.com/v1_1/snapdragon/image/upload';
-// send API request to cloudinary.
+// send API request via SDK to cloudinary
 // get the secure URl back from cloudinary
-// put secure_url in database
-// send back secure url to the frontend
+// insert secure_url in database
+// respond with secure url to frontend
 
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({

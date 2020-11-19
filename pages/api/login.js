@@ -21,14 +21,13 @@ export default async function handler(request, response) {
   const passwordVerified = await argon2.verify(user.passwordHash, password);
   // if password can't be verified, deny access
   if (!passwordVerified) {
-    // TOTO return proper message from the server here
+    // TODO return proper message from the server here
     return response.status(401).send({ success: false });
   }
 
   // generate new session token (represent correct authentication) with crypto
   const token = crypto.randomBytes(24).toString('base64');
   //enter the session for this user and this token in the database
-  console.log(user);
   await insertSession(token, user.userId);
 
   const maxAge = 60 * 60 * 24; // 24h

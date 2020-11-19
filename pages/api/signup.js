@@ -85,7 +85,7 @@ export default async function handler(request, response) {
     const passwordHash = await argon2.hash(password);
     await registerUser(username, passwordHash);
   } catch (err) {
-    return response.status(501).send({ answer: 4, success: false });
+    return response.status(501).send({ success: false });
   }
 
   response.send({ success: true });

@@ -105,7 +105,7 @@ export async function getServerSideProps(context) {
   return { props: { token } };
 }
 
-// in node to generate the secret that has to be saven in the .env file:
+// in node to generate the secret that has to be saved in the .env file:
 // var Tokens = require('csrf');
 // const tokens = new Tokens();
 // const secret = tokens.secretSync()

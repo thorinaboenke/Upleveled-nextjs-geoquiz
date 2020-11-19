@@ -274,7 +274,7 @@ export default function Home(props) {
                           checked={cat.name === categoryQuestion}
                           disabled={cat.name === categoryAnswer}
                         />
-                        <div>name</div>
+                        <div>Name</div>
                       </label>
                       {props.loggedIn && (
                         <>
@@ -293,7 +293,7 @@ export default function Home(props) {
                                 !props.loggedIn
                               }
                             />
-                            <div>capital</div>
+                            <div>Capital</div>
                           </label>
                           <label>
                             <input
@@ -309,7 +309,7 @@ export default function Home(props) {
                                 cat.flag === categoryAnswer || !props.loggedIn
                               }
                             />
-                            <div>flag</div>
+                            <div>Flag</div>
                           </label>
                         </>
                       )}
@@ -333,7 +333,7 @@ export default function Home(props) {
                               cat.name === categoryQuestion || !props.loggedIn
                             }
                           />
-                          <div>name</div>
+                          <div>Name</div>
                         </label>
                       )}
                       <label>
@@ -348,7 +348,7 @@ export default function Home(props) {
                           checked={cat.capital === categoryAnswer}
                           disabled={cat.capital === categoryQuestion}
                         />
-                        <div>capital</div>
+                        <div>Capital</div>
                       </label>
                       {props.loggedIn && (
                         <label>
@@ -365,7 +365,7 @@ export default function Home(props) {
                               cat.flag === categoryQuestion || !props.loggedIn
                             }
                           />
-                          <div>flag</div>
+                          <div>Flag</div>
                         </label>
                       )}
                     </div>
