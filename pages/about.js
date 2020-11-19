@@ -133,7 +133,7 @@ export default function Deleted(props) {
                   Unsplash
                 </a>{' '}
                 and <a href="https://www.pexels.com/@andrew">Andrew Neel</a> on
-                <a href="https://www.pexels.com">Pexels</a>
+                <a href="https://www.pexels.com"> Pexels</a>
               </span>{' '}
             </li>
           </ul>
@@ -143,9 +143,10 @@ export default function Deleted(props) {
           </a>
           <p>
             🚀 If you want to learn coding lightning fast and kick start your
-            career as a developer, check out UpLeveled. Thanks to our fantastic
-            teacher Karl Horky, superwoman Antje Enzi and all the other
-            students, it was a BLAST!
+            career as a developer, check out{' '}
+            <a href="https://upleveled.io">UpLeveled</a>. Thanks to our
+            fantastic teacher Karl Horky, superwoman Antje Enzi and all the
+            other students, it was a BLAST!
           </p>
           <div className="picture-gallery">
             <img
