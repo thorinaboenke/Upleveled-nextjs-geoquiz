@@ -33,7 +33,7 @@ export default function Deleted(props) {
   return (
     <Layout loggedIn={props.loggedIn}>
       <Head>
-        <title>GeoQuiz - About</title>
+        <title>GeoQuiz - Impressum</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div css={aboutStyles}>

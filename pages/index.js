@@ -184,6 +184,10 @@ export default function Home(props) {
         <Head>
           <title>GeoQuiz</title>
           <link rel="icon" href="/favicon.ico" />
+          <meta
+            name="description"
+            content="Geography Quiz that lets you guess Countries, Capitals and Flags"
+          />
         </Head>
         <div className="outer-wrapper">
           {isLoading ? (

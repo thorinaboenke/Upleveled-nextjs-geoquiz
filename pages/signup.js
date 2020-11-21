@@ -12,6 +12,9 @@ export default function Signup(props) {
   const router = useRouter();
   return (
     <Layout>
+      <Head>
+        <title>GeoQuiz - Signup</title>
+      </Head>
       <div css={loginStyles}>
         <div className="container">
           <form
