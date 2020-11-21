@@ -32,6 +32,7 @@ export const quizStyles = css`
 
   input + img {
     width: 100px;
+    height:100px;
     border-radius: 15px;
     padding: 0.5em;
     margin-top: 0.5em;

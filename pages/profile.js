@@ -37,10 +37,10 @@ const profileStyles = css`
   /* canvas {
     border-radius: 50%;
   } */
-  /* .preview {
+  .preview {
     height: 100px;
     margin: 1em;
-  } */
+  }
   .previewPlaceholder {
     border-radius: 50%;
     height: 100px;
@@ -49,13 +49,11 @@ const profileStyles = css`
     margin: 1em;
   }
   .preview {
-     {
-      border-radius: 50%;
-      height: 100px;
-      width: 100px;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
 
-      margin: 1em;
-    }
+    margin: 1em;
   }
 
   button {
@@ -277,10 +275,10 @@ function Profile(props) {
               <canvas
                 className="preview"
                 ref={previewCanvasRef}
-                style={{
-                  width: Math.round(completedCrop?.width ?? 0),
-                  height: Math.round(completedCrop?.height ?? 0),
-                }}
+                // style={{
+                //   width: Math.round(completedCrop?.width ?? 0),
+                //   height: Math.round(completedCrop?.height ?? 0),
+                // }}
               />
             ) : (
               <div className="previewPlaceholder"></div>

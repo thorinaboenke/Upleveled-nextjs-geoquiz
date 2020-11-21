@@ -92,7 +92,7 @@ export default function Deleted(props) {
   };
 
   return (
-    <Layout loggedIn={props.loggedIn}>
+    <Layout loggedIn={props.loggedIn} user={props.user}>
       <Head>
         <title>GeoQuiz - Contact</title>
         <link rel="icon" href="/favicon.ico" />
@@ -152,16 +152,14 @@ export default function Deleted(props) {
 }
 
 export async function getServerSideProps(context) {
-  const { session: token } = nextCookies(context);
-
-  if (await isSessionTokenValid(token)) {
-    const user = await getUserBySessionToken(token);
-
-    return {
-      props: {
-        user: user,
-        loggedIn: true,
-      },
-    };
+  let { session: token } = nextCookies(context) || null;
+  const loggedIn = await isSessionTokenValid(token);
+  const user = (await getUserBySessionToken(token)) || null;
+  console.log(user);
+  if (typeof token === 'undefined') {
+    token = null;
   }
+  return {
+    props: { loggedIn: loggedIn, user: user, token: token },
+  };
 }

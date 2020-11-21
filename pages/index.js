@@ -205,11 +205,11 @@ export default function Home(props) {
                       />
                       <img src="./earth-globe.png" alt="" />
                     </label>
-                    <label htmlFor="Africa">
+                    <label htmlFor="africa">
                       <input
                         type="radio"
                         name="region"
-                        id="Africa"
+                        id="africa"
                         value="Africa"
                         onChange={(e) => setRegion(e.currentTarget.value)}
                         checked={'Africa' === region}

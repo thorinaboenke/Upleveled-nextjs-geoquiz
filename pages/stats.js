@@ -47,7 +47,7 @@ const statStyles = css`
     padding: 2em;
     background-image: url('/maps.jpg');
     background-size: cover;
-    background-color: rgba(0, 0, 0, 0.5);
+
     width: 100vw;
     color: rgb(237, 245, 246);
     display: flex;
@@ -311,7 +311,7 @@ export default function Stats(props) {
           <div className="streak-container">
             {streaks.map((streak) => {
               return (
-                <div className="achievement">
+                <div className="achievement" key={streak.text}>
                   <img
                     src="/medal.png"
                     alt="badge"
@@ -331,7 +331,7 @@ export default function Stats(props) {
           <div className="achievements-container">
             {achievements.map((achievement) => {
               return (
-                <div className="achievement">
+                <div className="achievement" key={achievement.text}>
                   <img
                     src="/compass.svg"
                     alt="badge"

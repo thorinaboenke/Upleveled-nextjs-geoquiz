@@ -31,6 +31,7 @@ const footerStyles = css`
 
     .icon {
       height: 20px;
+      width: 20px;
     }
   }
 `;
