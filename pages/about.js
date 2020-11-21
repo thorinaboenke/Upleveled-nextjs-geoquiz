@@ -26,6 +26,9 @@ const aboutStyles = css`
     font-size: 1em;
     text-align: left;
     margin: 1em;
+    @media (max-width: 550px) {
+      font-size: 12px;
+    }
   }
   .outer-wrapper ul {
     align-self: flex-start;
@@ -33,6 +36,14 @@ const aboutStyles = css`
   }
   .outer-wrapper li {
     list-style: none;
+    @media (max-width: 400px) {
+      font-size: 12px;
+    }
+  }
+  p {
+    @media (max-width: 400px) {
+      font-size: 12px;
+    }
   }
 
   .outer-wrapper a {
@@ -63,6 +74,10 @@ const aboutStyles = css`
     grid-template-rows: 1fr 1fr 1fr;
     column-gap: 0.5em;
     row-gap: 0.5em;
+    @media (max-width: 550px) {
+      display: flex;
+      flex-direction: column;
+    }
   }
   .picture-gallery img {
     max-width: 100%;

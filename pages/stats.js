@@ -88,6 +88,7 @@ const statStyles = css`
     background-color: white;
     opacity: 0.5;
     color: black;
+    text-align: center;
   }
 
   .progress-container {
@@ -169,10 +170,14 @@ const statStyles = css`
     justify-content: flex-start;
     margin-bottom: 0.3em;
     font-size: 1.5em;
+    @media (max-width: 550px) {
+      font-size: 1em;
+    }
   }
   .achievement img {
     height: 1.5em;
     margin-right: 0.3em;
+    margin-left: 0.3em;
   }
   img.desaturate {
     filter: grayscale(100%);

@@ -27,11 +27,6 @@ const profileStyles = css`
     align-items: center;
   }
 
-  img {
-    width: 200px;
-    margin-bottom: 2em;
-    margin-top: 2em;
-  }
   .placeholder {
     height: 200px;
     width: 200px;
@@ -39,19 +34,28 @@ const profileStyles = css`
     margin-bottom: 2em;
     margin-top: 2em;
   }
-  canvas {
+  /* canvas {
     border-radius: 50%;
-  }
-  .preview {
+  } */
+  /* .preview {
     height: 100px;
     margin: 1em;
-  }
+  } */
   .previewPlaceholder {
     border-radius: 50%;
     height: 100px;
     width: 100px;
     background-color: lightgray;
     margin: 1em;
+  }
+  .preview {
+     {
+      border-radius: 50%;
+      height: 100px;
+      width: 100px;
+
+      margin: 1em;
+    }
   }
 
   button {
@@ -239,6 +243,17 @@ function Profile(props) {
       <div css={profileStyles}>
         <div className="outer-wrapper">
           <h2>You are logged in as: {user.username}</h2>
+          <img
+            className="preview"
+            src={
+              props.user.avatarUrl
+                ? user?.avatarUrl
+                : 'https://avatars.dicebear.com/api/gridy/:' +
+                  user?.username +
+                  '.svg'
+            }
+            alt="avatar"
+          />
           <h2>Upload profile image</h2>
 
           <div>
@@ -251,6 +266,7 @@ function Profile(props) {
               crop={crop}
               onChange={(c) => setCrop(c)}
               onComplete={(c) => setCompletedCrop(c)}
+              circularCrop={true}
             />
           ) : (
             <div className="placeholder"></div>
@@ -261,10 +277,10 @@ function Profile(props) {
               <canvas
                 className="preview"
                 ref={previewCanvasRef}
-                // style={{
-                //   width: Math.round(completedCrop?.width ?? 0),
-                //   height: Math.round(completedCrop?.height ?? 0),
-                // }}
+                style={{
+                  width: Math.round(completedCrop?.width ?? 0),
+                  height: Math.round(completedCrop?.height ?? 0),
+                }}
               />
             ) : (
               <div className="previewPlaceholder"></div>
