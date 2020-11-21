@@ -1,12 +1,33 @@
+import nodemailer from 'nodemailer';
+import mailGun from 'nodemailer-mailgun-transport';
+
 export default async function handler(request, response) {
-  const {messageText, senderName, emailAddress} = request.body;
-  cloudinary.uploader.upload(data, function (error, result) {
-    try {
-      response.status(200).send({ success: true });
-      console.log(result, error);
-    } catch (err) {
-      console.error('Message could not be sent');
-      return response.status(500).send({ success: false });
-    }
+  const { messageText, senderName, emailAddress } = request.body;
+  const auth = {
+    auth: {
+      api_key: process.env.MAILGUN_KEY,
+      domain: 'sandboxce57c5ee359741e1992241e4df0b611d.mailgun.org',
+    },
+  };
+  const transporter = nodemailer.createTransport(mailGun(auth));
+  const mailOptions = {
+    sender: senderName,
+    from: `${senderName} <${emailAddress}>`,
+    to: 'thorina10@gmail.com',
+    subject: 'Geoquiz',
+    text: messageText,
+  };
+
+  try {
+    const data = await transporter.sendMail(mailOptions);
+  } catch (error) {
+    return response.status(500).send({
+      success: false,
+      message: 'Message could not be sent',
+    });
+  }
+  return response.status(200).send({
+    success: true,
+    message: 'Message was sent',
   });
 }

@@ -40,18 +40,20 @@ const statStyles = css`
 
   .welcome {
     text-align: center;
-    font-size: 3em;
+    font-size: 4em;
     margin-right: auto;
     margin-left: auto;
     margin-bottom: -1.5em;
-    padding: 4em;
+    padding: 2em;
     background-image: url('/maps.jpg');
     background-size: cover;
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100vw;
-    color: white;
+    color: rgb(237, 245, 246);
     display: flex;
     justify-content: center;
     align-items: center;
+    text-shadow: 2px 2px #000000;
   }
   /* .welcome p {
     font-family: monospace;
@@ -132,6 +134,7 @@ const statStyles = css`
     color: white;
     width: 100vw;
     text-align: center;
+    text-shadow: 1px 1px #000000;
   }
 
   .top10-entry {
@@ -197,6 +200,7 @@ export default function Stats(props) {
             correct answers
           </div>
           <CircularProgress
+            tabindex="0"
             aria-label="percentage answered correctly all questions"
             progress={
               user.totalAnsweredQuestions === 0
@@ -212,9 +216,10 @@ export default function Stats(props) {
             circleTwoStroke={colors.primary}
             imgUrl="/earth-globe.png"
           />
-          <div className="heading">Accuracy per region</div>
+          <div className="heading">Correct answers per region</div>
           <div className="progress-container">
             <CircularProgress
+              tabindex="0"
               aria-label="percentage answered correctly africa"
               progress={
                 scores.africa.answered === 0
@@ -230,6 +235,7 @@ export default function Stats(props) {
               imgUrl="/africa.png"
             />
             <CircularProgress
+              tabindex="0"
               aria-label="percentage answered correctly asia"
               progress={
                 scores.asia.answered === 0
@@ -246,6 +252,7 @@ export default function Stats(props) {
             />
 
             <CircularProgress
+              tabindex="0"
               aria-label="percentage answered correctly europe"
               progress={
                 scores.europe.answered === 0
@@ -261,6 +268,7 @@ export default function Stats(props) {
               imgUrl="/europe.png"
             />
             <CircularProgress
+              tabindex="0"
               aria-label="percentage answered correctly oceania"
               progress={
                 scores.oceania.answered === 0
@@ -276,6 +284,8 @@ export default function Stats(props) {
               imgUrl="/australia.png"
             />
             <CircularProgress
+              tabindex="0"
+              aria-label="percentage answered correctly america"
               progress={
                 scores.americas.answered === 0
                   ? 0
@@ -296,11 +306,18 @@ export default function Stats(props) {
           <div className="streak-container">
             {streaks.map((streak) => {
               return (
-                <div
-                  key={streak.text}
-                  className={streak.achieved ? 'fulfilled' : 'not-fulfilled'}
-                >
-                  {streak.text}
+                <div className="achievement">
+                  <img
+                    src="/medal.png"
+                    alt="badge"
+                    className={!streak.achieved ? 'desaturate ' : ''}
+                  />
+                  <div
+                    key={streak.text}
+                    className={streak.achieved ? 'fulfilled' : 'not-fulfilled'}
+                  >
+                    {streak.text}
+                  </div>
                 </div>
               );
             })}

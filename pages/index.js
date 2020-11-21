@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import { createQuestionArray, updateScoresRequest } from '../assets/functions';
 import Layout from '../components/Layout';
@@ -34,6 +34,8 @@ export default function Home(props) {
   const [showOnlyCorrectAnswer, setShowOnlyCorrectAnswer] = useState(false);
   const [allCorrect, setAllCorrect] = useState(false);
 
+  const questionToFocus = useRef(null);
+
   const config = {
     angle: 90,
     spread: 90,
@@ -63,6 +65,9 @@ export default function Home(props) {
           const newTotal = totalTime + 10;
           setTotalTime(newTotal);
           setCountdown(10);
+          if (displayQuestion < questions.length && isQuizRunning === true) {
+            questionToFocus?.current?.focus();
+          }
         } else {
           setCountdown((countdown) => countdown - 1);
         }
@@ -455,9 +460,16 @@ export default function Home(props) {
                                 ? 'question-flag-container'
                                 : 'question-container'
                             }
+                            ref={questionToFocus}
+                            tabindex="0"
                           >
                             {categoryQuestion === 'flag' && (
-                              <img className="flag" alt="" src={q.question} />
+                              <img
+                                className="flag"
+                                alt=""
+                                src={q.question}
+                                chrome
+                              />
                             )}
                             {categoryQuestion !== 'flag' && (
                               <div>{q.question}</div>

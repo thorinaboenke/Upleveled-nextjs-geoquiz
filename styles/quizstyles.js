@@ -176,6 +176,9 @@ export const quizStyles = css`
     padding: 0.5em;
     margin-left: 1em;
   }
+  .time-count{
+    margin-top: 1em;
+  }
   .quizSection img {
     width: 300px;
     max-width: 100%;

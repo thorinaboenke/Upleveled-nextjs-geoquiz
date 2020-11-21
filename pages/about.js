@@ -1,6 +1,9 @@
 import Head from 'next/head';
 import React from 'react';
 import Layout from '../components/Layout';
+import nextCookies from 'next-cookies';
+import { isSessionTokenValid } from '../util/auth';
+import { getUserBySessionToken } from '../util/database';
 import { colors } from '../assets/colors';
 import { css } from '@emotion/core';
 
@@ -81,11 +84,12 @@ export default function Deleted(props) {
           <div className="flex">
             <img src="/profilepicture.jpg" alt="profile.jpg" />
             <p>
-              Hello there! <br /> I created this App as my final project in the
-              Vienna UpLeveled Bootcamp 2020. It is built with React and
-              Next.js, a PostgreSQL database, publicly available data from
-              restcountries.eu, image hosting via Cloudinary and deployed via
-              Heroku. <br /> You can check out the code on{' '}
+              Hello there! <br /> My name is Thorina, great to see you here!
+              This App was my final project in the Vienna UpLeveled Full Stack
+              Web Development Bootcamp 2020. It is built with React and Next.js,
+              a PostgreSQL database, publicly available data from
+              restcountries.eu, Mailgun, image hosting via Cloudinary and
+              deployed via Heroku. <br /> You can check out the code on{' '}
               <a
                 href="https://github.com/thorinaboenke/geoquiz"
                 alt="Thorina Boenke GitHub"
@@ -143,7 +147,7 @@ export default function Deleted(props) {
           </a>
           <p>
             🚀 If you want to learn coding lightning fast and kick start your
-            career as a developer, check out{' '}
+            career as a web developer, check out{' '}
             <a href="https://upleveled.io">UpLeveled</a>. Thanks to our
             fantastic teacher Karl Horky, superwoman Antje Enzi and all the
             other students, it was a BLAST!
@@ -163,4 +167,19 @@ export default function Deleted(props) {
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { session: token } = nextCookies(context);
+
+  if (await isSessionTokenValid(token)) {
+    const user = await getUserBySessionToken(token);
+
+    return {
+      props: {
+        user: user,
+        loggedIn: true,
+      },
+    };
+  }
 }

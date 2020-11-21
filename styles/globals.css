@@ -21,6 +21,10 @@ button {
   border: none;
   font-family: monospace;
 }
+button:focus,
+label:focus {
+  outline: 2px solid lightblue;
+}
 label {
   text-align: center;
 }

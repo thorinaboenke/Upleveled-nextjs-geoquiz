@@ -28,10 +28,54 @@ const profileStyles = css`
   }
 
   img {
+    width: 200px;
+    margin-bottom: 2em;
+    margin-top: 2em;
+  }
+  .placeholder {
     height: 200px;
+    width: 200px;
+    background-color: lightgray;
+    margin-bottom: 2em;
+    margin-top: 2em;
   }
   canvas {
     border-radius: 50%;
+  }
+  .preview {
+    height: 100px;
+    margin: 1em;
+  }
+  .previewPlaceholder {
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    background-color: lightgray;
+    margin: 1em;
+  }
+
+  button {
+    cursor: pointer;
+    min-width: 200px;
+    font-family: monospace;
+    font-size: 16px;
+    border-radius: 20px;
+    text-align: center;
+    padding: 0.5em;
+    color: white;
+    background-color: ${colors.primary};
+    border: 3px solid ${colors.primary};
+    margin: 1em;
+  }
+  button:hover {
+    background-color: ${colors.primaryLight};
+    border: 3px solid ${colors.primaryLight};
+  }
+  button:disabled {
+    background-color: white;
+    border: 3px solid ${colors.primaryLight};
+    color: ${colors.primaryLight};
+    opacity: 0.5;
   }
 `;
 
@@ -194,28 +238,37 @@ function Profile(props) {
       </Head>
       <div css={profileStyles}>
         <div className="outer-wrapper">
-          <div>{user.username}</div>
-          <div>Upload profile image</div>
+          <h2>You are logged in as: {user.username}</h2>
+          <h2>Upload profile image</h2>
 
           <div>
             <input type="file" accept="image/*" onChange={onSelectFile} />
           </div>
-          <ReactCrop
-            src={upImg}
-            onImageLoaded={onLoad}
-            crop={crop}
-            onChange={(c) => setCrop(c)}
-            onComplete={(c) => setCompletedCrop(c)}
-          />
+          {upImg ? (
+            <ReactCrop
+              src={upImg}
+              onImageLoaded={onLoad}
+              crop={crop}
+              onChange={(c) => setCrop(c)}
+              onComplete={(c) => setCompletedCrop(c)}
+            />
+          ) : (
+            <div className="placeholder"></div>
+          )}
           <div>Preview</div>
           <div>
-            <canvas
-              ref={previewCanvasRef}
-              style={{
-                width: Math.round(completedCrop?.width ?? 0),
-                height: Math.round(completedCrop?.height ?? 0),
-              }}
-            />
+            {upImg ? (
+              <canvas
+                className="preview"
+                ref={previewCanvasRef}
+                // style={{
+                //   width: Math.round(completedCrop?.width ?? 0),
+                //   height: Math.round(completedCrop?.height ?? 0),
+                // }}
+              />
+            ) : (
+              <div className="previewPlaceholder"></div>
+            )}
           </div>
 
           <button
