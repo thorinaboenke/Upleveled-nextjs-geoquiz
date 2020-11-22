@@ -26,7 +26,43 @@ const profileStyles = css`
     justify-content: flex-start;
     align-items: center;
   }
+  h2 {
+    text-align: center;
+  }
+  .relative {
+    position: relative;
+  }
 
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0.5;
+    overflow: hidden;
+    position: relative;
+    z-index: -1;
+  }
+  .inputfile + label {
+    cursor: pointer;
+    min-width: 250px;
+    text-align: center;
+    margin: 1em;
+    font-size: 1em;
+    font-weight: 700;
+    padding: 1em;
+    color: white;
+    background-color: black;
+    display: inline-block;
+  }
+
+  .inputfile:focus + label,
+  .inputfile + label:hover {
+    background-color: ${colors.primaryLight};
+  }
+
+  .inputfile:focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+  }
   .placeholder {
     height: 200px;
     width: 200px;
@@ -48,7 +84,7 @@ const profileStyles = css`
     background-color: lightgray;
     margin: 1em;
   }
-  .preview {
+  .preview, .loader-container {
     border-radius: 50%;
     height: 100px;
     width: 100px;
@@ -58,7 +94,7 @@ const profileStyles = css`
 
   button {
     cursor: pointer;
-    min-width: 200px;
+    min-width: 250px;
     font-family: monospace;
     font-size: 16px;
     border-radius: 20px;
@@ -79,6 +115,32 @@ const profileStyles = css`
     color: ${colors.primaryLight};
     opacity: 0.5;
   }
+
+.loader-container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid gray;
+  }
+.loader {
+  padding:0;
+  border: 0.2em solid rgba(0, 0, 0, 0.1);
+  border-top: 0.2em solid ${colors.primaryLight};
+  border-radius: 50%;
+  width: 2em;
+  height: 2em;
+  animation: spin 0.8s linear infinite;
+}
+  @keyframes spin {
+    0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+
+
+
 `;
 
 const pixelRatio = 1;
@@ -108,34 +170,33 @@ function getResizedCanvas(canvas, newWidth, newHeight) {
 
 function Profile(props) {
   const { user, loggedIn, token } = props;
-  const router = useRouter();
-  const url = 'https://api.cloudinary.com/v1_1/snapdragon/image/upload';
-  const [image, setImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(props.user.avatarUrl);
-  const [upImg, setUpImg] = useState();
-  const imgRef = useRef(null);
-  const [loading, setLoading] = useState(false);
+  const [upImg, setUpImg] = useState(null);
   const previewCanvasRef = useRef(null);
   const [crop, setCrop] = useState({ unit: '%', width: 30, aspect: 1 / 1 });
   const [completedCrop, setCompletedCrop] = useState(null);
   const [message, setMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [uploaderActive, setUploaderActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const imgRef = useRef(null);
+  const router = useRouter();
 
-  const fileUploadHandler2 = async (canvas) => {
+  const fileUploadHandler = async (canvas) => {
     var dataURL = canvas.toDataURL();
-
+    setIsLoading(true);
     postPicture(dataURL, user.userId, token);
-
-    async function postPicture(data2, userId, token2) {
+    async function postPicture(data, userId, sessiontoken) {
       const response = await fetch('/api/avatar', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          data: data2,
+          data: data,
           userId: userId,
-          token: token2,
+          token: sessiontoken,
+          username: user.username,
         }),
       });
 
@@ -143,49 +204,13 @@ function Profile(props) {
       if (success) {
         setMessage('Profile Picture updated');
         setImageUrl(newUrl);
+        setUpImg(null);
+        setIsLoading(false);
       } else {
         setErrorMessage('Profile Picture could not be updated');
+        setIsLoading(false);
       }
     }
-  };
-
-  const fileUploadHandler = async (canvas) => {
-    canvas.toBlob((blob) => {
-      const data = new FormData();
-      data.append('file', blob);
-      data.append('upload_preset', 'geoquiz');
-
-      async function postPicture(dest, picture) {
-        const res = await fetch(dest, {
-          method: 'POST',
-          body: picture,
-        });
-        const cloudinaryResponse = await res.json();
-        setImageUrl(cloudinaryResponse.secure_url);
-
-        if (cloudinaryResponse.secure_url) {
-          const response = await fetch('/api/profile', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              userId: user.userId,
-              avatarUrl: cloudinaryResponse.secure_url,
-              token: token,
-            }),
-          });
-          const { success } = await response.json();
-          if (success) {
-            setMessage('Profile Picture updated');
-            user.avatarUrl = cloudinaryResponse.secure_url;
-          } else {
-            setErrorMessage('Profile Picture could not be updated');
-          }
-        }
-      }
-      postPicture(url, data);
-    });
   };
 
   const onSelectFile = (e) => {
@@ -232,6 +257,17 @@ function Profile(props) {
     );
   }, [completedCrop]);
 
+  const Preview = (props) => {
+    return (
+      <img
+        className="preview"
+        src={
+          props.imageUrl ? imageUrl : props.url ? props.url : props.fallbackUrl
+        }
+        alt="avatar"
+      />
+    );
+  };
   return (
     <Layout loggedIn={loggedIn} user={user} avatar={imageUrl}>
       <Head>
@@ -240,60 +276,91 @@ function Profile(props) {
       </Head>
       <div css={profileStyles}>
         <div className="outer-wrapper">
-          <h2>You are logged in as: {user.username}</h2>
-          <img
-            className="preview"
-            src={
-              props.user.avatarUrl
-                ? user?.avatarUrl
-                : 'https://avatars.dicebear.com/api/gridy/:' +
-                  user?.username +
-                  '.svg'
-            }
-            alt="avatar"
-          />
-          <h2>Upload profile image</h2>
-
-          <div>
-            <input type="file" accept="image/*" onChange={onSelectFile} />
-          </div>
-          {upImg ? (
-            <ReactCrop
-              src={upImg}
-              onImageLoaded={onLoad}
-              crop={crop}
-              onChange={(c) => setCrop(c)}
-              onComplete={(c) => setCompletedCrop(c)}
-              circularCrop={true}
-            />
+          <h2>You are logged in as:{user.username}</h2>
+          <h2>{user.username}</h2>
+          {isLoading ? (
+            <div className="loader-container">
+              <div className="loader" />{' '}
+            </div>
           ) : (
-            <div className="placeholder"></div>
+            <Preview
+              imageUrl={imageUrl}
+              url={user.avatarUrl}
+              fallbackUrl={
+                'https://avatars.dicebear.com/api/gridy/:' +
+                user?.username +
+                '.svg'
+              }
+            />
           )}
-          <div>Preview</div>
-          <div>
-            {upImg ? (
-              <canvas
-                className="preview"
-                ref={previewCanvasRef}
-                // style={{
-                //   width: Math.round(completedCrop?.width ?? 0),
-                //   height: Math.round(completedCrop?.height ?? 0),
-                // }}
-              />
-            ) : (
-              <div className="previewPlaceholder"></div>
-            )}
-          </div>
-
-          <button
-            type="button"
-            disabled={!completedCrop?.width || !completedCrop?.height}
-            onClick={() => fileUploadHandler2(previewCanvasRef.current)}
-          >
-            Save image
-          </button>
           {errorMessage && <div>{errorMessage}</div>}
           {message && <div>{message}</div>}
+
+          {/* <h2>Upload profile image</h2> */}
+          {!uploaderActive && (
+            <button
+              onClick={() => {
+                setUploaderActive(!uploaderActive);
+              }}
+              disabled={isLoading}
+            >
+              Upload profile image
+            </button>
+          )}
+          {uploaderActive && (
+            <>
+              <div className="relative">
+                <input
+                  className="inputfile"
+                  name="file"
+                  id="file"
+                  type="file"
+                  accept="image/*"
+                  onChange={onSelectFile}
+                />
+                <label htmlFor="file">Choose a file</label>
+              </div>
+              {upImg ? (
+                <ReactCrop
+                  src={upImg}
+                  onImageLoaded={onLoad}
+                  crop={crop}
+                  onChange={(c) => setCrop(c)}
+                  onComplete={(c) => setCompletedCrop(c)}
+                  circularCrop={true}
+                />
+              ) : (
+                <div className="placeholder" />
+              )}
+              <div>Preview</div>
+              <div>
+                {upImg ? (
+                  <canvas
+                    className="preview"
+                    ref={previewCanvasRef}
+                    // style={{
+                    //   width: Math.round(completedCrop?.width ?? 0),
+                    //   height: Math.round(completedCrop?.height ?? 0),
+                    // }}
+                  />
+                ) : (
+                  <div className="previewPlaceholder" />
+                )}
+              </div>
+
+              <button
+                type="button"
+                disabled={!completedCrop?.width || !completedCrop?.height}
+                onClick={() => {
+                  fileUploadHandler(previewCanvasRef.current);
+                  setUploaderActive(!uploaderActive);
+                  setMessage('');
+                }}
+              >
+                Save image
+              </button>
+            </>
+          )}
           <button
             onClick={async (e) => {
               if (

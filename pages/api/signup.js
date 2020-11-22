@@ -6,13 +6,28 @@ import {
   registerUser,
 } from '../../util/database';
 
+var cloudinary = require('cloudinary').v2;
+cloudinary.config({
+  cloud_name: 'snapdragon',
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET,
+});
+
 const tokens = new Tokens();
 
 export default async function handler(request, response) {
   if (request.method === 'DELETE') {
     const { username, token } = request.body;
+    const public_id = 'geoquiz/' + username;
+
     const user = await deleteUserByUsername(username, token);
     if (user) {
+      const deletedAvatar = await cloudinary.api.delete_resources(
+        public_id,
+        function (error, result) {
+          console.log(result, error);
+        },
+      );
       return response.status(200).send({ success: true });
     }
   }

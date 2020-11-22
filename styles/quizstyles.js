@@ -25,9 +25,12 @@ export const quizStyles = css`
     border: 3px solid ${colors.primary} !important
   }
 }
-
+label {
+  cursor:pointer;
+}
   input {
     opacity: 0;
+
   }
 
   input + img {

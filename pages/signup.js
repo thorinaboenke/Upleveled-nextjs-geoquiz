@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
 import { loginStyles } from '../styles/loginstyles';
