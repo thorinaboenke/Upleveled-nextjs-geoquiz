@@ -27,6 +27,7 @@ function Header(props) {
             {' '}
             <Link href="/">
               <a
+                data-cy="header-link-home"
                 onClick={() => {
                   router.pathname === '/' && window.location.reload();
                 }}
@@ -37,13 +38,13 @@ function Header(props) {
           </li>
           <li>
             <Link href="/stats">
-              <a>Stats</a>
+              <a data-cy="header-link-stats">Stats</a>
             </Link>
           </li>
           <li>
             {' '}
             <Link href="/profile">
-              <a>Profile</a>
+              <a data-cy="header-link-profile">Profile</a>
             </Link>
           </li>
 
@@ -52,7 +53,9 @@ function Header(props) {
             <>
               <li>
                 <Link href="/logout">
-                  <a className="log">Log out</a>
+                  <a data-cy="header-link-logout" className="log">
+                    Log out
+                  </a>
                 </Link>
               </li>
 
@@ -72,7 +75,9 @@ function Header(props) {
           ) : (
             <li>
               <Link href="/login">
-                <a className="log">Log in</a>
+                <a data-cy="header-link-login" className="log">
+                  Log in
+                </a>
               </Link>
             </li>
           )}

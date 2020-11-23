@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../components/Layout';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
@@ -57,6 +57,12 @@ export default function Deleted(props) {
   const [message, setMessage] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const nameInput = useRef(null);
+
+  useEffect(() => {
+    // current property is referred to input element
+    nameInput.current.focus();
+  }, []);
 
   const sendContactMail = async (messageText, senderName, emailAddress) => {
     try {
@@ -104,12 +110,14 @@ export default function Deleted(props) {
             <div className="flex-col">
               <label htmlFor="name">Your name:</label>
               <input
+                ref={nameInput}
                 value={name}
                 type="text"
                 name="name"
                 id="name"
                 onChange={(e) => setName(e.target.value)}
                 required
+                maxLength={40}
               />
             </div>
             <div className="flex-col">
@@ -124,11 +132,12 @@ export default function Deleted(props) {
               />
             </div>
             <div>
-              <label htmlFor="comments">Message:</label>
+              <label htmlFor="message">Message:</label>
               <br />
               <textarea
                 value={message}
-                name="comments"
+                name="message"
+                id="message"
                 rows="12"
                 cols="35"
                 onChange={(e) => setMessage(e.target.value)}
@@ -136,10 +145,23 @@ export default function Deleted(props) {
               />
             </div>
             <div className="flex-col">
-              <button type="submit" name="submit" value="Send" tabindex="0">
+              <button
+                className="send-form-button"
+                type="submit"
+                name="submit"
+                value="Send"
+                tabIndex="0"
+              >
                 Send Message
               </button>
-              <button type="reset" name="reset" value="Clear Form" tabindex="0">
+              <button
+                className="clear-form-button"
+                type="reset"
+                name="reset"
+                value="Clear Form"
+                tabIndex="0"
+                onClick={() => resetFormValues()}
+              >
                 Clear Form
               </button>
             </div>

@@ -49,13 +49,13 @@ function Layout(props) {
         <footer>
           {' '}
           <Link href="/about">
-            <a>About</a>
+            <a data-cy="footer-link-about">About</a>
           </Link>
           <Link href="/contact">
-            <a>Contact</a>
+            <a data-cy="footer-link-contact">Contact</a>
           </Link>
           <Link href="/impressum">
-            <a>Impressum</a>
+            <a data-cy="footer-link-impressum"> Impressum</a>
           </Link>
           <a
             href="https://github.com/thorinaboenke/geoquiz"

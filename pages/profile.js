@@ -104,7 +104,13 @@ const profileStyles = css`
     background-color: ${colors.primary};
     border: 3px solid ${colors.primary};
     margin: 1em;
+
   }
+
+  .spacer{
+    margin-top:auto;
+  }
+
   button:hover {
     background-color: ${colors.primaryLight};
     border: 3px solid ${colors.primaryLight};
@@ -276,7 +282,7 @@ function Profile(props) {
       </Head>
       <div css={profileStyles}>
         <div className="outer-wrapper">
-          <h2>You are logged in as:{user.username}</h2>
+          <h2>You are logged in as:</h2>
           <h2>{user.username}</h2>
           {isLoading ? (
             <div className="loader-container">
@@ -295,7 +301,7 @@ function Profile(props) {
           )}
           {errorMessage && <div>{errorMessage}</div>}
           {message && <div>{message}</div>}
-
+          <div className="spacer" />
           {/* <h2>Upload profile image</h2> */}
           {!uploaderActive && (
             <button
