@@ -1,15 +1,15 @@
-Created during UpLeveled Web Development Bootcamp Vienna September 2020.
+🚀 Created during UpLeveled Web Development Bootcamp Vienna September 2020.
 # Next.js Geography Quiz
 Created during UpLeveled Web Development Bootcamp Vienna September 2020.
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app), a [PostgreSQL](https://www.postgresql.org) database, Mailgun, image hosting at Cloudinary and deployed via Heroku. 
 
 ## Features
-- Authentication/authorization
-- Geography Quiz: 2 difficulties, three categories (country name, capitals, flags), region selection (continents)
-- Stats page keeping track of user total scores, achievements and streaks, Top 10 users
-- Profile picture upload
-- Contact Form
+- 🔐 Authentication/authorization
+- 🌍 Geography Quiz: 2 difficulties, three categories (country name, capitals, flags), region selection (continents)
+- 📈 Stats page keeping track of user total scores, achievements and streaks, Top 10 users
+- 📸 Profile picture upload
+- ✉️ Contact Form
 
 ## Pages
 
