@@ -33,15 +33,15 @@ Login
 
 <img src="" width="300" alt='Login'>
 
-## Technologies used
+## Technologies
 
-- Next.js
+- Next.js / React.js
 - PostgreSQL
 - Mailgun
 - Cloudinary
 - GitHub Actions
 
-## Libraries used
+## Libraries
 - cookies-js
 - nextcookies
 - camelcase-keys
