@@ -55,33 +55,7 @@ const statStyles = css`
     align-items: center;
     text-shadow: 2px 2px #000000;
   }
-  /* .welcome p {
-    font-family: monospace;
-    white-space: nowrap;
-    overflow: hidden;
-    text-align: left;
-    animation: typing 4s steps(15, end) forwards, blink 1s infinite;
-  } */
 
-  /* @keyframes typing {
-    0% {
-      width: 0%;
-    }
-    100% {
-      width: 100%;
-    }
-  }
-  @keyframes blink {
-    0% {
-      border-right: 2px solid transparent;
-    }
-    50% {
-      border-right: 2px solid white;
-    }
-    100% {
-      border-right: 2px solid transparent;
-    }
-  } */
   .score {
     font-weight: bold;
     font-size: 2em;
@@ -99,10 +73,6 @@ const statStyles = css`
     align-items: flex-end;
     align-self: center;
     flex-grow: 1;
-    /* justify-content: flex-start;
-    align-items: center;
-    position: relative;
-    background-color: lightcoral; */
   }
 
   .top10-container {
@@ -185,7 +155,6 @@ const statStyles = css`
   }
 `;
 export default function Stats(props) {
-  const router = useRouter();
   const { user, scores, loggedIn, topTen, streaks, achievements } = props;
   return (
     <Layout loggedIn={loggedIn} user={user}>

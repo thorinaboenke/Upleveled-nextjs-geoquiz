@@ -16,7 +16,6 @@ export default async function handler(request, response) {
     function (error, result) {
       try {
         insertAvatarUrlByUserId(userId, result.secure_url, token);
-        console.log(result, error);
         return response
           .status(200)
           .send({ success: true, newUrl: result.secure_url });
@@ -26,7 +25,4 @@ export default async function handler(request, response) {
       }
     },
   );
-  // return response
-  //   .status(200)
-  //   .send({ success: true, newUrl: cloudinaryResponse.secure_url });
 }

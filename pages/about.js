@@ -1,5 +1,5 @@
-import Head from 'next/head';
 import React from 'react';
+import Head from 'next/head';
 import Layout from '../components/Layout';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
@@ -188,7 +188,7 @@ export async function getServerSideProps(context) {
   let { session: token } = nextCookies(context) || null;
   const loggedIn = await isSessionTokenValid(token);
   const user = (await getUserBySessionToken(token)) || null;
-  console.log(user);
+
   if (typeof token === 'undefined') {
     token = null;
   }

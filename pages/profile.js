@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import nextCookies from 'next-cookies';
-import Head from 'next/head';
-import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
+import Head from 'next/head';
+import nextCookies from 'next-cookies';
+import ReactCrop from 'react-image-crop';
+import 'react-image-crop/dist/ReactCrop.css';
+import { useRouter } from 'next/router';
 import { isSessionTokenValid } from '../util/auth';
 import {
   getUserBySessionToken,
@@ -10,8 +12,7 @@ import {
 } from '../util/database';
 import { css } from '@emotion/core';
 import { colors } from '../assets/colors';
-import ReactCrop from 'react-image-crop';
-import 'react-image-crop/dist/ReactCrop.css';
+import Preview from '../components/Preview';
 
 const profileStyles = css`
   .outer-wrapper {
@@ -263,17 +264,7 @@ function Profile(props) {
     );
   }, [completedCrop]);
 
-  const Preview = (props) => {
-    return (
-      <img
-        className="preview"
-        src={
-          props.imageUrl ? imageUrl : props.url ? props.url : props.fallbackUrl
-        }
-        alt="avatar"
-      />
-    );
-  };
+
   return (
     <Layout loggedIn={loggedIn} user={user} avatar={imageUrl}>
       <Head>

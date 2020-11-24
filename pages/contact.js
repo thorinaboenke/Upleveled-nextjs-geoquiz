@@ -1,5 +1,5 @@
-import Head from 'next/head';
 import React, { useState, useEffect, useRef } from 'react';
+import Head from 'next/head';
 import Layout from '../components/Layout';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
@@ -60,7 +60,6 @@ export default function Deleted(props) {
   const nameInput = useRef(null);
 
   useEffect(() => {
-    // current property is referred to input element
     nameInput.current.focus();
   }, []);
 
@@ -177,7 +176,6 @@ export async function getServerSideProps(context) {
   let { session: token } = nextCookies(context) || null;
   const loggedIn = await isSessionTokenValid(token);
   const user = (await getUserBySessionToken(token)) || null;
-  console.log(user);
   if (typeof token === 'undefined') {
     token = null;
   }

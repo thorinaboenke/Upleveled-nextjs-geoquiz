@@ -196,19 +196,20 @@ function Header(props) {
                   </a>
                 </Link>
               </li>
-
-              <img
-                src={
-                  avatar
-                    ? avatar
-                    : user?.avatarUrl
-                    ? user?.avatarUrl
-                    : 'https://avatars.dicebear.com/api/gridy/:' +
-                      user?.username +
-                      '.svg'
-                }
-                alt="avatar"
-              />
+              <Link href="/profile">
+                <img
+                  src={
+                    avatar
+                      ? avatar
+                      : user?.avatarUrl
+                      ? user?.avatarUrl
+                      : 'https://avatars.dicebear.com/api/gridy/:' +
+                        user?.username +
+                        '.svg'
+                  }
+                  alt="avatar"
+                />
+              </Link>
             </>
           ) : (
             <li>

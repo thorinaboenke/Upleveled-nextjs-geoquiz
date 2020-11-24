@@ -1,12 +1,10 @@
-import { css } from '@emotion/core';
 import React from 'react';
+import { css } from '@emotion/core';
 import { colors } from '../assets/colors';
 
 const statStyles = css`
   .results-container {
     min-width: 80%;
-    /* max-width: 900px;
-    min-width: 90vw; */
     display: flex;
     flex-direction: column;
     align-self: stretch;

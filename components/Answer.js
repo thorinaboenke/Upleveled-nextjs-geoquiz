@@ -14,6 +14,7 @@ function AnswerButton(props) {
 
   return (
     <button
+      data-cy="answer-button"
       disabled={showCorrectAnswer || showOnlyCorrectAnswer}
       onClick={() => {
         handleAnswerClick(option.isCorrect, answers, option.answer);

@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import nextCookies from 'next-cookies';
-import { isSessionTokenValid } from '../util/auth';
 import Layout from '../components/Layout';
+import { useRouter } from 'next/router';
+import { isSessionTokenValid } from '../util/auth';
 import { loginStyles } from '../styles/loginstyles';
+import nextCookies from 'next-cookies';
 
 export default function Signup(props) {
   const [username, setUsername] = useState('');

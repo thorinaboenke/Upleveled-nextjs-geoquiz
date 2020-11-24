@@ -18,12 +18,12 @@ const tokens = new Tokens();
 export default async function handler(request, response) {
   if (request.method === 'DELETE') {
     const { username, token } = request.body;
-    const public_id = 'geoquiz/' + username;
+    const publicId = 'geoquiz/' + username;
 
     const user = await deleteUserByUsername(username, token);
     if (user) {
       const deletedAvatar = await cloudinary.api.delete_resources(
-        public_id,
+        publicId,
         function (error, result) {
           console.log(result, error);
         },

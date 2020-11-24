@@ -2,7 +2,7 @@ describe('SingUp Flow', () => {
   // make function that is always the same to signup user
   // to login User
   // to delete user after the test
-  it.only('Signs up a user ', () => {
+  it('Signs up a user ', () => {
     const username = 'IAmGroot';
     const password = 'IAmGroot';
     const filePath = 'profilePicture.jpg';
@@ -21,6 +21,7 @@ describe('SingUp Flow', () => {
     cy.get('#username').type(username).should('have.value', username);
     cy.get('#password').type(password).should('have.value', password);
     cy.get('[type="submit"]').click();
+
     cy.get('[data-cy=header-link-profile]').click();
     cy.get('#upload-modal').click();
 
@@ -40,5 +41,16 @@ describe('SingUp Flow', () => {
   it('Logs out a user ', () => {
     cy.get('[data-cy=header-link-logout]').click();
     cy.contains('Difficulty');
+  });
+
+  it.only('plays quiz', () => {
+    //play quiz
+    cy.visit('http://localhost:3000');
+    cy.get('[data-cy=btn-start-quiz]').click();
+    cy.contains('Score');
+    cy.get('[data-cy=answer-button]').first().click();
+    cy.contains('Question 2/ 5').then(() => {
+      cy.get('[data-cy=answer-button]').should('be.visible').first().click();
+    });
   });
 });

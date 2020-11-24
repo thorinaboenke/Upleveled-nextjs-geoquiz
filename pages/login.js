@@ -1,12 +1,11 @@
-import { useRouter } from 'next/router';
 import React, { useState, useRef, useEffect } from 'react';
-import nextCookies from 'next-cookies';
-import { isSessionTokenValid } from '../util/auth';
 import Layout from '../components/Layout';
-import { css } from '@emotion/core';
-import { loginStyles } from '../styles/loginstyles';
 import Link from 'next/link';
 import Head from 'next/head';
+import nextCookies from 'next-cookies';
+import { useRouter } from 'next/router';
+import { isSessionTokenValid } from '../util/auth';
+import { loginStyles } from '../styles/loginstyles';
 
 export default function Login(props) {
   const [username, setUsername] = useState('');
@@ -93,7 +92,6 @@ export async function getServerSideProps(context) {
   const redirectDestination = context?.query?.returnTo ?? '/';
   const logged = await isSessionTokenValid(token);
   if (logged) {
-    console.log({ logged });
     return {
       redirect: {
         destination: redirectDestination,

@@ -5,7 +5,6 @@ module.exports = function extractHerokuDatabaseEnvVars() {
     // Extract the connection information from the Heroku
     // environment variable
     const { hostname, pathname, auth } = url.parse(process.env.DATABASE_URL);
-
     const [username, password] = auth.split(':');
 
     process.env.PGHOST = hostname;

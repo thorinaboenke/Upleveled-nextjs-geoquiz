@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
-import { createQuestionArray, updateScoresRequest } from '../assets/functions';
 import Layout from '../components/Layout';
-import { quizStyles } from '../styles/quizstyles.js';
-import nextCookies from 'next-cookies';
-import { isSessionTokenValid } from '../util/auth';
 import Link from 'next/link';
 import Results from '../components/Results';
-import { getUserBySessionToken } from '../util/database';
 import AnswerButton from '../components/Answer';
 import Bar from '../components/Bar';
 import Confetti from 'react-dom-confetti';
+import nextCookies from 'next-cookies';
+import { quizStyles } from '../styles/quizstyles.js';
+import { createQuestionArray, updateScoresRequest } from '../assets/functions';
+import { isSessionTokenValid } from '../util/auth';
+import { getUserBySessionToken } from '../util/database';
 
 export default function Home(props) {
+  const cat = { flag: 'flag', name: 'name', capital: 'capital' };
   const [displayQuestion, setDisplayQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [countdown, setCountdown] = useState(10);
@@ -21,9 +22,6 @@ export default function Home(props) {
   const [isQuizRunning, setIsQuizRunning] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [countries, setCountries] = useState([]);
-  // maybe sum this in one state for QuizSettings?
-  // const [quizSettings, setQuizSettings] = useState({regions:[], numberOfQuestions:5, numberOfPossibleAnswers:4, categoryQuestion: cat.name, categoryAnswer:cat.capital})
-  const cat = { flag: 'flag', name: 'name', capital: 'capital' };
   const [region, setRegion] = useState('World');
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [numberOfPossibleAnswers, setNumberOfPossibleAnswers] = useState(4);
@@ -36,7 +34,7 @@ export default function Home(props) {
 
   const questionToFocus = useRef(null);
 
-  const config = {
+  const confettiConfig = {
     angle: 90,
     spread: 90,
     startVelocity: 33,
@@ -191,7 +189,7 @@ export default function Home(props) {
         </Head>
         <div className="outer-wrapper">
           {isLoading ? (
-            <div></div>
+            <div />
           ) : (
             <>
               {' '}
@@ -417,7 +415,11 @@ export default function Home(props) {
                     </div>
                   </div>
 
-                  <button onClick={(e) => startQuiz(e)} className="start">
+                  <button
+                    data-cy="btn-start-quiz"
+                    onClick={(e) => startQuiz(e)}
+                    className="start"
+                  >
                     Start Quiz
                   </button>
                   {!props.loggedIn && (
@@ -510,7 +512,7 @@ export default function Home(props) {
                 <>
                   <div className="count time-count">Time: {totalTime}s</div>
                   <div className="count score-count">Score: {score}</div>
-                  <Confetti active={allCorrect} config={config} />
+                  <Confetti active={allCorrect} config={confettiConfig} />
                   <Results
                     questions={questions}
                     answers={answers}
@@ -548,7 +550,6 @@ export async function getServerSideProps(context) {
   let { session: token } = nextCookies(context) || null;
   const loggedIn = await isSessionTokenValid(token);
   const user = (await getUserBySessionToken(token)) || null;
-  console.log(user);
   if (typeof token === 'undefined') {
     token = null;
   }

@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import React from 'react';
 import Layout from '../components/Layout';
-import { colors } from '../assets/colors';
 import { css } from '@emotion/core';
 
 const aboutStyles = css`
