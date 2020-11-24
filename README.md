@@ -7,9 +7,9 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Features
 - 🔐 Authentication/authorization
 - 🌍 Geography Quiz: 2 difficulties, three categories (country name, capitals, flags), region selection (continents)
-- 📈 Stats page keeping track of user total scores, achievements and streaks, Top 10 users
+- 📈 Stats page keeping track of user total scores, achievements and streaks, high score
 - 📸 Profile picture upload
-- ✉️ Contact Form
+- ✉️ Contact form
 
 ## Pages
 
