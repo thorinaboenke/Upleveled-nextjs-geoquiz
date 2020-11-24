@@ -62,6 +62,5 @@ describe('Test Contact Form', () => {
     cy.get('#message').then(($input) => {
       expect($input[0].validationMessage).to.eq('Please fill in this field.');
     });
-    cy.get('.send-form-button').click();
   });
 });

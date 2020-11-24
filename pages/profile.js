@@ -64,15 +64,16 @@ const profileStyles = css`
     outline: -webkit-focus-ring-color auto 5px;
   }
   .placeholder {
-    height: 200px;
-    width: 200px;
+    height: 250px;
+    width: 250px;
     background-color: lightgray;
     margin-bottom: 2em;
     margin-top: 2em;
   }
-  /* canvas {
-    border-radius: 50%;
-  } */
+  .prev-text{
+    margin: 1em;
+  }
+
   .preview {
     height: 100px;
     margin: 1em;
@@ -144,9 +145,6 @@ const profileStyles = css`
 100% {
     transform: rotate(360deg);
 }
-
-
-
 `;
 
 const pixelRatio = 1;
@@ -185,6 +183,7 @@ function Profile(props) {
   const [errorMessage, setErrorMessage] = useState('');
   const [uploaderActive, setUploaderActive] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [fileSelected, setFileSelected] = useState(false);
   const imgRef = useRef(null);
   const router = useRouter();
 
@@ -221,6 +220,7 @@ function Profile(props) {
 
   const onSelectFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
+      setFileSelected(true);
       const reader = new FileReader();
       reader.addEventListener('load', () => setUpImg(reader.result));
       reader.readAsDataURL(e.target.files[0]);
@@ -302,17 +302,7 @@ function Profile(props) {
           {errorMessage && <div>{errorMessage}</div>}
           {message && <div>{message}</div>}
           <div className="spacer" />
-          {/* <h2>Upload profile image</h2> */}
-          {!uploaderActive && (
-            <button
-              onClick={() => {
-                setUploaderActive(!uploaderActive);
-              }}
-              disabled={isLoading}
-            >
-              Upload profile image
-            </button>
-          )}
+
           {uploaderActive && (
             <>
               <div className="relative">
@@ -338,7 +328,7 @@ function Profile(props) {
               ) : (
                 <div className="placeholder" />
               )}
-              <div>Preview</div>
+              <div className="prev-text">Preview</div>
               <div>
                 {upImg ? (
                   <canvas
@@ -356,11 +346,17 @@ function Profile(props) {
 
               <button
                 type="button"
-                disabled={!completedCrop?.width || !completedCrop?.height}
+                id="save"
+                disabled={
+                  !completedCrop?.width ||
+                  !completedCrop?.height ||
+                  !fileSelected
+                }
                 onClick={() => {
                   fileUploadHandler(previewCanvasRef.current);
                   setUploaderActive(!uploaderActive);
                   setMessage('');
+                  setFileSelected(false);
                 }}
               >
                 Save image
@@ -368,6 +364,17 @@ function Profile(props) {
             </>
           )}
           <button
+            id="upload-modal"
+            onClick={() => {
+              setUploaderActive(!uploaderActive);
+              setMessage('');
+            }}
+            disabled={isLoading}
+          >
+            {!uploaderActive ? 'Upload profile image' : 'Cancel Upload'}
+          </button>
+          <button
+            id="delete-account"
             onClick={async (e) => {
               if (
                 window.confirm('Are you sure you want to delete your account?')

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import nextCookies from 'next-cookies';
 import { isSessionTokenValid } from '../util/auth';
 import Layout from '../components/Layout';
@@ -12,6 +12,11 @@ export default function Login(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const usernameInput = useRef(null);
+
+  useEffect(() => {
+    usernameInput.current.focus();
+  }, []);
 
   const router = useRouter();
   // TODO set the error message
@@ -47,10 +52,12 @@ export default function Login(props) {
               {' '}
               Username
               <input
+                ref={usernameInput}
                 value={username}
                 id="username"
                 type="text"
                 onChange={(e) => setUsername(e.currentTarget.value)}
+                maxLength={22}
               />
             </label>
             <label htmlFor="password">
@@ -61,6 +68,7 @@ export default function Login(props) {
                 id="password"
                 type="password"
                 onChange={(e) => setPassword(e.currentTarget.value)}
+                maxLength={22}
               />
             </label>
             <button type="submit">LOG IN</button>
@@ -83,11 +91,12 @@ export async function getServerSideProps(context) {
   const { session: token } = nextCookies(context);
 
   const redirectDestination = context?.query?.returnTo ?? '/';
-
-  if (await isSessionTokenValid(token)) {
+  const logged = await isSessionTokenValid(token);
+  if (logged) {
+    console.log({ logged });
     return {
-      props: {
-        redirect: redirectDestination,
+      redirect: {
+        destination: redirectDestination,
         permanent: false,
       },
     };

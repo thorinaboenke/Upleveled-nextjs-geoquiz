@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import nextCookies from 'next-cookies';
+import { isSessionTokenValid } from '../util/auth';
 import Layout from '../components/Layout';
 import { loginStyles } from '../styles/loginstyles';
 
@@ -9,6 +11,11 @@ export default function Signup(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const usernameInput = useRef(null);
+
+  useEffect(() => {
+    usernameInput.current.focus();
+  }, []);
 
   const router = useRouter();
   return (
@@ -63,10 +70,11 @@ export default function Signup(props) {
               {' '}
               Username
               <input
+                ref={usernameInput}
                 value={username}
                 id="username"
                 type="text"
-                maxlength="22"
+                maxLength={22}
                 onChange={(e) => setUsername(e.currentTarget.value)}
               />
             </label>
@@ -78,7 +86,7 @@ export default function Signup(props) {
                 value={password}
                 id="password"
                 type="text"
-                maxlength="22"
+                maxLength={22}
                 onChange={(e) => setPassword(e.currentTarget.value)}
               />
             </label>
@@ -99,6 +107,20 @@ export default function Signup(props) {
 }
 
 export async function getServerSideProps(context) {
+  //if a user that is already logged in accesses the signup page redirect to home
+  const { session: tokenFromCookie } = nextCookies(context);
+  const redirectDestination = '/';
+  const logged = await isSessionTokenValid(tokenFromCookie);
+  if (logged) {
+    console.log({ logged });
+    return {
+      redirect: {
+        destination: redirectDestination,
+        permanent: false,
+      },
+    };
+  }
+
   const tokens = new (await import('csrf')).default();
   const secret = process.env.CSRF_TOKEN_SECRET;
 

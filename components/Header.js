@@ -4,91 +4,6 @@ import { css } from '@emotion/core';
 import { colors } from '../assets/colors';
 import { useRouter } from 'next/router';
 
-function Header(props) {
-  const loggedInPassed = typeof props.loggedIn !== 'undefined';
-  const router = useRouter();
-  const user = props.user;
-  const avatar = props.avatar;
-
-  return (
-    <div css={headerStyles}>
-      <header className="header">
-        <input
-          className="menu-btn"
-          type="checkbox"
-          id="menu-btn"
-          name="menu-btn"
-        />
-        <label className="menu-icon" htmlFor="menu-btn">
-          <span className="navicon" />
-        </label>
-        <ul className="menu">
-          <li>
-            {' '}
-            <Link href="/">
-              <a
-                data-cy="header-link-home"
-                onClick={() => {
-                  router.pathname === '/' && window.location.reload();
-                }}
-              >
-                Home
-              </a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/stats">
-              <a data-cy="header-link-stats">Stats</a>
-            </Link>
-          </li>
-          <li>
-            {' '}
-            <Link href="/profile">
-              <a data-cy="header-link-profile">Profile</a>
-            </Link>
-          </li>
-
-          {!loggedInPassed ||
-          router.pathname === '/login' ? null : props.loggedIn ? (
-            <>
-              <li>
-                <Link href="/logout">
-                  <a data-cy="header-link-logout" className="log">
-                    Log out
-                  </a>
-                </Link>
-              </li>
-
-              <img
-                src={
-                  avatar
-                    ? avatar
-                    : user?.avatarUrl
-                    ? user?.avatarUrl
-                    : 'https://avatars.dicebear.com/api/gridy/:' +
-                      user?.username +
-                      '.svg'
-                }
-                alt="avatar"
-              />
-            </>
-          ) : (
-            <li>
-              <Link href="/login">
-                <a data-cy="header-link-login" className="log">
-                  Log in
-                </a>
-              </Link>
-            </li>
-          )}
-        </ul>
-      </header>
-    </div>
-  );
-}
-
-export default Header;
-
 const headerStyles = css`
   img {
     position: absolute;
@@ -226,3 +141,88 @@ const headerStyles = css`
     }
   }
 `;
+
+function Header(props) {
+  const loggedInPassed = typeof props.loggedIn !== 'undefined';
+  const router = useRouter();
+  const user = props.user;
+  const avatar = props.avatar;
+
+  return (
+    <div css={headerStyles}>
+      <header className="header">
+        <input
+          className="menu-btn"
+          type="checkbox"
+          id="menu-btn"
+          name="menu-btn"
+        />
+        <label className="menu-icon" htmlFor="menu-btn">
+          <span className="navicon" />
+        </label>
+        <ul className="menu">
+          <li>
+            {' '}
+            <Link href="/">
+              <a
+                data-cy="header-link-home"
+                onClick={() => {
+                  router.pathname === '/' && window.location.reload();
+                }}
+              >
+                Home
+              </a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/stats">
+              <a data-cy="header-link-stats">Stats</a>
+            </Link>
+          </li>
+          <li>
+            {' '}
+            <Link href="/profile">
+              <a data-cy="header-link-profile">Profile</a>
+            </Link>
+          </li>
+
+          {!loggedInPassed ||
+          router.pathname === '/login' ? null : props.loggedIn ? (
+            <>
+              <li>
+                <Link href="/logout">
+                  <a data-cy="header-link-logout" className="log">
+                    Log out
+                  </a>
+                </Link>
+              </li>
+
+              <img
+                src={
+                  avatar
+                    ? avatar
+                    : user?.avatarUrl
+                    ? user?.avatarUrl
+                    : 'https://avatars.dicebear.com/api/gridy/:' +
+                      user?.username +
+                      '.svg'
+                }
+                alt="avatar"
+              />
+            </>
+          ) : (
+            <li>
+              <Link href="/login">
+                <a data-cy="header-link-login" className="log">
+                  Log in
+                </a>
+              </Link>
+            </li>
+          )}
+        </ul>
+      </header>
+    </div>
+  );
+}
+
+export default Header;

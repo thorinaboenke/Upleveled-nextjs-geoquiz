@@ -63,7 +63,7 @@ const statStyles = css`
     animation: typing 4s steps(15, end) forwards, blink 1s infinite;
   } */
 
-  @keyframes typing {
+  /* @keyframes typing {
     0% {
       width: 0%;
     }
@@ -81,7 +81,7 @@ const statStyles = css`
     100% {
       border-right: 2px solid transparent;
     }
-  }
+  } */
   .score {
     font-weight: bold;
     font-size: 2em;
@@ -165,6 +165,7 @@ const statStyles = css`
     color: lightgrey;
   }
   .achievement {
+    min-width: 200px;
     display: flex;
     align-items: center;
     justify-content: flex-start;

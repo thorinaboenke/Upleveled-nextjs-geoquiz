@@ -15,15 +15,21 @@ export const quizStyles = css`
     margin: 1em;
   }
   button:hover {
+    /* box-shadow: 0 0 2pt 1pt ${colors.black}; */
     background-color: ${colors.primaryLight};
     border: 3px solid ${colors.primaryLight};
   }
 
   @media (hover: none) {
   button:hover {
-    background-color: ${colors.primary} !important;
-    border: 3px solid ${colors.primary} !important
+    box-shadow:none;
+    background-color: ${colors.primary};
+    border: 3px solid ${colors.primary};
   }
+ /* .flag-container{
+    box-shadow: none
+  } */
+
 }
 label {
   cursor:pointer;
@@ -35,7 +41,6 @@ label {
 
   input + img {
     width: 100px;
-    height:100px;
     border-radius: 15px;
     padding: 0.5em;
     margin-top: 0.5em;
@@ -200,6 +205,7 @@ label {
     width: 300px;
     margin-left:auto;
     margin-right:auto;
+    background: ${colors.lightgray};
   }
   .question-container{
     position:relative;
@@ -265,6 +271,10 @@ label {
     animation: swiggle 200ms;
   }
   .flag-container .false:hover {
+    box-shadow: 0 0 3pt 2pt ${colors.black};
+
+  }
+  .flag-container .normal:hover {
     box-shadow: 0 0 3pt 2pt ${colors.black};
 
   }
