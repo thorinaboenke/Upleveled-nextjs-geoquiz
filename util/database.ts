@@ -24,6 +24,9 @@ export async function getUserByUsername(username: string) {
 }
 
 export async function registerUser(username: string, passwordHash: string) {
+  if (!username || !passwordHash) {
+    return false;
+  }
   // insert the user in the user table
   const users = await sql<User[]>`
     INSERT INTO users
@@ -72,6 +75,9 @@ export async function registerUser(username: string, passwordHash: string) {
 }
 
 export async function insertSession(token: string, userId: number) {
+  if (!token || !userId) {
+    return false;
+  }
   const sessions = await sql<Session[]>`
     INSERT INTO sessions
       (token, user_id)
@@ -84,6 +90,9 @@ export async function insertSession(token: string, userId: number) {
 }
 
 export async function getSessionByToken(token: string) {
+  if (!token) {
+    return false;
+  }
   const sessions = await sql<Session[]>`
   SELECT FROM sessions WHERE token = ${token};
   `;
@@ -117,6 +126,9 @@ export async function getUserBySessionToken(token: string) {
 }
 
 export async function getScoresBySessionToken(token: string) {
+  if (!token) {
+    return false;
+  }
   const cat = await sql`
 SELECT
 category_scores.answered_questions as cat_answered,
@@ -179,6 +191,9 @@ WHERE users.user_id = (SELECT
 }
 
 export async function deleteUserByUsername(username: string, token: string) {
+  if (!token) {
+    return false;
+  }
   const users = await sql<User[]>`
   DELETE FROM users where username = ${username} AND user_id = (SELECT user_id FROM sessions WHERE
   sessions.token = ${token} )
@@ -194,6 +209,9 @@ export async function updateScoresByUserId(
   region: string,
   token: string,
 ) {
+  if (!token) {
+    return false;
+  }
   // update the total score, total questions, last_game_played and streak_days in the user table
   if (userId) {
     const scores = await sql`
@@ -239,6 +257,9 @@ export async function insertAvatarUrlByUserId(
   url: string,
   token: string,
 ) {
+  if (!token) {
+    return false;
+  }
   await sql`
   UPDATE users
   SET avatar_url =  ${url}
