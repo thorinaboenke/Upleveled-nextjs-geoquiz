@@ -22,19 +22,21 @@ export default async function handler(
   response: NextApiResponse,
 ) {
   if (request.method === 'DELETE') {
-    const { username, token } = request.body;
+    const { username } = request.body;
     const publicId = 'geoquiz/' + username;
+    const token = request.cookies.session;
 
     const user = await deleteUserByUsername(username, token);
-    if (user) {
-      await cloudinary.api.delete_resources(
-        publicId,
-        function (error: UploadApiErrorResponse, result: UploadApiResponse) {
-          console.log(result, error);
-        },
-      );
-      return response.status(200).send({ success: true });
+    if (!user) {
+      return response.status(401).send({ success: false });
     }
+    await cloudinary.api.delete_resources(
+      publicId,
+      function (error: UploadApiErrorResponse, result: UploadApiResponse) {
+        console.log(result, error);
+      },
+    );
+    return response.status(200).send({ success: true });
   }
   // extract the username password and token from the request body (sent on submit by the signup form)
   const { username, password, token } = request.body;

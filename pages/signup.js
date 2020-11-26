@@ -36,6 +36,7 @@ export default function Signup(props) {
                 body: JSON.stringify({
                   username: username,
                   password: password,
+                  token: props.token,
                 }),
               });
 
