@@ -33,7 +33,7 @@ export async function registerUser(username: string, passwordHash: string) {
     RETURNING *;
   `;
   // get the existing category ids
-  const categoryIds = await sql<Categories[]>`
+  const categoryIds = await sql<Category[]>`
   SELECT category_id FROM categories;
   `;
   console.log({ categoryIds });
@@ -51,7 +51,7 @@ export async function registerUser(username: string, passwordHash: string) {
     );`;
   }
   // get the existing region ids
-  const regionIds = await sql<Categories[]>`
+  const regionIds = await sql<Region[]>`
   SELECT region_id FROM regions;
   `;
   // insert a row with 0 values for each region for the new user
