@@ -45,11 +45,11 @@ describe('Test Contact Form', () => {
     const email = 'cypress@test.email';
     cy.get('.send-form-button').click();
     cy.get('#name').then(($input) => {
-      expect($input[0].validationMessage).to.eq('Please fill in this field.');
+      expect($input[0].validationMessage).to.eq('Please fill out this field.');
     });
     cy.get('#name').type(name);
     cy.get('#email').then(($input) => {
-      expect($input[0].validationMessage).to.eq('Please fill in this field.');
+      expect($input[0].validationMessage).to.eq('Please fill out this field.');
     });
     cy.get('#email').type(noEmail);
     cy.get('#email').then(($input) => {
@@ -59,7 +59,7 @@ describe('Test Contact Form', () => {
     });
     cy.get('#email').clear().type(email);
     cy.get('#message').then(($input) => {
-      expect($input[0].validationMessage).to.eq('Please fill in this field.');
+      expect($input[0].validationMessage).to.eq('Please fill out this field.');
     });
   });
 });
