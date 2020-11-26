@@ -15,15 +15,15 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Landingpage
 
-<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Landingpage.png" width="500" alt='landingpage'>
+<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Landingpage.png" width="600" alt='landingpage'>
 
 Quiz
 
-<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Quiz.png" width="500" alt='landingpage'>
+<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Quiz.png" width="600" alt='landingpage'>
 
 Login
 
-<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Login.png" width="300" alt='Login'>
+<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Login.png" width="600" alt='Login'>
 
 ## Technologies
 
