@@ -33,4 +33,9 @@ export type Region = {
 };
 export type RegionScores = {};
 export type CategoryScores = {};
-export type Session = {};
+export type Session = {
+  id: number;
+  token: string;
+  expiryTimestamp: Date;
+  userId: number;
+};
