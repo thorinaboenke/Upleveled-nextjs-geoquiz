@@ -215,10 +215,10 @@ export async function updateScoresByUserId(
   sessions.token = ${token}) AND region_id = (SELECT region_id FROM regions WHERE region_name = ${region});`;
 
   const categoryScores = await sql`
-UPDATE category_scores
-SET correct_questions = correct_questions + ${correctQuestions},
-answered_questions = answered_questions + ${answeredQuestions}
-WHERE user_id = (SELECT user_id FROM sessions WHERE
+  UPDATE category_scores
+  SET correct_questions = correct_questions + ${correctQuestions},
+  answered_questions = answered_questions + ${answeredQuestions}
+  WHERE user_id = (SELECT user_id FROM sessions WHERE
   sessions.token = ${token} ) AND category_id = (SELECT category_id FROM categories WHERE category_name = ${categoryAnswer});`;
 }
 
@@ -238,6 +238,6 @@ export async function insertAvatarUrlByUserId(
   await sql`
   UPDATE users
   SET avatar_url =  ${url}
-WHERE user_id = (SELECT user_id FROM sessions WHERE
+  WHERE user_id = (SELECT user_id FROM sessions WHERE
   sessions.token = ${token} ) ;`;
 }
