@@ -91,7 +91,7 @@ export async function insertSession(token: string, userId: number) {
 
 export async function getSessionByToken(token: string) {
   if (!token) {
-    return false;
+    return undefined;
   }
   const sessions = await sql<Session[]>`
   SELECT FROM sessions WHERE token = ${token};
