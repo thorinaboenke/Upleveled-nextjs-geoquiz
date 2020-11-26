@@ -3,7 +3,7 @@ const password = 'groot';
 const filePath = 'profilePicture.jpg';
 
 before(() => {
-  cy.visit('http://localhost:3000/signup');
+  cy.visit('/signup');
   cy.focused().should('have.id', 'username');
   cy.get('#username').type(username).should('have.value', username);
   cy.get('#password').type(password).should('have.value', password);
@@ -12,8 +12,8 @@ before(() => {
 });
 
 beforeEach(() => {
-  cy.visit('http://localhost:3000/logout');
-  cy.visit('http://localhost:3000/login');
+  cy.visit('/logout');
+  cy.visit('/login');
   cy.get('#username').type(username).should('have.value', username);
   cy.get('#password').type(password).should('have.value', password);
   cy.get('[type="submit"]').click();
@@ -27,7 +27,7 @@ after(() => {
 
 describe('User interactions Flow', () => {
   it('Upload profile picture ', () => {
-    cy.visit('http://localhost:3000/profile');
+    cy.visit('/profile');
     cy.get('#upload-modal').click();
     cy.get('#file').should('be.visible').attachFile(filePath);
     cy.get('#save').click();
@@ -36,7 +36,7 @@ describe('User interactions Flow', () => {
 
   it('plays quiz', () => {
     //play quiz
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.get('[data-cy=btn-start-quiz]').click();
     cy.contains('Score');
     cy.get('[data-cy=answer-button]').first().click();

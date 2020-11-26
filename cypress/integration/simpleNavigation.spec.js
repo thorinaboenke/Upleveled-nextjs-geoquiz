@@ -1,6 +1,6 @@
 describe('Simple site navigation', () => {
   it('Navigate to footer links', () => {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.contains('Difficulty');
     cy.get('[data-cy=footer-link-about]').click();
     cy.contains('Hello there');
@@ -10,7 +10,7 @@ describe('Simple site navigation', () => {
     cy.contains('Impressum - Legal Disclosure');
   });
   it('Navigate to header links that redirect to the login page if not logged in', () => {
-    cy.visit('http://localhost:3000');
+    cy.visit('/');
     cy.contains('Difficulty');
     cy.get('[data-cy=header-link-login]').click();
     cy.contains("Don't have an account?");
