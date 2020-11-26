@@ -1,13 +1,13 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import { updateScoresByUserId } from '../../util/database';
 
-export default async function handler(request, response) {
+export default async function handler(request: NextApiRequest, response:NextApiResponse) {
   const {
     userId,
     answeredQuestions,
     correctQuestions,
     categoryAnswer,
     region,
-    token,
   } = request.body;
   try {
     const scores = await updateScoresByUserId(
@@ -16,7 +16,7 @@ export default async function handler(request, response) {
       correctQuestions,
       categoryAnswer,
       region,
-      token,
+      request.cookies.session,
     );
   } catch (err) {
     console.error('scores could not be updated');

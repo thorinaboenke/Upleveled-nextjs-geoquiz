@@ -3,6 +3,13 @@ import mailGun from 'nodemailer-mailgun-transport';
 
 export default async function handler(request, response) {
   const { messageText, senderName, emailAddress } = request.body;
+  if (process.env.MAILGUN_KEY === 'git') {
+    return response.status(200).send({
+      success: true,
+      message: 'Message was sent',
+    });
+  }
+
   const auth = {
     auth: {
       api_key: process.env.MAILGUN_KEY,
