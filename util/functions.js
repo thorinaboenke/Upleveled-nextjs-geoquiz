@@ -115,7 +115,7 @@ export async function updateScoresRequest(
   });
   const { success } = await response.json();
 
-  const errorMessage = '';
+  let errorMessage = '';
   if (!success) {
     errorMessage = 'Updating Scores failed';
   } else {
