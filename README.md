@@ -1,4 +1,3 @@
-
 # Next.js Geography Quiz
 🚀 Created during UpLeveled Web Development Bootcamp Vienna September 2020.
 
@@ -44,6 +43,7 @@ Login
 - jest
 - nodemailer
 - nodemailer-mailgun-transport
+
 
 
 
