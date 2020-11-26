@@ -7,7 +7,7 @@ export function createUniqueRandomIndexArray(length, indicesToChooseFrom) {
   const arr = [];
   while (arr.length < length) {
     const newRand = random(indicesToChooseFrom);
-    if (!arr.includes(newRand)) {
+    if (arr.indexOf(newRand) === -1) {
       arr.push(newRand);
     }
   }

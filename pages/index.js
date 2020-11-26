@@ -8,7 +8,7 @@ import Bar from '../components/Bar';
 import Confetti from 'react-dom-confetti';
 import nextCookies from 'next-cookies';
 import { quizStyles } from '../styles/quizstyles.js';
-import { createQuestionArray, updateScoresRequest } from '../assets/functions';
+import { createQuestionArray, updateScoresRequest } from '../util/functions';
 import { isSessionTokenValid } from '../util/auth';
 import { getUserBySessionToken } from '../util/database';
 
@@ -158,6 +158,7 @@ export default function Home(props) {
       categoryAnswer,
       region,
     );
+    console.log(questionSet);
     return questionSet;
   }
 

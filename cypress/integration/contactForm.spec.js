@@ -27,7 +27,7 @@ describe('Test Contact Form', () => {
     cy.contains('Thank you');
   });
 
-  it('test clear form button', () => {
+  it('clear form button', () => {
     const name = 'Cypress Test';
     const email = 'cypress@test.email';
     const message = 'cypress test contact from geoquiz';
@@ -43,7 +43,6 @@ describe('Test Contact Form', () => {
     const name = 'Cypress Test';
     const noEmail = 'novalidemail';
     const email = 'cypress@test.email';
-    const message = 'cypress test contact from geoquiz';
     cy.get('.send-form-button').click();
     cy.get('#name').then(($input) => {
       expect($input[0].validationMessage).to.eq('Please fill in this field.');

@@ -264,7 +264,6 @@ function Profile(props) {
     );
   }, [completedCrop]);
 
-
   return (
     <Layout loggedIn={loggedIn} user={user} avatar={imageUrl}>
       <Head>
