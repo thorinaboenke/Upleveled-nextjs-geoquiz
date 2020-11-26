@@ -7,7 +7,7 @@ import AnswerButton from '../components/Answer';
 import Bar from '../components/Bar';
 import Confetti from 'react-dom-confetti';
 import nextCookies from 'next-cookies';
-import { quizStyles } from '../styles/quizstyles.js';
+import { quizStyles } from '../styles/quizstyles';
 import { createQuestionArray, updateScoresRequest } from '../util/functions';
 import { isSessionTokenValid } from '../util/auth';
 import { getUserBySessionToken } from '../util/database';
@@ -548,11 +548,12 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  let { session: token } = nextCookies(context) || null;
+  let { session: token } = nextCookies(context) ;
   const loggedIn = await isSessionTokenValid(token);
-  const user = (await getUserBySessionToken(token)) || null;
+  const user = (await getUserBySessionToken(token));
   if (typeof token === 'undefined') {
     token = null;
   }
+  console.log({ user });
   return { props: { loggedIn: loggedIn, user: user, token: token } };
 }

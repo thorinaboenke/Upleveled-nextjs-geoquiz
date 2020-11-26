@@ -1,12 +1,14 @@
 import argon2 from 'argon2';
 import Tokens from 'csrf';
+import { NextApiRequest, NextApiResponse } from 'next';
 import {
   deleteUserByUsername,
   getUserByUsername,
   registerUser,
 } from '../../util/database';
+import { UploadApiErrorResponse, UploadApiResponse } from 'cloudinary';
 
-var cloudinary = require('cloudinary').v2;
+const cloudinary = require('cloudinary').v2;
 cloudinary.config({
   cloud_name: 'snapdragon',
   api_key: process.env.CLOUDINARY_KEY,
@@ -15,16 +17,19 @@ cloudinary.config({
 
 const tokens = new Tokens();
 
-export default async function handler(request, response) {
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse,
+) {
   if (request.method === 'DELETE') {
     const { username, token } = request.body;
     const publicId = 'geoquiz/' + username;
 
     const user = await deleteUserByUsername(username, token);
     if (user) {
-      const deletedAvatar = await cloudinary.api.delete_resources(
+      await cloudinary.api.delete_resources(
         publicId,
-        function (error, result) {
+        function (error: UploadApiErrorResponse, result: UploadApiResponse) {
           console.log(result, error);
         },
       );

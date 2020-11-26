@@ -1,4 +1,10 @@
 import { insertAvatarUrlByUserId } from '../../util/database';
+import { NextApiRequest, NextApiResponse } from 'next';
+import {
+  UploadApiOptions,
+  UploadApiErrorResponse,
+  UploadApiResponse,
+} from 'cloudinary';
 
 var cloudinary = require('cloudinary').v2;
 cloudinary.config({
@@ -7,13 +13,16 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_SECRET,
 });
 
-export default async function handler(request, response) {
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse,
+) {
   const { data, userId, token, username } = request.body;
-  const options = { public_id: username, folder: 'geoquiz' };
+  const options: UploadApiOptions = { public_id: username, folder: 'geoquiz' };
   const cloudinaryResponse = await cloudinary.uploader.upload(
     data,
     options,
-    function (error, result) {
+    function (error: UploadApiErrorResponse, result: UploadApiResponse) {
       try {
         insertAvatarUrlByUserId(userId, result.secure_url, token);
         return response

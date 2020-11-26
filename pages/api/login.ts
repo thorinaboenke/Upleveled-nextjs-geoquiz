@@ -6,8 +6,12 @@ import {
   insertSession,
   deleteExpiredSessions,
 } from '../../util/database';
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(request, response) {
+export default async function handler(
+  request: NextApiRequest,
+  response: NextApiResponse,
+) {
   // extract the username and password from the request body (sent on submit by the signup form)
   const { username, password } = request.body;
   const user = await getUserByUsername(username);
