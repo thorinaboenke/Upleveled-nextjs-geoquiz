@@ -13,8 +13,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - ✉️ Contact form
 
 ## Pages
-
-Landingpage
+- Landingpage
 
 <img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Landingpage.png" width="600" alt='landingpage'>
 
