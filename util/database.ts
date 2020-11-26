@@ -16,7 +16,7 @@ const sql =
     : postgres({ idle_timeout: 5 });
 
 export async function getUserByUsername(username: string) {
-  const users = await sql`
+  const users = await sql<User[]>`
     SELECT * FROM users WHERE username = ${username};
   `;
 
@@ -25,7 +25,7 @@ export async function getUserByUsername(username: string) {
 
 export async function registerUser(username: string, passwordHash: string) {
   // insert the user in the user table
-  const users = await sql`
+  const users = await sql<User[]>`
     INSERT INTO users
       (username, password_hash, total_answered_questions, total_correct_questions)
     VALUES
@@ -72,7 +72,7 @@ export async function registerUser(username: string, passwordHash: string) {
 }
 
 export async function insertSession(token: string, userId: number) {
-  const sessions = await sql`
+  const sessions = await sql<Session[]>`
     INSERT INTO sessions
       (token, user_id)
     VALUES
@@ -84,7 +84,7 @@ export async function insertSession(token: string, userId: number) {
 }
 
 export async function getSessionByToken(token: string) {
-  const sessions = await sql`
+  const sessions = await sql<Session[]>`
   SELECT FROM sessions WHERE token = ${token};
   `;
   return sessions.map((s: Session) => camelcaseKeys(s))[0];
@@ -99,7 +99,7 @@ export async function deleteExpiredSessions() {
 }
 
 export async function getUserBySessionToken(token: string) {
-  const users = await sql`SELECT
+  const users = await sql<User[]>`SELECT
  users.user_id, users.username, users.total_answered_questions, users.total_correct_questions, users.streak_days, users.avatar_url
   FROM
   users,
@@ -175,7 +175,7 @@ WHERE users.user_id = (SELECT
 }
 
 export async function deleteUserByUsername(username: string, token: string) {
-  const users = await sql`
+  const users = await sql<User[]>`
   DELETE FROM users where username = ${username} AND user_id = (SELECT user_id FROM sessions WHERE
   sessions.token = ${token} )
   Returning *;`;
