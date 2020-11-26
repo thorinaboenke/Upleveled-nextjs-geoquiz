@@ -5,9 +5,9 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  const { userId, avatarUrl, token } = request.body;
+  const { userId, avatarUrl } = request.body;
   try {
-    await insertAvatarUrlByUserId(userId, avatarUrl, token);
+    await insertAvatarUrlByUserId(userId, avatarUrl, request.cookies.session);
   } catch (err) {
     console.error('Avatar could not be updated');
     return response.status(500).send({ success: false });

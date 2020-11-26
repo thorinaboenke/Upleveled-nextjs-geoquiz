@@ -174,7 +174,7 @@ function getResizedCanvas(canvas, newWidth, newHeight) {
 }
 
 function Profile(props) {
-  const { user, loggedIn, token } = props;
+  const { user, loggedIn } = props;
   const [imageUrl, setImageUrl] = useState(props.user.avatarUrl);
   const [upImg, setUpImg] = useState(null);
   const previewCanvasRef = useRef(null);
@@ -191,8 +191,8 @@ function Profile(props) {
   const fileUploadHandler = async (canvas) => {
     var dataURL = canvas.toDataURL();
     setIsLoading(true);
-    postPicture(dataURL, user.userId, token);
-    async function postPicture(data, userId, sessiontoken) {
+    postPicture(dataURL, user.userId);
+    async function postPicture(data, userId) {
       const response = await fetch('/api/avatar', {
         method: 'POST',
         headers: {
@@ -201,7 +201,6 @@ function Profile(props) {
         body: JSON.stringify({
           data: data,
           userId: userId,
-          token: sessiontoken,
           username: user.username,
         }),
       });
@@ -376,7 +375,6 @@ function Profile(props) {
                   },
                   body: JSON.stringify({
                     username: user.username,
-                    token: token,
                   }),
                 });
                 const { success } = await response.json();
@@ -406,7 +404,6 @@ export async function getServerSideProps(context) {
         scores: scores,
         user: user,
         loggedIn: true,
-        token: token,
       },
     };
   }

@@ -241,6 +241,6 @@ export async function getServerSideProps(context) {
     token = null;
   }
   return {
-    props: { loggedIn: loggedIn, user: user, token: token },
+    props: { loggedIn: loggedIn, user: user},
   };
 }

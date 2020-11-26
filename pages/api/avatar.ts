@@ -17,14 +17,18 @@ export default async function handler(
   request: NextApiRequest,
   response: NextApiResponse,
 ) {
-  const { data, userId, token, username } = request.body;
+  const { data, userId, username } = request.body;
   const options: UploadApiOptions = { public_id: username, folder: 'geoquiz' };
   const cloudinaryResponse = await cloudinary.uploader.upload(
     data,
     options,
     function (error: UploadApiErrorResponse, result: UploadApiResponse) {
       try {
-        insertAvatarUrlByUserId(userId, result.secure_url, token);
+        insertAvatarUrlByUserId(
+          userId,
+          result.secure_url,
+          request.cookies.session,
+        );
         return response
           .status(200)
           .send({ success: true, newUrl: result.secure_url });

@@ -109,7 +109,6 @@ export default function Home(props) {
         score,
         categoryAnswer,
         region,
-        props.token,
       );
     }
     if (displayQuestion === questions.length && score === questions.length)
@@ -122,7 +121,6 @@ export default function Home(props) {
     score,
     categoryAnswer,
     region,
-    props.token,
   ]);
 
   const handleAnswerClick = (correct, answerArray, answer) => {
@@ -548,12 +546,12 @@ export default function Home(props) {
 }
 
 export async function getServerSideProps(context) {
-  let { session: token } = nextCookies(context) ;
-  const loggedIn = await isSessionTokenValid(token);
-  const user = (await getUserBySessionToken(token));
+  let { session: token } = nextCookies(context);
+  const loggedIn = (await isSessionTokenValid(token)) || null;
+  const user = (await getUserBySessionToken(token)) || null;
   if (typeof token === 'undefined') {
     token = null;
   }
   console.log({ user });
-  return { props: { loggedIn: loggedIn, user: user, token: token } };
+  return { props: { loggedIn: loggedIn, user: user } };
 }

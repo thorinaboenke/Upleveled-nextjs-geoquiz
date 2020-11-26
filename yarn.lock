@@ -1737,7 +1737,14 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.14.0.tgz#f1091b6ad5de18e8e91bdbd43ec63f13de372538"
   integrity sha512-BfbIHP9IapdupGhq/hc+jT5dyiBVZ2DdeC5WwJWQWDb0GijQlzUFAeIQn/2GtvZcd2HVUU7An8felIICFTC2qg==
 
-"@types/nodemailer@^6.4.0":
+"@types/nodemailer-mailgun-transport@^1.4.2":
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/@types/nodemailer-mailgun-transport/-/nodemailer-mailgun-transport-1.4.2.tgz#b4849387cdc089ffcd84a74185190d485b220493"
+  integrity sha512-KuLTQcbebCI1A5BbAhbPmmXXk1g9JuaVfdQzCXuZ/igKc1CQpJS7wIZ3CndhIde3zZTvRF55NgDGHpYW8w4NMw==
+  dependencies:
+    "@types/nodemailer" "*"
+
+"@types/nodemailer@*", "@types/nodemailer@^6.4.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@types/nodemailer/-/nodemailer-6.4.0.tgz#d8c039be3ed685c4719a026455555be82c124b74"
   integrity sha512-KY7bFWB0MahRZvVW4CuW83qcCDny59pJJ0MQ5ifvfcjNwPlIT0vW4uARO4u1gtkYnWdhSvURegecY/tzcukJcA==
@@ -7841,10 +7848,10 @@ postcss@^7.0.14, postcss@^7.0.26, postcss@^7.0.32, postcss@^7.0.5, postcss@^7.0.
     source-map "^0.6.1"
     supports-color "^6.1.0"
 
-postgres@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/postgres/-/postgres-1.0.2.tgz#7b9f6769934f727cec0f1d7ef58d4915a327f5dd"
-  integrity sha512-zeLgt42KSUNgX/uvo+gbVxTAYwgSY6MIKuU/a8YWuObX4rtGuKrVWopvEAqIAPSO0FeHS1TsSKnqPjoufPy8NA==
+postgres@2.0.0-beta.2:
+  version "2.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/postgres/-/postgres-2.0.0-beta.2.tgz#4844381137b6394a66c4c7566aedb63392ffe416"
+  integrity sha512-x5/FBSLsU/eVeKcIREsaCBeFp5CFbZoberSug3dgsJMlvWwGBtl753hALBVR+GJ5Dty1lb+zfqV9ySHyOndypA==
 
 prebuild-install@^5.3.5:
   version "5.3.6"

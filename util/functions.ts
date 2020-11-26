@@ -1,9 +1,14 @@
-export function random(x) {
+import { Country, Question } from './types';
+
+export function random(x: number) {
   // returns a random number between 0 and x-1
   return Math.floor(Math.random() * x);
 }
 
-export function createUniqueRandomIndexArray(length, indicesToChooseFrom) {
+export function createUniqueRandomIndexArray(
+  length: number,
+  indicesToChooseFrom: number,
+) {
   const arr = [];
   while (arr.length < length) {
     const newRand = random(indicesToChooseFrom);
@@ -15,12 +20,12 @@ export function createUniqueRandomIndexArray(length, indicesToChooseFrom) {
 }
 
 export function createQuestionArray(
-  numberOfQ,
-  answerPossibilities,
-  allCountries,
-  qCategory,
-  aCategory,
-  filterByRegion,
+  numberOfQ: number,
+  answerPossibilities: number,
+  allCountries: Country[],
+  qCategory: string,
+  aCategory: string,
+  filterByRegion: string,
 ) {
   let filteredCountries;
   if (filterByRegion === 'World') {
@@ -30,7 +35,7 @@ export function createQuestionArray(
       (country) => country.region === filterByRegion,
     );
   }
-  const questionArray = [];
+  const questionArray: Question[] = [];
   // create new questions
   for (let i = 0; i < numberOfQ; i++) {
     const randomCountryIndices = createUniqueRandomIndexArray(
@@ -53,9 +58,7 @@ export function createQuestionArray(
       default:
         quizQuestion = filteredCountries[indexOfSolution].name;
     }
-    const newQuestion = {};
-    newQuestion.question = quizQuestion;
-    newQuestion.answerOptions = [];
+    const newQuestion: Question = { question: quizQuestion, answerOptions: [] };
     // create answerOptions for each question
     for (let j = 0; j < randomCountryIndices.length; j++) {
       let quizAnswer;
@@ -92,12 +95,12 @@ export function createQuestionArray(
 }
 
 export async function updateScoresRequest(
-  userId,
-  answeredQuestions,
-  correctQuestions,
-  categoryAnswer,
-  region,
-  token,
+  userId: number,
+  answeredQuestions: number,
+  correctQuestions: number,
+  categoryAnswer: string,
+  region: string,
+  token: string,
 ) {
   const response = await fetch('/api/scores', {
     method: 'POST',

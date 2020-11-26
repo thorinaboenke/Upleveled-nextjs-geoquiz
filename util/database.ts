@@ -2,6 +2,7 @@ import postgres from 'postgres';
 import dotenv from 'dotenv';
 import camelcaseKeys from 'camelcase-keys';
 import extractHerokuDatabaseEnvVars from './extractHerokuDatabaseEnvVars';
+import { User, Session, Category, Region } from './types';
 
 extractHerokuDatabaseEnvVars();
 dotenv.config();
@@ -14,15 +15,15 @@ const sql =
       postgres({ ssl: { rejectUnauthorized: false } })
     : postgres({ idle_timeout: 5 });
 
-export async function getUserByUsername(username) {
+export async function getUserByUsername(username: string) {
   const users = await sql`
     SELECT * FROM users WHERE username = ${username};
   `;
 
-  return users.map((u) => camelcaseKeys(u))[0];
+  return users.map((u: User) => camelcaseKeys(u))[0];
 }
 
-export async function registerUser(username, passwordHash) {
+export async function registerUser(username: string, passwordHash: string) {
   // insert the user in the user table
   const users = await sql`
     INSERT INTO users
@@ -32,9 +33,10 @@ export async function registerUser(username, passwordHash) {
     RETURNING *;
   `;
   // get the existing category ids
-  const categoryIds = await sql`
+  const categoryIds: Category[] = await sql`
   SELECT category_id FROM categories;
   `;
+  console.log({ categoryIds });
   const categoryArray = categoryIds.map((entry) => entry.category_id);
   // insert a row with 0 values for each category for the new user
   for (const id of categoryArray) {
@@ -49,7 +51,7 @@ export async function registerUser(username, passwordHash) {
     );`;
   }
   // get the existing region ids
-  const regionIds = await sql`
+  const regionIds: Region[] = await sql`
   SELECT region_id FROM regions;
   `;
   // insert a row with 0 values for each region for the new user
@@ -66,10 +68,10 @@ export async function registerUser(username, passwordHash) {
     );`;
   }
 
-  return users.map((u) => camelcaseKeys(u))[0];
+  return users.map((u: User) => camelcaseKeys(u))[0];
 }
 
-export async function insertSession(token, userId) {
+export async function insertSession(token: string, userId: number) {
   const sessions = await sql`
     INSERT INTO sessions
       (token, user_id)
@@ -78,17 +80,17 @@ export async function insertSession(token, userId) {
     RETURNING *;
   `;
 
-  return sessions.map((u) => camelcaseKeys(u))[0];
+  return sessions.map((s: Session) => camelcaseKeys(s))[0];
 }
 
-export async function getSessionByToken(token) {
+export async function getSessionByToken(token: string) {
   const sessions = await sql`
   SELECT FROM sessions WHERE token = ${token};
   `;
-  return sessions.map((u) => camelcaseKeys(u))[0];
+  return sessions.map((s: Session) => camelcaseKeys(s))[0];
 }
 
-export async function deleteSessionByToken(token) {
+export async function deleteSessionByToken(token: string) {
   await sql`DELETE FROM sessions WHERE token = ${token};`;
 }
 
@@ -96,7 +98,7 @@ export async function deleteExpiredSessions() {
   await sql`DELETE FROM sessions WHERE expiry_timestamp < NOW();`;
 }
 
-export async function getUserBySessionToken(token) {
+export async function getUserBySessionToken(token: string) {
   const users = await sql`SELECT
  users.user_id, users.username, users.total_answered_questions, users.total_correct_questions, users.streak_days, users.avatar_url
   FROM
@@ -107,10 +109,10 @@ export async function getUserBySessionToken(token) {
   sessions.user_id = users.user_id
   ;`;
 
-  return users.map((u) => camelcaseKeys(u))[0];
+  return users.map((u: User) => camelcaseKeys(u))[0];
 }
 
-export async function getScoresBySessionToken(token) {
+export async function getScoresBySessionToken(token: string) {
   const cat = await sql`
 SELECT
 category_scores.answered_questions as cat_answered,
@@ -147,7 +149,7 @@ WHERE users.user_id = (SELECT
   sessions.token = ${token} AND
   sessions.user_id = users.user_id);`;
 
-  const categoryScores = cat.map((u) => camelcaseKeys(u));
+  const categoryScores = cat.map((scores) => camelcaseKeys(scores));
 
   const reducedCategoryScores = categoryScores.reduce((acc, curr) => {
     acc[curr.category] = {
@@ -172,21 +174,21 @@ WHERE users.user_id = (SELECT
   return scores;
 }
 
-export async function deleteUserByUsername(username, token) {
+export async function deleteUserByUsername(username: string, token: string) {
   const users = await sql`
   DELETE FROM users where username = ${username} AND user_id = (SELECT user_id FROM sessions WHERE
   sessions.token = ${token} )
   Returning *;`;
-  return users.map((u) => camelcaseKeys(u))[0];
+  return users.map((u: User) => camelcaseKeys(u))[0];
 }
 
 export async function updateScoresByUserId(
-  userId,
-  answeredQuestions,
-  correctQuestions,
-  categoryAnswer,
-  region,
-  token,
+  userId: number,
+  answeredQuestions: number,
+  correctQuestions: number,
+  categoryAnswer: number,
+  region: string,
+  token: string,
 ) {
   // update the total score, total questions, last_game_played and streak_days in the user table
   if (userId) {
@@ -225,11 +227,15 @@ export async function getTopTen() {
     SELECT username,total_correct_questions, avatar_url FROM users ORDER BY total_correct_questions DESC LIMIT 10;
   `;
 
-  return users.map((u) => camelcaseKeys(u));
+  return users.map((u: Partial<User>) => camelcaseKeys(u));
 }
 
-export async function insertAvatarUrlByUserId(userId, url, token) {
-  const avatarUrl = await sql`
+export async function insertAvatarUrlByUserId(
+  userId: number,
+  url: string,
+  token: string,
+) {
+  await sql`
   UPDATE users
   SET avatar_url =  ${url}
 WHERE user_id = (SELECT user_id FROM sessions WHERE
