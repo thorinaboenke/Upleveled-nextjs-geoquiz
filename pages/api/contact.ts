@@ -7,7 +7,7 @@ export default async function handler(
   response: NextApiResponse,
 ) {
   const { messageText, senderName, emailAddress } = request.body;
-  if (process.env.MAILGUN_KEY === 'git') {
+  if (process.env.MAILGUN_KEY === 'MAILGUN_TEST_KEY_CYPRESS') {
     return response.status(200).send({
       success: true,
       message: 'Message was sent',

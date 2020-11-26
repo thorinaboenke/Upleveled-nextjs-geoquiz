@@ -99,6 +99,10 @@ export async function deleteExpiredSessions() {
 }
 
 export async function getUserBySessionToken(token: string) {
+  if (!token) {
+    return false;
+  }
+
   const users = await sql<User[]>`SELECT
  users.user_id, users.username, users.total_answered_questions, users.total_correct_questions, users.streak_days, users.avatar_url
   FROM
