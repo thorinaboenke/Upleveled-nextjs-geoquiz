@@ -19,19 +19,11 @@ Landingpage
 
 Quiz
 
-<img src="" width="500" alt='landingpage'>
-
-Stats
-
-<img src="" width="500" alt='Stats'>
-
-Profile
-
-<img src="" width="500" alt='Profile'>
+<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Quiz.png" width="500" alt='landingpage'>
 
 Login
 
-<img src="" width="300" alt='Login'>
+<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Login.png" width="300" alt='Login'>
 
 ## Technologies
 
