@@ -15,7 +15,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Landingpage
 
-<img src="" width="500" alt='landingpage'>
+<img src="https://github.com/thorinaboenke/geoquiz/blob/master/assets/Screenshot_Landingpage.png" width="500" alt='landingpage'>
 
 Quiz
 
