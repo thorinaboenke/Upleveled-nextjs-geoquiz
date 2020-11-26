@@ -5,27 +5,27 @@ describe('Test Contact Form', () => {
   it('focuses input on load', () => {
     cy.focused().should('have.id', 'name');
   });
-  it('submits a message via the contact form', () => {
-    const name = 'Cypress Test';
-    const email = 'cypress@test.email';
-    const message = 'cypress test message from geoquiz';
-    cy.get('#name').type(name).should('have.value', name).type('{enter}');
-    cy.focused()
-      .should('have.id', 'email')
-      .type(email)
-      .should('have.value', email)
-      .type('{enter}');
-    cy.focused()
-      .should('have.id', 'message')
-      .type(message)
-      .should('have.value', message)
-      .type('{enter}');
-    cy.get('.send-form-button').click();
-    cy.get('#name').should('have.value', '');
-    cy.get('#email').should('have.value', '');
-    cy.get('#message').should('have.value', '');
-    cy.contains('Thank you');
-  });
+  // it('submits a message via the contact form', () => {
+  //   const name = 'Cypress Test';
+  //   const email = 'cypress@test.email';
+  //   const message = 'cypress test message from geoquiz';
+  //   cy.get('#name').type(name).should('have.value', name).type('{enter}');
+  //   cy.focused()
+  //     .should('have.id', 'email')
+  //     .type(email)
+  //     .should('have.value', email)
+  //     .type('{enter}');
+  //   cy.focused()
+  //     .should('have.id', 'message')
+  //     .type(message)
+  //     .should('have.value', message)
+  //     .type('{enter}');
+  //   cy.get('.send-form-button').click();
+  //   cy.get('#name').should('have.value', '');
+  //   cy.get('#email').should('have.value', '');
+  //   cy.get('#message').should('have.value', '');
+  //   cy.contains('Thank you');
+  // });
 
   it('clear form button', () => {
     const name = 'Cypress Test';
