@@ -52,16 +52,8 @@ const memoryStyles = css`
       height: 20vw;
       font-size: 0.4em;
     }
-
-
   }
   .memory-area div {
-  }
-  @media (hover: none) {
-  button:hover {
-
-    background-color: ${colors.primary};
-
   }
 
   .memory-area button,
@@ -76,7 +68,6 @@ const memoryStyles = css`
     height: 100%;
     box-shadow: 2pt 2pt ${colors.black};
     @media (max-width: 500px) {
-
       font-size: 11px;
     }
   }
