@@ -185,6 +185,12 @@ function Header(props) {
               <a data-cy="header-link-profile">Profile</a>
             </Link>
           </li>
+          <li>
+            {' '}
+            <Link href="/memory">
+              <a data-cy="header-link-memory">Practice</a>
+            </Link>
+          </li>
 
           {!loggedInPassed ||
           router.pathname === '/login' ? null : props.loggedIn ? (

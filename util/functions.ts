@@ -1,4 +1,4 @@
-import { Country, Question } from './types';
+import { Country, Question, MemoryCard } from './types';
 
 export function random(x: number) {
   // returns a random number between 0 and x-1
@@ -124,4 +124,69 @@ export async function updateScoresRequest(
   } else {
     errorMessage = '';
   }
+}
+
+export function createMemoryCards(input: Country[], numberOfPairs: number) {
+  function getRandomSubsetOfArray(array: Country[], n: number) {
+    const subset = [];
+    while (subset.length < n) {
+      const randomIndex = Math.floor(Math.random() * (array.length - 1));
+      if (subset.indexOf(array[randomIndex]) === -1) {
+        subset.push(array[randomIndex]);
+      }
+    }
+
+    return subset;
+  }
+  function concatArrays<T>(array1: Array<T>, array2: Array<T>): T[] {
+    return array1.concat(array2);
+  }
+  function addPairIdToCards(array: Country[]) {
+    return array.map((card, index) => {
+      return { ...card, pairId: index };
+    });
+  }
+  function addDisplayAndSolvedToCards(array: Country[]) {
+    return array.map((card, index) => {
+      return { ...card, visible: false, solved: false };
+    });
+  }
+  function addDisplayA(array: Country[]) {
+    return array.map((card) => {
+      return { ...card, display: 'A' };
+    });
+  }
+  function addDisplayB(array: Country[]) {
+    return array.map((card) => {
+      return { ...card, display: 'B' };
+    });
+  }
+  function addIdToCards(array: Country[]) {
+    return array.map((card, index) => {
+      return { ...card, id: index };
+    });
+  }
+  function shuffle<T>(array: T[]) {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const newIndex = Math.floor(Math.random() * (i + 1));
+      const oldValue = shuffledArray[newIndex];
+      // puts the card at i in the position of the new index
+      shuffledArray[newIndex] = shuffledArray[i];
+      // puts the the card that was at the newIndex in the position of I
+      shuffledArray[i] = oldValue;
+    }
+    return shuffledArray;
+  }
+  const newCardSet = getRandomSubsetOfArray(input, numberOfPairs);
+  const newCardSetWithPairId = addPairIdToCards(newCardSet);
+  const newCardSetWithDisplay = addDisplayAndSolvedToCards(
+    newCardSetWithPairId,
+  );
+  const cardSetA = addDisplayA(newCardSetWithDisplay);
+  const cardSetB = addDisplayB(newCardSetWithDisplay);
+  const cardSetAndB = concatArrays(cardSetA, cardSetB);
+  const newCardSetWithIds = addIdToCards(cardSetAndB);
+  const cardSetAndBShuffled = shuffle(newCardSetWithIds);
+  return cardSetAndBShuffled;
 }

@@ -39,3 +39,11 @@ export type Session = {
   expiryTimestamp: Date;
   userId: number;
 };
+
+export type MemoryCard = Country & {
+  visible: boolean;
+  solved: boolean;
+  id: number;
+  pairId: number;
+  display: string;
+};

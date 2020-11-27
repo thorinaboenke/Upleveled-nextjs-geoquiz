@@ -204,7 +204,7 @@ export default function Home(props) {
                         onChange={(e) => setRegion(e.currentTarget.value)}
                         checked={'World' === region}
                       />
-                      <img src="./earth-globe.png" alt="" />
+                      <img src="./earth-globe.png" alt="world" />
                     </label>
                     <label htmlFor="africa">
                       <input
@@ -215,7 +215,7 @@ export default function Home(props) {
                         onChange={(e) => setRegion(e.currentTarget.value)}
                         checked={'Africa' === region}
                       />
-                      <img src="./africa.png" alt="" />
+                      <img src="./africa.png" alt="africa" />
                     </label>
                     <label htmlFor="Europe">
                       <input
@@ -226,7 +226,7 @@ export default function Home(props) {
                         onChange={(e) => setRegion(e.currentTarget.value)}
                         checked={'Europe' === region}
                       />
-                      <img src="./europe.png" alt="" />
+                      <img src="./europe.png" alt="europe" />
                     </label>
                     <label htmlFor="Americas">
                       <input
@@ -237,7 +237,7 @@ export default function Home(props) {
                         onChange={(e) => setRegion(e.currentTarget.value)}
                         checked={'Americas' === region}
                       />
-                      <img src="./america.png" alt="" />
+                      <img src="./america.png" alt="america" />
                     </label>
                     <label htmlFor="Asia">
                       <input
@@ -248,7 +248,7 @@ export default function Home(props) {
                         onChange={(e) => setRegion(e.currentTarget.value)}
                         checked={'Asia' === region}
                       />
-                      <img src="./asia.png" alt="" />
+                      <img src="./asia.png" alt="asia" />
                     </label>
                     <label htmlFor="Oceania">
                       <input
@@ -259,7 +259,7 @@ export default function Home(props) {
                         onChange={(e) => setRegion(e.currentTarget.value)}
                         checked={'Oceania' === region}
                       />
-                      <img src="./australia.png" alt="" />
+                      <img src="./australia.png" alt="oceania" />
                     </label>
                   </div>
 
@@ -456,7 +456,7 @@ export default function Home(props) {
                             Score: {score}
                           </div>
                           <div className="count question-count">
-                            Question {index + 1}/ {questions.length}{' '}
+                            Question {index + 1}/{questions.length}{' '}
                           </div>
 
                           <div
@@ -466,15 +466,9 @@ export default function Home(props) {
                                 : 'question-container'
                             }
                             ref={questionToFocus}
-                            tabindex="0"
                           >
                             {categoryQuestion === 'flag' && (
-                              <img
-                                className="flag"
-                                alt=""
-                                src={q.question}
-                                chrome
-                              />
+                              <img className="flag" alt="" src={q.question} />
                             )}
                             {categoryQuestion !== 'flag' && (
                               <div>{q.question}</div>

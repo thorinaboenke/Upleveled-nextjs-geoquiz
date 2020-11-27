@@ -28,6 +28,8 @@
     "emotion-theming": "^10.0.27",
     "graphql": "^15.3.0",
     "ley": "^0.6.0",
+    "mobx": "^6.0.4",
+    "mobx-react": "^7.0.5",
     "next": "10.0.0",
     "next-cookies": "^2.0.3",
     "nodemailer": "^6.4.16",
