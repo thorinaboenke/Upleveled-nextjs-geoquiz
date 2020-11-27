@@ -86,9 +86,14 @@ const memoryStyles = css`
   .active {
     background-color: ${colors.primaryLight};
   }
-
+  .solved {
+    margin: 1em;
+  }
   .restart {
-    margin-left: 0;
+    display: inline-block;
+    margin-top: 2em;
+    margin-left: auto;
+    margin-right: auto;
     box-shadow: none;
   }
 
@@ -124,7 +129,7 @@ const StoreProvider = ({ children }) => {
           }),
         );
       }
-      //if there is already one card visible and has the same pair ID as the flipped one -> set to solved
+      //if there is already one card visible and has the same pair ID as the flipped one -> set the pair to solved
       if (
         store.cards.filter((c) => c.visible).length === 2 &&
         store.cards.filter((c) => c.visible)[0].pairId ===
@@ -165,7 +170,9 @@ const StoreProvider = ({ children }) => {
 
 const SolvedCards = () => {
   const store = React.useContext(StoreContext);
-  return useObserver(() => <div>Solved: {store.solvedCards}</div>);
+  return useObserver(() => (
+    <div className="solved">Solved: {store.solvedCards}</div>
+  ));
 };
 
 const MobXCards = ({ gameSetting }) => {
@@ -192,7 +199,7 @@ const MobXCards = ({ gameSetting }) => {
               ) : card.display === 'B' &&
                 (gameSetting === 'Capital - Flag' ||
                   gameSetting === 'Country - Flag') ? (
-                <img src={card.flag} alt=""></img>
+                <img src={card.flag} alt="flag" />
               ) : (
                 <div>{card.capital}</div>
               )}
