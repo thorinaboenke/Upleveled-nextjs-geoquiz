@@ -80,6 +80,11 @@ const memoryStyles = css`
     box-shadow: none;
     padding: 0.5em;
   }
+
+  .settings,
+  .restart {
+    border-radius: 20px;
+  }
   .settings:hover {
     background-color: ${colors.primaryLight};
   }
@@ -123,11 +128,23 @@ const StoreProvider = ({ children }) => {
       ) {
         store.cards.replace(
           store.cards.map((ca) => {
-            return ca.id !== flippedCard.id ? ca : { ...ca, visible: true };
+            return ca.id !== flippedCard.id || ca.visible
+              ? ca
+              : { ...ca, visible: true };
           }),
         );
       }
-      //if there is already one card visible and has the same pair ID as the flipped one -> set the pair to solved
+      // if two cards a already visible, make all cards invisible except the just clicked one
+      else if (store.cards.filter((c) => c.visible === true).length === 2) {
+        store.cards.replace(
+          store.cards.map((ca) => {
+            return ca.id !== flippedCard.id
+              ? { ...ca, visible: false }
+              : { ...ca, visible: true };
+          }),
+        );
+      }
+      // if there is already one card visible and has the same pair ID as the flipped one -> set the pair to solved
       if (
         store.cards.filter((c) => c.visible).length === 2 &&
         store.cards.filter((c) => c.visible)[0].pairId ===
@@ -138,16 +155,6 @@ const StoreProvider = ({ children }) => {
             return ca.pairId !== flippedCard.pairId
               ? ca
               : { ...ca, solved: true, visible: false };
-          }),
-        );
-      }
-      // if two cards a already visible, make all cards invisible except the just clicked one
-      if (store.cards.filter((c) => c.visible === true).length === 2) {
-        store.cards.replace(
-          store.cards.map((ca) => {
-            return ca.id !== flippedCard.id
-              ? { ...ca, visible: false }
-              : { ...ca, visible: true };
           }),
         );
       }
@@ -181,7 +188,7 @@ const MobXCards = ({ gameSetting }) => {
       {' '}
       {store.cards.map((card) => {
         return (
-          <div className="memory-card">
+          <div className="memory-card" key={card.id}>
             <button
               onClick={() => store.flipCard(card)}
               className={card.visible || card.solved ? 'front' : 'back'}
