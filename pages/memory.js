@@ -90,8 +90,6 @@ const memoryStyles = css`
     margin: 1em;
   }
   .restart {
-    display: inline-block;
-    margin-top: 2em;
     margin-left: auto;
     margin-right: auto;
     box-shadow: none;
