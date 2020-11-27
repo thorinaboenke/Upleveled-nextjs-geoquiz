@@ -208,9 +208,7 @@ const MobXCards = ({ gameSetting }) => {
 };
 
 export default function Memory(props) {
-  const [cards, setCards] = useState([]);
-  const [score, setScore] = useState(0);
-  const [gameSetting, setGameSetting] = useState('CountryVSCapital');
+  const [gameSetting, setGameSetting] = useState('Country - Capital');
 
   const gameSettings = [
     'Country - Capital',
@@ -218,86 +216,6 @@ export default function Memory(props) {
     'Capital - Flag',
   ];
 
-  useEffect(() => {
-    setCards(createMemoryCards(countries, 8));
-    setScore(0);
-  }, []);
-
-  useEffect(() => {
-    const visibleCards = cards.filter((c) => c.visible === true);
-    if (
-      visibleCards.length === 2 &&
-      visibleCards[0].pairId === visibleCards[1].pairId
-    ) {
-      const newScore = score + 1;
-      setScore(newScore);
-      setCards(
-        cards.map((ca) => {
-          return ca.pairId === visibleCards[0].pairId
-            ? { ...ca, solved: true, visible: false }
-            : ca;
-        }),
-      );
-    }
-  }, [cards, score]);
-
-  function handleCardClick(allCards, clickedCard) {
-    // if already 2 cards are visible, flip all to invisible
-    if (allCards.filter((c) => c.visible === true).length === 2) {
-      setCards(
-        cards.map((ca) => {
-          return ca.id !== clickedCard.id
-            ? { ...ca, visible: false }
-            : { ...ca, visible: true };
-        }),
-      );
-    } else
-      setCards(
-        cards.map((ca) => {
-          return ca.id !== clickedCard.id ? ca : { ...ca, visible: true };
-        }),
-      );
-  }
-
-  function Cards({ cards, handleCardClick }) {
-    return (
-      <>
-        {' '}
-        {cards.map((card) => {
-          return (
-            <div className="memory-card">
-              <button
-                onClick={() => handleCardClick(cards, card)}
-                className={card.visible || card.solved ? 'front' : 'back'}
-              >
-                {!(card.visible || card.solved) ? (
-                  <div />
-                ) : card.display === 'A' &&
-                  (gameSetting === 'Country - Capital' ||
-                    gameSetting === 'Country - Flag') ? (
-                  <div>{card.name}</div>
-                ) : card.display === 'A' && gameSetting === 'Capital - Flag' ? (
-                  <div>{card.capital}</div>
-                ) : card.display === 'B' &&
-                  (gameSetting === 'Capital - Flag' ||
-                    gameSetting === 'Country - Flag') ? (
-                  <img src={card.flag} alt="" />
-                ) : (
-                  <div>{card.capital}</div>
-                )}
-              </button>
-            </div>
-          );
-        })}
-        <button
-          className="restart"
-          onClick={() => setCards(createMemoryCards(countries, 8))}
-        >
-          Restart
-        </button>
-      </>
-    );
-  }
   return (
     <StoreProvider>
       <Layout loggedIn={props.loggedIn}>
@@ -319,10 +237,6 @@ export default function Memory(props) {
                 </button>
               );
             })}
-            <div>Solved: {score}</div>
-            <div className="memory-area">
-              <Cards cards={cards} handleCardClick={handleCardClick} />
-            </div>
 
             <SolvedCards />
             <div className="memory-area">
