@@ -53,53 +53,68 @@ const memoryStyles = css`
       font-size: 0.4em;
     }
   }
-  .memory-area div {
-  }
-
   .memory-area button,
-  .settings {
-    border-radius: 5px;
-    border: none;
-    background-color: ${colors.primary};
-    text-shadow: 1px 1px #000000;
-    color: white;
+  .settings,
+  #restart {
     font-family: monospace;
-    width: 100%;
-    height: 100%;
-    box-shadow: 2pt 2pt ${colors.black};
     @media (max-width: 500px) {
       font-size: 11px;
     }
   }
+  .memory-area button {
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    box-shadow: 2pt 2pt ${colors.black};
+    background-color: ${colors.primary};
+    color: white;
+    text-shadow: 1px 1px #000000;
+  }
 
-  .settings,
-  .restart {
+  .settings {
+    border:none
+    background-color: none;
     width: 200px;
-    margin: 0.5em;
     text-shadow: none;
     box-shadow: none;
-    padding: 0.5em;
+    padding: 1em;
+    margin: 0.5em;
+    border-radius: 25px;
+    background-color: white;
+    color: ${colors.black};
+    border: 2px solid black;
   }
-
   .settings,
-  .restart {
-    border-radius: 20px;
+  #restart {
+
+    width: 200px;
+    margin: 0.5em;
+    border-radius: 25px;
+    padding: 1em;
   }
   .settings:hover {
-    background-color: ${colors.primaryLight};
+    box-shadow: 0 0 3pt 2pt ${colors.primary};
+
   }
+
   .active {
-    background-color: ${colors.primaryLight};
+    background-color: ${colors.black};
+    color: white;
   }
   .solved {
     margin: 1em;
   }
-  .restart {
+  #restart {
     margin-left: auto;
     margin-right: auto;
     box-shadow: none;
+    background-color: ${colors.primary};
+    color: white;
   }
-
+  #restart:hover {
+    background-color: ${colors.primaryLight};
+  }
   .memory-area button:hover {
     background-color: ${colors.primaryLight};
   }
@@ -185,34 +200,36 @@ const MobXCards = ({ gameSetting }) => {
 
   return useObserver(() => (
     <>
-      {' '}
-      {store.cards.map((card) => {
-        return (
-          <div className="memory-card" key={card.id}>
-            <button
-              onClick={() => store.flipCard(card)}
-              className={card.visible || card.solved ? 'front' : 'back'}
-            >
-              {!(card.visible || card.solved) ? (
-                <div />
-              ) : card.display === 'A' &&
-                (gameSetting === 'Country - Capital' ||
-                  gameSetting === 'Country - Flag') ? (
-                <div>{card.name}</div>
-              ) : card.display === 'A' && gameSetting === 'Capital - Flag' ? (
-                <div>{card.capital}</div>
-              ) : card.display === 'B' &&
-                (gameSetting === 'Capital - Flag' ||
-                  gameSetting === 'Country - Flag') ? (
-                <img src={card.flag} alt="flag" />
-              ) : (
-                <div>{card.capital}</div>
-              )}
-            </button>
-          </div>
-        );
-      })}
-      <button className="restart" onClick={() => store.restart()}>
+      <div className="memory-area">
+        {' '}
+        {store.cards.map((card) => {
+          return (
+            <div className="memory-card" key={card.id}>
+              <button
+                onClick={() => store.flipCard(card)}
+                className={card.visible || card.solved ? 'front' : 'back'}
+              >
+                {!(card.visible || card.solved) ? (
+                  <div />
+                ) : card.display === 'A' &&
+                  (gameSetting === 'Country - Capital' ||
+                    gameSetting === 'Country - Flag') ? (
+                  <div>{card.name}</div>
+                ) : card.display === 'A' && gameSetting === 'Capital - Flag' ? (
+                  <div>{card.capital}</div>
+                ) : card.display === 'B' &&
+                  (gameSetting === 'Capital - Flag' ||
+                    gameSetting === 'Country - Flag') ? (
+                  <img src={card.flag} alt="flag" />
+                ) : (
+                  <div>{card.capital}</div>
+                )}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <button id="restart" onClick={() => store.restart()}>
         Restart
       </button>
     </>
@@ -240,6 +257,7 @@ export default function Memory(props) {
             {gameSettings.map((setting) => {
               return (
                 <button
+                  key={setting}
                   className={
                     gameSetting === setting ? 'settings active' : 'settings'
                   }
@@ -251,9 +269,8 @@ export default function Memory(props) {
             })}
 
             <SolvedCards />
-            <div className="memory-area">
-              <MobXCards gameSetting={gameSetting} />
-            </div>
+
+            <MobXCards gameSetting={gameSetting} />
           </div>
         </div>
       </Layout>
