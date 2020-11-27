@@ -3,6 +3,7 @@ import { useLocalStore, useObserver } from 'mobx-react';
 import Head from 'next/head';
 import Layout from '../components/Layout';
 import nextCookies from 'next-cookies';
+import Confetti from 'react-dom-confetti';
 import { isSessionTokenValid } from '../util/auth';
 import { getUserBySessionToken } from '../util/database';
 import { createMemoryCards } from '../util/functions';
@@ -34,6 +35,11 @@ const memoryStyles = css`
     row-gap: 1em;
     margin: 0.5em;
     margin-bottom: 4em;
+    z-index: 0;
+    @media (max-width: 400px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr
+    }
   }
   .memory-card {
     display: flex;
@@ -52,6 +58,10 @@ const memoryStyles = css`
       height: 20vw;
       font-size: 0.4em;
     }
+    @media (max-width: 400px) {
+      width: 28vw;
+      height: 30vw;
+    }
   }
   .memory-area button,
   .settings,
@@ -59,6 +69,9 @@ const memoryStyles = css`
     font-family: monospace;
     @media (max-width: 500px) {
       font-size: 11px;
+    }
+    @media (max-width: 400px) {
+      font-size: 10px;
     }
   }
   .memory-area button {
@@ -106,11 +119,13 @@ const memoryStyles = css`
     margin: 1em;
   }
   #restart {
+    border:none;
     margin-left: auto;
     margin-right: auto;
     box-shadow: none;
     background-color: ${colors.primary};
     color: white;
+    margin-bottom: 2em;
   }
   #restart:hover {
     background-color: ${colors.primaryLight};
@@ -190,8 +205,27 @@ const StoreProvider = ({ children }) => {
 
 const SolvedCards = () => {
   const store = React.useContext(StoreContext);
+  const confettiConfig = {
+    angle: 90,
+    spread: 90,
+    startVelocity: 33,
+    elementCount: 120,
+    dragFriction: 0.15,
+    duration: 4000,
+    stagger: 3,
+    width: '12px',
+    height: '12px',
+    perspective: '560px',
+    colors: ['#a864fd', '#29cdff', '#78ff44', '#ff718d', '#fdff6a'],
+  };
   return useObserver(() => (
-    <div className="solved">Solved: {store.solvedCards}</div>
+    <>
+      <Confetti
+        active={store.solvedCards === store.cards.length / 2}
+        config={confettiConfig}
+      />
+      <div className="solved">Solved: {store.solvedCards}</div>
+    </>
   ));
 };
 
