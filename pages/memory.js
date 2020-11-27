@@ -83,6 +83,9 @@ const memoryStyles = css`
   .settings:hover {
     background-color: ${colors.primaryLight};
   }
+  .active {
+    background-color: ${colors.primaryLight};
+  }
 
   .restart {
     margin-left: 0;
@@ -307,7 +310,9 @@ export default function Memory(props) {
             {gameSettings.map((setting) => {
               return (
                 <button
-                  className="settings"
+                  className={
+                    gameSetting === setting ? 'settings active' : 'settings'
+                  }
                   onClick={() => setGameSetting(setting)}
                 >
                   {setting}
