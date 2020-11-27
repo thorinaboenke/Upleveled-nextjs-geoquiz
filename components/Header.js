@@ -170,8 +170,14 @@ function Header(props) {
                   router.pathname === '/' && window.location.reload();
                 }}
               >
-                Home
+                Quiz
               </a>
+            </Link>
+          </li>
+          <li>
+            {' '}
+            <Link href="/memory">
+              <a data-cy="header-link-memory">Memory</a>
             </Link>
           </li>
           <li>
@@ -183,12 +189,6 @@ function Header(props) {
             {' '}
             <Link href="/profile">
               <a data-cy="header-link-profile">Profile</a>
-            </Link>
-          </li>
-          <li>
-            {' '}
-            <Link href="/memory">
-              <a data-cy="header-link-memory">Practice</a>
             </Link>
           </li>
 
