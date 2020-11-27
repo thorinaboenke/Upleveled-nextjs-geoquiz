@@ -270,6 +270,7 @@ export default function Home(props) {
                       </div>
                       <label htmlFor="name1">
                         <input
+                          aria-label="Question Country Name"
                           type="radio"
                           name="question"
                           id="name1"
@@ -280,12 +281,13 @@ export default function Home(props) {
                           checked={cat.name === categoryQuestion}
                           disabled={cat.name === categoryAnswer}
                         />
-                        <div>Name</div>
+                        <div>Country</div>
                       </label>
                       {props.loggedIn && (
                         <>
                           <label>
                             <input
+                              aria-label="Question Capital"
                               type="radio"
                               name="question"
                               id="capital1"
@@ -303,6 +305,7 @@ export default function Home(props) {
                           </label>
                           <label>
                             <input
+                              aria-label="Question Flag"
                               type="radio"
                               name="question"
                               id="flag1"
@@ -327,6 +330,7 @@ export default function Home(props) {
                       {props.loggedIn && (
                         <label>
                           <input
+                            aria-label="Answer Country Name"
                             type="radio"
                             name="Answer"
                             id="name2"
@@ -344,6 +348,7 @@ export default function Home(props) {
                       )}
                       <label>
                         <input
+                          aria-label="Answer Capital"
                           type="radio"
                           name="Answer"
                           id="capital2"
@@ -359,6 +364,7 @@ export default function Home(props) {
                       {props.loggedIn && (
                         <label>
                           <input
+                            aria-label="Answer Flag"
                             type="radio"
                             name="Answer"
                             id="flag"
@@ -384,6 +390,7 @@ export default function Home(props) {
                     <div className="difficulty-option-container">
                       <label>
                         <input
+                          aria-label="Difficulty normal"
                           type="radio"
                           name="difficulty"
                           id="normal"
@@ -398,6 +405,7 @@ export default function Home(props) {
                       {props.loggedIn && (
                         <label>
                           <input
+                            aria-label="Difficulty pro"
                             type="radio"
                             name="difficulty"
                             id="pro"
@@ -466,6 +474,7 @@ export default function Home(props) {
                                 : 'question-container'
                             }
                             ref={questionToFocus}
+                            role="alert"
                           >
                             {categoryQuestion === 'flag' && (
                               <img className="flag" alt="" src={q.question} />
