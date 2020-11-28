@@ -426,6 +426,7 @@ export default function Home(props) {
                     data-cy="btn-start-quiz"
                     onClick={(e) => startQuiz(e)}
                     className="start"
+                    id="start"
                   >
                     Start Quiz
                   </button>

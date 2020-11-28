@@ -110,6 +110,10 @@ const memoryStyles = css`
     box-shadow: 0 0 3pt 2pt ${colors.primary};
 
   }
+  .settings:focus {
+    outline: none;
+    box-shadow: 0 0 3pt 2pt ${colors.primary};
+  }
 
   .active {
     background-color: ${colors.black};
@@ -129,6 +133,10 @@ const memoryStyles = css`
   }
   #restart:hover {
     background-color: ${colors.primaryLight};
+  }
+ #restart:focus {
+    outline: none;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
   }
   .memory-area button:hover {
     background-color: ${colors.primaryLight};

@@ -15,9 +15,13 @@ export const quizStyles = css`
     margin: 1em;
   }
   button:hover {
-    /* box-shadow: 0 0 2pt 1pt ${colors.black}; */
     background-color: ${colors.primaryLight};
     border: 3px solid ${colors.primaryLight};
+  }
+  button:focus {
+    style:none;
+    outline: none;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
   }
 
   @media (hover: none) {
@@ -26,9 +30,17 @@ export const quizStyles = css`
     background-color: ${colors.primary};
     border: 3px solid ${colors.primary};
   }
- /* .flag-container{
-    box-shadow: none
-  } */
+  #start:focus {
+    outline: none;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
+  }
+  #start:active {
+    outline: none;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
+  }
+
+
+
 
 }
 label {
@@ -111,6 +123,7 @@ label {
    @media (max-width: 450px) {
     min-width: 50%;
     }
+
 
 
   }

@@ -53,7 +53,16 @@ const profileStyles = css`
     color: white;
     background-color: black;
     display: inline-block;
+    animation: fadein 1000ms;
   }
+  @keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes fadeout {
+    from { opacity: 1; }
+    to   { opacity: 0; }
+}
 
   .inputfile:focus + label,
   .inputfile + label:hover {
@@ -70,14 +79,18 @@ const profileStyles = css`
     background-color: lightgray;
     margin-bottom: 2em;
     margin-top: 2em;
+    animation: fadein 1000ms;
   }
   .prev-text{
     margin: 1em;
+    animation: fadein 1000ms;
+
   }
 
   .preview {
     height: 100px;
     margin: 1em;
+    animation: fadein 1000ms;
   }
   .previewPlaceholder {
     border-radius: 50%;
@@ -85,6 +98,7 @@ const profileStyles = css`
     width: 100px;
     background-color: lightgray;
     margin: 1em;
+    animation: fadein 1000ms;
   }
   .preview, .loader-container {
     border-radius: 50%;
@@ -122,6 +136,11 @@ const profileStyles = css`
     border: 3px solid ${colors.primaryLight};
     color: ${colors.primaryLight};
     opacity: 0.5;
+  }
+
+  button:focus {
+    outline: none;
+    box-shadow: 0 0 3pt 2pt ${colors.black};
   }
 
 .loader-container{
