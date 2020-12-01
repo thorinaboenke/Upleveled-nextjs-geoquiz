@@ -289,7 +289,7 @@ export default function Memory(props) {
 
   return (
     <StoreProvider>
-      <Layout loggedIn={props.loggedIn}>
+      <Layout loggedIn={props.loggedIn} user={props.user}>
         <Head>
           <title>GeoQuiz - Memory</title>
           <link rel="icon" href="/favicon.ico" />
