@@ -89,7 +89,7 @@ const aboutStyles = css`
 
 export default function Deleted(props) {
   return (
-    <Layout loggedIn={props.loggedIn}>
+    <Layout loggedIn={props.loggedIn} user={props.user}>
       <Head>
         <title>GeoQuiz - About</title>
         <link rel="icon" href="/favicon.ico" />
@@ -193,6 +193,6 @@ export async function getServerSideProps(context) {
     token = null;
   }
   return {
-    props: { loggedIn: loggedIn, user: user, token: token },
+    props: { loggedIn: loggedIn, user: user },
   };
 }
