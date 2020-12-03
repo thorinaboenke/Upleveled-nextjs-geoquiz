@@ -343,7 +343,7 @@ export default function Home(props) {
                               cat.name === categoryQuestion || !props.loggedIn
                             }
                           />
-                          <div>Name</div>
+                          <div>Country</div>
                         </label>
                       )}
                       <label>
