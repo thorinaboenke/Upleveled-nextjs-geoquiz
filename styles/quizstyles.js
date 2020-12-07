@@ -91,6 +91,7 @@ label {
   input:focus + div {
     box-shadow: 0 0 3pt 2pt ${colors.primary};
   }
+
   input:checked + div {
     color: white;
     background-color: ${colors.black};

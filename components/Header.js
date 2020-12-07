@@ -43,7 +43,6 @@ const headerStyles = css`
   .header li a {
     display: block;
     padding: 20px 20px;
-
     font-size: 16px;
     text-decoration: none;
     color: ${colors.primary};

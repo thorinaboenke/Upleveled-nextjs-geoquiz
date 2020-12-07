@@ -434,6 +434,10 @@ export default function Home(props) {
                     <div className="instructions">
                       <Link href="/signup">
                         <a>Create a free account </a>
+                      </Link>{' '}
+                      or
+                      <Link href="/login">
+                        <a> log in </a>
                       </Link>
                       to play more categories and see your statistics
                     </div>
@@ -556,6 +560,6 @@ export async function getServerSideProps(context) {
   if (typeof token === 'undefined') {
     token = null;
   }
-  console.log({ user });
+
   return { props: { loggedIn: loggedIn, user: user } };
 }
